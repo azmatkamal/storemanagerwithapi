@@ -68,11 +68,13 @@ class DefaultLayout extends Component {
 
       permissions.push("#");
 
-      const navigation = this.filterByProperty(
-        defaultNavigation.items,
-        "url",
-        permissions
-      );
+      // const navigation = this.filterByProperty(
+      //   defaultNavigation.items,
+      //   "url",
+      //   permissions
+      // );
+
+      const navigation = defaultNavigation.items;
 
       this.setState({
         permissions,
@@ -146,8 +148,8 @@ class DefaultLayout extends Component {
                 <Switch>
                   {routes.map((route, idx) => {
                     if (
-                      route.path &&
-                      permissions.includes(route.path.toLowerCase().trim())
+                      route.path
+                      // permissions.includes(route.path.toLowerCase().trim())
                     ) {
                       return route.component ? (
                         <PrivateRoute

@@ -39,7 +39,7 @@ export const loginUser = (userData, history) => (dispatch) => {
       const { data } = res;
       if (data) {
         const { token } = data;
-        localStorage.setItem("TeamsAuth", token);
+        localStorage.setItem("StoreAuth", token);
         setAuthToken(token);
         const decoded = jwt_decode(token);
         dispatch(setCurrentUser(decoded));
@@ -65,7 +65,7 @@ export const setCurrentUser = (decoded) => {
 
 // Log user out
 export const logoutUser = (history) => (dispatch) => {
-  localStorage.removeItem("TeamsAuth");
+  localStorage.removeItem("StoreAuth");
   setAuthToken(false);
   dispatch(setCurrentUser({}));
   history.push("/login");

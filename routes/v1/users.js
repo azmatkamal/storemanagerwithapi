@@ -42,7 +42,7 @@ router.post("/register", (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email.toLowerCase(),
-        user_type: "2",
+        user_type: "1",
         avatar,
         password: req.body.password,
       });

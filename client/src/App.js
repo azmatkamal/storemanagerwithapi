@@ -15,9 +15,9 @@ const DefaultLayout = React.lazy(() => import("./containers/DefaultLayout"));
 const Login = React.lazy(() => import("./views/auth/Login"));
 const Register = React.lazy(() => import("./views/auth/Register"));
 
-if (localStorage.TeamsAuth) {
-  setAuthToken(localStorage.TeamsAuth);
-  const decoded = jwt_decode(localStorage.TeamsAuth);
+if (localStorage.StoreAuth) {
+  setAuthToken(localStorage.StoreAuth);
+  const decoded = jwt_decode(localStorage.StoreAuth);
   store.dispatch(setCurrentUser(decoded));
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
