@@ -115,7 +115,7 @@ class DefaultLayout extends Component {
   };
 
   render() {
-    let { permissions, navigation } = this.state;
+    let { navigation } = this.state;
 
     return (
       <div className="app">
