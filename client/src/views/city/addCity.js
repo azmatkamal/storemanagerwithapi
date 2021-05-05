@@ -114,7 +114,7 @@ class AddCity extends Component {
               <Row form>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="ar_name">Arabic Name</Label>
+                    <Label for="ar_name">اسم – عربي</Label>
                     <Input
                       type="text"
                       name="ar_name"
@@ -128,7 +128,7 @@ class AddCity extends Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="en_name">English Name</Label>
+                    <Label for="en_name">اسم – انجليزي</Label>
                     <Input
                       type="text"
                       name="en_name"
@@ -142,7 +142,7 @@ class AddCity extends Component {
                 </Col>
               </Row>
               <FormGroup>
-                <Label for="icon">Icon</Label>
+                <Label for="icon">صورة</Label>
                 <Input
                   type="file"
                   name="icon"
