@@ -11,9 +11,9 @@ import {
   Table,
   Button,
   Badge,
-  FormGroup,
-  Label,
-  Input,
+  // FormGroup,
+  // Label,
+  // Input,
 } from "reactstrap";
 import moment from "moment";
 import AddCity from "./addCity";
@@ -70,19 +70,19 @@ class Countries extends Component {
   };
 
   componentDidMount() {
-    this.props.getCountries(() => {});
     this.props.getCities(this.toggleTableLoading);
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps, "nextProps 2");
     if (nextProps && nextProps.cities) {
       this.setState({
-        cities: nextProps.cities.filter((c) => c.is_active === true),
+        cities: nextProps.cities,
       });
     }
-    if (nextProps && nextProps.countries) {
+    if (nextProps && nextProps.country) {
       this.setState({
-        countries: nextProps.countries.filter((c) => c.is_active === true),
+        selected_filtered_country: nextProps.country,
       });
     }
   }
@@ -93,7 +93,6 @@ class Countries extends Component {
       is_modal_loading,
       cities,
       show_modal,
-      countries,
       selected_filtered_country,
     } = this.state;
 
@@ -108,33 +107,10 @@ class Countries extends Component {
             show_modal={show_modal}
             is_modal_loading={is_modal_loading}
             toggleModal={this.toggleModal}
+            country={selected_filtered_country}
             toggleModalLoading={this.toggleModalLoading}
             toggleTableLoading={this.toggleTableLoading}
           />
-          <Col md={12}>
-            <FormGroup>
-              <Label for="selected_filtered_country">Select Country</Label>
-              <Input
-                style={{ maxWidth: "200px" }}
-                type="select"
-                name="selected_filtered_country"
-                onChange={this.onChange}
-                id="selected_filtered_country"
-                value={selected_filtered_country}
-                placeholder="Select Country"
-              >
-                <option value="">Select Country</option>
-                {countries &&
-                  countries.map((item, idx) => {
-                    return (
-                      <option value={item._id} key={idx}>
-                        {item.en_name + " " + item.ar_name}
-                      </option>
-                    );
-                  })}
-              </Input>
-            </FormGroup>
-          </Col>
           <Col md="12">
             <LoadingOverlay
               active={is_table_loading}

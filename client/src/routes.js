@@ -2,8 +2,8 @@ import React from "react";
 
 const UsersList = React.lazy(() => import("./views/users/index"));
 const CountryList = React.lazy(() => import("./views/country/index"));
-const CityList = React.lazy(() => import("./views/city/index"));
-const DistrictList = React.lazy(() => import("./views/district/index"));
+// const CityList = React.lazy(() => import("./views/city/index"));
+// const DistrictList = React.lazy(() => import("./views/district/index"));
 const PermissionList = React.lazy(() => import("./views/permissions/index"));
 
 const routes = [
@@ -15,22 +15,10 @@ const routes = [
     component: UsersList,
   },
   {
-    path: "/countries",
+    path: "/locations",
     exact: true,
-    name: "Manage Countires",
+    name: "Manage Locations",
     component: CountryList,
-  },
-  {
-    path: "/cities",
-    exact: true,
-    name: "Manage Cities",
-    component: CityList,
-  },
-  {
-    path: "/districts",
-    exact: true,
-    name: "Manage District",
-    component: DistrictList,
   },
   {
     path: "/permissions",

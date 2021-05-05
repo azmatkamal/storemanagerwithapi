@@ -15,6 +15,18 @@ const CountrySchema = new Schema({
   icon: {
     type: String,
   },
+  description: {
+    type: String,
+  },
+  country_code: {
+    type: String,
+  },
+  country_phone_code: {
+    type: String,
+  },
+  timezone: {
+    type: String,
+  },
   is_active: {
     type: Boolean,
     default: true,
@@ -22,6 +34,14 @@ const CountrySchema = new Schema({
   is_deleted: {
     type: Boolean,
     default: false,
+  },
+  updatedBy: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
   },
 });
 CountrySchema.plugin(timestamp);

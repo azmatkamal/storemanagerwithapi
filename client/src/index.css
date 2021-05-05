@@ -62,7 +62,7 @@ hr {
 }
 
 .form-control {
-  height: calc(1.2em + 0.75rem + 2px) !important;
+  /* height: calc(1.2em + 0.75rem + 2px) !important; */
   padding: 0.275rem !important;
   font-size: 0.575rem !important;
   border-width: 2px !important;

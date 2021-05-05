@@ -31,6 +31,14 @@ const DistrictSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  updatedBy: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  },
 });
 DistrictSchema.plugin(timestamp);
 

@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import moment from "moment";
 import AddCountry from "./addCountry";
+import City from "../city";
 
 import {
   getCountries,
@@ -28,6 +29,7 @@ class Countires extends Component {
     this.state = {
       // OTHERS
       show_modal: false,
+      selected_country: "",
       is_table_loading: false,
       is_modal_loading: false,
 
@@ -46,6 +48,10 @@ class Countires extends Component {
 
   toggleTableLoading = () => {
     this.setState({ is_table_loading: !this.state.is_table_loading });
+  };
+
+  toggleCities = (country) => {
+    this.setState({ selected_country: country });
   };
 
   markCountry = (data) => {
@@ -79,9 +85,8 @@ class Countires extends Component {
       is_modal_loading,
       countries,
       show_modal,
+      selected_country,
     } = this.state;
-
-    console.log(this.state);
 
     return (
       <div>
@@ -101,7 +106,7 @@ class Countires extends Component {
             >
               <Card>
                 <CardHeader>
-                  Manage countries
+                  Manage Countries
                   <Button
                     size="xs"
                     color="success"
@@ -202,6 +207,7 @@ class Countires extends Component {
                                   <Button
                                     size="xs"
                                     color="danger"
+                                    className="mr-2"
                                     onClick={this.markCountry.bind(this, {
                                       id: item._id,
                                       is_active: item.is_active,
@@ -212,6 +218,18 @@ class Countires extends Component {
                                     <i className="fa fa-trash"></i>
                                   </Button>
                                 )}
+                                <Button
+                                  size="xs"
+                                  color="success"
+                                  className="mr-2"
+                                  onClick={this.toggleCities.bind(
+                                    this,
+                                    item._id
+                                  )}
+                                  title="Cities"
+                                >
+                                  <i className="fa fa-map-pin"></i>
+                                </Button>
                               </td>
                             </tr>
                           );
@@ -223,6 +241,7 @@ class Countires extends Component {
             </LoadingOverlay>
           </Col>
         </Row>
+        {selected_country && <City country={selected_country} />}
       </div>
     );
   }

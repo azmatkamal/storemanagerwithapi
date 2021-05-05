@@ -43,8 +43,10 @@ class AddCity extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps, "nextProps");
     this.setState({ show_modal: nextProps.show_modal });
     this.setState({ is_modal_loading: nextProps.is_modal_loading });
+    this.setState({ country: nextProps.country });
 
     if (nextProps && nextProps.show_modal !== this.state.show_modal) {
       this.setState({
@@ -59,14 +61,7 @@ class AddCity extends Component {
       this.setState({
         en_name: nextProps.city.en_name,
         ar_name: nextProps.city.ar_name,
-        country: nextProps.city.country._id,
         id: nextProps.city._id,
-      });
-    }
-
-    if (nextProps && nextProps.countries) {
-      this.setState({
-        countries: nextProps.countries.filter((c) => c.is_active === true),
       });
     }
 
@@ -106,11 +101,7 @@ class AddCity extends Component {
       is_modal_loading,
       errors,
       show_modal,
-      countries,
-      country,
     } = this.state;
-
-    console.log(this.state, "asdasdasd");
 
     return (
       <div>
@@ -151,28 +142,6 @@ class AddCity extends Component {
                 </Col>
               </Row>
               <FormGroup>
-                <Label for="country">Country</Label>
-                <Input
-                  type="select"
-                  name="country"
-                  onChange={this.onChange}
-                  id="country"
-                  value={country}
-                  placeholder="Country"
-                >
-                  <option value="">Select Country</option>
-                  {countries &&
-                    countries.map((item, idx) => {
-                      return (
-                        <option value={item._id}>
-                          {item.en_name} - {item.ar_name}
-                        </option>
-                      );
-                    })}
-                </Input>
-                <p className="error">{errors && errors.country}</p>
-              </FormGroup>
-              <FormGroup>
                 <Label for="icon">Icon</Label>
                 <Input
                   type="file"
@@ -204,7 +173,6 @@ const mapDispatchToProps = (state) => {
   return {
     city: state.city.city,
     errors: state.errors.errors,
-    countries: state.country.countries,
   };
 };
 

@@ -25,6 +25,10 @@ class AddCountry extends Component {
       id: null,
       en_name: "",
       ar_name: "",
+      description: "",
+      country_code: "",
+      country_phone_code: "",
+      timezone: "",
       icon: null,
       is_modal_loading: false,
       show_modal: false,
@@ -48,6 +52,10 @@ class AddCountry extends Component {
       this.setState({
         en_name: "",
         ar_name: "",
+        description: "",
+        country_code: "",
+        country_phone_code: "",
+        timezone: "",
         icon: null,
         id: null,
       });
@@ -57,6 +65,10 @@ class AddCountry extends Component {
       this.setState({
         en_name: nextProps.country.en_name,
         ar_name: nextProps.country.ar_name,
+        description: nextProps.country.description,
+        country_code: nextProps.country.country_code,
+        country_phone_code: nextProps.country.country_phone_code,
+        timezone: nextProps.country.timezone,
         id: nextProps.country._id,
       });
     }
@@ -77,6 +89,10 @@ class AddCountry extends Component {
     formData.append("id", this.state.id);
     formData.append("ar_name", this.state.ar_name);
     formData.append("en_name", this.state.en_name);
+    formData.append("description", this.state.description);
+    formData.append("country_code", this.state.country_code);
+    formData.append("country_phone_code", this.state.country_phone_code);
+    formData.append("timezone", this.state.timezone);
     formData.append("icon", this.state.icon);
 
     this.props.addorUpdateCountry(
@@ -92,6 +108,10 @@ class AddCountry extends Component {
     const {
       ar_name,
       en_name,
+      description,
+      country_code,
+      country_phone_code,
+      timezone,
       id,
       is_modal_loading,
       errors,
@@ -135,6 +155,69 @@ class AddCountry extends Component {
                       placeholder="English Name"
                     />
                     <p className="error">{errors && errors.en_name}</p>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row form>
+                <Col md={4}>
+                  <FormGroup>
+                    <Label for="country_code">Country Code</Label>
+                    <Input
+                      type="text"
+                      name="country_code"
+                      onChange={this.onChange}
+                      id="country_code"
+                      value={country_code}
+                      placeholder="Country Code"
+                    />
+                    <p className="error">{errors && errors.country_code}</p>
+                  </FormGroup>
+                </Col>
+                <Col md={4}>
+                  <FormGroup>
+                    <Label for="country_phone_code">Phone Code</Label>
+                    <Input
+                      type="text"
+                      name="country_phone_code"
+                      onChange={this.onChange}
+                      id="country_phone_code"
+                      value={country_phone_code}
+                      placeholder="Phone Code"
+                    />
+                    <p className="error">
+                      {errors && errors.country_phone_code}
+                    </p>
+                  </FormGroup>
+                </Col>
+                <Col md={4}>
+                  <FormGroup>
+                    <Label for="timezone">Timezone</Label>
+                    <Input
+                      type="text"
+                      name="timezone"
+                      onChange={this.onChange}
+                      id="timezone"
+                      value={timezone}
+                      placeholder="Timezone"
+                    />
+                    <p className="error">{errors && errors.timezone}</p>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row form>
+                <Col md={12}>
+                  <FormGroup>
+                    <Label for="description">Description</Label>
+                    <Input
+                      type="textarea"
+                      name="description"
+                      onChange={this.onChange}
+                      id="description"
+                      value={description}
+                      placeholder="Description"
+                      style={{ height: "100px !important" }}
+                    />
+                    <p className="error">{errors && errors.description}</p>
                   </FormGroup>
                 </Col>
               </Row>

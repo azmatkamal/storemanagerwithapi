@@ -38,6 +38,12 @@ router.post(
         const newCountry = new Country({
           en_name: req.body.en_name.toLowerCase(),
           ar_name: req.body.ar_name,
+          description: req.body.description,
+          country_code: req.body.country_code,
+          country_phone_code: req.body.country_phone_code,
+          timezone: req.body.timezone,
+          updatedBy: req.user.id,
+          createdBy: req.user.id,
           icon,
         });
 
@@ -70,6 +76,11 @@ router.put(
         const data = {
           en_name: req.body.en_name,
           ar_name: req.body.ar_name,
+          description: req.body.description,
+          country_code: req.body.country_code,
+          country_phone_code: req.body.country_phone_code,
+          timezone: req.body.timezone,
+          updatedBy: req.user.id,
         };
         if (req.files.icon) {
           data.icon = req.files.icon[0].path;
@@ -140,6 +151,8 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Country.find({ is_deleted: false })
+      .populate("createdBy")
+      .populate("updatedBy")
       .sort({ createdAt: -1 })
       .then((countries) => {
         if (countries) return res.json(countries);

@@ -15,18 +15,8 @@ const nav = {
       icon: "icon-settings",
       children: [
         {
-          name: "Manage Countries",
-          url: "/countries",
-          icon: "icon-options-vertical",
-        },
-        {
-          name: "Manage Cities",
-          url: "/cities",
-          icon: "icon-options-vertical",
-        },
-        {
-          name: "Manage Districts",
-          url: "/districts",
+          name: "Manage Locations",
+          url: "/locations",
           icon: "icon-options-vertical",
         },
         {
