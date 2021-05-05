@@ -7,23 +7,23 @@ const CountryList = React.lazy(() => import("./views/country/index"));
 const PermissionList = React.lazy(() => import("./views/permissions/index"));
 
 const routes = [
-  { path: "/", exact: true, name: "Home" },
+  { path: "/", exact: true, name: "الرئيسية" },
   {
     path: "/users",
     exact: true,
-    name: "Manage Users",
+    name: "ادارة المستخدمين",
     component: UsersList,
   },
   {
     path: "/locations",
     exact: true,
-    name: "Manage Locations",
+    name: "ادارة المواقع",
     component: CountryList,
   },
   {
     path: "/permissions",
     exact: true,
-    name: "Manage Permissions",
+    name: "ادارة صلاحيات المستخدمين",
     component: PermissionList,
   },
 ];

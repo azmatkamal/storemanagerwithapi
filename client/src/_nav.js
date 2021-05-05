@@ -1,7 +1,7 @@
 const nav = {
   items: [
     {
-      name: "Dashboard",
+      name: "لوحة تحكم",
       url: "/dashboard",
       icon: "icon-speedometer",
       badge: {
@@ -10,24 +10,24 @@ const nav = {
       },
     },
     {
-      name: "Settings",
+      name: "اعدادات",
       url: "#",
       icon: "icon-settings",
       children: [
         {
-          name: "Manage Locations",
+          name: "ادارة المواقع",
           url: "/locations",
           icon: "icon-options-vertical",
         },
         {
-          name: "Manage User Roles",
+          name: "ادارة صلاحيات المستخدمين",
           url: "/permissions",
           icon: "icon-options-vertical",
         },
       ],
     },
     {
-      name: "Manage Users",
+      name: "ادارة المستخدمين",
       url: "/users",
       icon: "icon-people",
     },
