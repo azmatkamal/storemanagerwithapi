@@ -50,12 +50,12 @@ class DefaultLayout extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    let permissions = [];
+
     if (nextProps && nextProps.auth) {
       if (!nextProps.auth.isAuthenticated) {
         this.props.history.push("/login");
       }
-
-      let permissions = [];
 
       if (
         nextProps.auth.user.permissions &&
@@ -65,22 +65,22 @@ class DefaultLayout extends Component {
           return i.id.link.toLowerCase().trim();
         });
       }
-
-      permissions.push("#");
-
-      // const navigation = this.filterByProperty(
-      //   defaultNavigation.items,
-      //   "url",
-      //   permissions
-      // );
-
-      const navigation = defaultNavigation.items;
-
-      this.setState({
-        permissions,
-        navigation: navigation ? { items: navigation } : { items: [] },
-      });
     }
+
+    // permissions.push("#");
+
+    // const navigation = this.filterByProperty(
+    //   defaultNavigation.items,
+    //   "url",
+    //   permissions
+    // );
+
+    const navigation = defaultNavigation.items;
+
+    this.setState({
+      // permissions,
+      navigation: navigation ? { items: navigation } : { items: [] },
+    });
   }
 
   signOut(e) {
@@ -116,6 +116,11 @@ class DefaultLayout extends Component {
 
   render() {
     let { navigation } = this.state;
+
+    if (!(navigation && navigation.items && navigation.items.length))
+      navigation = defaultNavigation;
+
+    console.log(navigation, "navigation");
 
     return (
       <div className="app">
