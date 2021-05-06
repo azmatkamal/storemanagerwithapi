@@ -87,6 +87,10 @@ class Countries extends Component {
     }
   }
 
+  onCloseSection = () => {
+    this.props.closeSection();
+  };
+
   render() {
     const {
       is_table_loading,
@@ -120,6 +124,14 @@ class Countries extends Component {
               <Card>
                 <CardHeader>
                   إدارة المدن
+                  <Button
+                    size="xs"
+                    color="danger"
+                    className="mr-2 float-right"
+                    onClick={this.onCloseSection}
+                  >
+                    <i className="fa fa-close" alt="Update"></i>
+                  </Button>
                   <Button
                     size="xs"
                     color="success"
