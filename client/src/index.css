@@ -242,3 +242,11 @@ label {
 .pac-container {
     z-index: 1051 !important;
 }
+
+.modal-header .close {
+  margin: -1rem -1rem -1rem 0 !important;
+}
+
+.modal-footer {
+  justify-content: space-between !important;
+}
