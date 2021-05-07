@@ -5,6 +5,7 @@ const CountryList = React.lazy(() => import("./views/country/index"));
 const Brandslist = React.lazy(() => import("./views/brand/index"));
 const ServicesList = React.lazy(() => import("./views/service/index"));
 const PermissionList = React.lazy(() => import("./views/permissions/index"));
+const Categorylist = React.lazy(() => import("./views/category/index"));
 
 const routes = [
   { path: "/", exact: true, name: "الرئيسية" },
@@ -25,6 +26,12 @@ const routes = [
     exact: true,
     name: "Brands",
     component: Brandslist,
+  },
+  {
+    path: "/categories",
+    exact: true,
+    name: "Categories",
+    component: Categorylist,
   },
   {
     path: "/services",

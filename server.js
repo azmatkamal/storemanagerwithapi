@@ -75,6 +75,11 @@ app.use(`/api/${current_version}/service`, service);
 var subservice = require(`./routes/${current_version}/subservice`);
 app.use(`/api/${current_version}/subservice`, subservice);
 
+var category = require(`./routes/${current_version}/category`);
+app.use(`/api/${current_version}/category`, category);
+var subcategory = require(`./routes/${current_version}/subcategory`);
+app.use(`/api/${current_version}/subcategory`, subcategory);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   app.get("*", (req, res) => {

@@ -11,7 +11,9 @@ import permissionsReducer from "./permission/reducer";
 import brandsReducer from "./brand/reducer";
 import modelsReducer from "./model/reducer";
 import servicesReducer from "./service/reducer";
+import categorysReducer from "./category/reducer";
 import subservicesReducer from "./subservice/reducer";
+import subcategorysReducer from "./subcategory/reducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -24,6 +26,8 @@ export default combineReducers({
   permission: permissionsReducer,
   brand: brandsReducer,
   subservice: subservicesReducer,
+  category: categorysReducer,
+  subcategory: subcategorysReducer,
   service: servicesReducer,
   model: modelsReducer,
 });

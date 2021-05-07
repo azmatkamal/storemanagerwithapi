@@ -16,16 +16,16 @@ import {
   // Input,
 } from "reactstrap";
 import moment from "moment";
-import AddSubService from "./addSubService";
+import AddSubCategory from "./addSubCategory";
 
 import {
-  getSubServices,
-  selectSUbService,
-  marksubservice,
-} from "../../redux/subservice/action";
-import { getServices } from "../../redux/service/action";
+  getSubCategories,
+  selectSubcategory,
+  marksubcategory,
+} from "../../redux/subcategory/action";
+import { getCategories } from "../../redux/category/action";
 
-class Subservuce extends Component {
+class SubCategory extends Component {
   constructor(props) {
     super(props);
 
@@ -36,9 +36,9 @@ class Subservuce extends Component {
       is_modal_loading: false,
 
       // Data
-      subservices: [],
-      services: [],
-      selected_filtered_service: "",
+      subcategorys: [],
+      categorys: [],
+      selected_filtered_category: "",
     };
   }
 
@@ -54,9 +54,9 @@ class Subservuce extends Component {
     this.setState({ is_table_loading: !this.state.is_table_loading });
   };
 
-  marksubservice = (data) => {
+  marksubcategory = (data) => {
     if (window.confirm("Would like to proceed with this action?")) {
-      this.props.marksubservice(data, this.toggleTableLoading);
+      this.props.marksubcategory(data, this.toggleTableLoading);
     }
   };
 
@@ -67,25 +67,31 @@ class Subservuce extends Component {
   updateRow = (city) => {
     this.toggleModal();
     if (!city) {
-      this.props.selectSUbService({});
+      this.props.selectSubcategory({});
     } else {
-      this.props.selectSUbService(city);
+      this.props.selectSubcategory(city);
     }
   };
 
   componentDidMount() {
-    this.props.getSubServices(this.toggleTableLoading);
+    this.props.getSubCategories(this.toggleTableLoading);
+    if (this.props && this.props.category) {
+      this.setState({
+        selected_filtered_category: this.props.category,
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.subservices) {
+    if (nextProps && nextProps.subcategorys) {
       this.setState({
-        subservices: nextProps.subservices,
+        subcategorys: nextProps.subcategorys,
       });
     }
-    if (nextProps && nextProps.service) {
+
+    if (nextProps && nextProps.category) {
       this.setState({
-        selected_filtered_service: nextProps.service,
+        selected_filtered_category: nextProps.category,
       });
     }
   }
@@ -98,25 +104,25 @@ class Subservuce extends Component {
     const {
       is_table_loading,
       is_modal_loading,
-      subservices,
+      subcategorys,
       show_modal,
-      selected_filtered_service,
+      selected_filtered_category,
     } = this.state;
 
-    console.log(selected_filtered_service, "selected_filtered_service");
-
-    let filtered_subservices = selected_filtered_service
-      ? subservices.filter((i) => i.service._id === selected_filtered_service)
-      : subservices;
+    let filtered_subcategorys = selected_filtered_category
+      ? subcategorys.filter(
+          (i) => i.category._id === selected_filtered_category
+        )
+      : subcategorys;
 
     return (
       <div>
         <Row>
-          <AddSubService
+          <AddSubCategory
             show_modal={show_modal}
             is_modal_loading={is_modal_loading}
             toggleModal={this.toggleModal}
-            service={selected_filtered_service}
+            category={selected_filtered_category}
             toggleModalLoading={this.toggleModalLoading}
             toggleTableLoading={this.toggleTableLoading}
           />
@@ -128,7 +134,7 @@ class Subservuce extends Component {
             >
               <Card>
                 <CardHeader>
-                  Sub Services
+                  Sub Categories
                   <Button
                     size="xs"
                     color="danger"
@@ -151,10 +157,9 @@ class Subservuce extends Component {
                     <thead>
                       <tr>
                         <th>#</th>
-                        {/* <th>صورة</th> */}
+                        <th>صورة</th>
                         <th>اسم – انجليزي</th>
                         <th>اسم – عربي</th>
-                        <th>Price</th>
                         <th>دول</th>
                         <th>تاريخ الادخال</th>
                         <th>حالة التفعيل</th>
@@ -162,12 +167,12 @@ class Subservuce extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {filtered_subservices &&
-                        filtered_subservices.map((item, idx) => {
+                      {filtered_subcategorys &&
+                        filtered_subcategorys.map((item, idx) => {
                           return (
                             <tr key={idx}>
                               <th scope="row">{idx + 1}</th>
-                              {/* <td>
+                              <td>
                                 {item.icon ? (
                                   <img
                                     src={item.icon}
@@ -177,12 +182,12 @@ class Subservuce extends Component {
                                 ) : (
                                   ""
                                 )}
-                              </td> */}
+                              </td>
                               <td>{item.en_name}</td>
                               <td>{item.ar_name}</td>
-                              <td>{item.price}</td>
                               <td>
-                                {item.service.en_name} - {item.service.ar_name}
+                                {item.category.en_name} -{" "}
+                                {item.category.ar_name}
                               </td>
                               <td>
                                 {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
@@ -214,7 +219,7 @@ class Subservuce extends Component {
                                     size="xs"
                                     color="success"
                                     className="mr-2"
-                                    onClick={this.marksubservice.bind(this, {
+                                    onClick={this.marksubcategory.bind(this, {
                                       id: item._id,
                                       is_active: true,
                                       is_deleted: item.is_deleted,
@@ -229,7 +234,7 @@ class Subservuce extends Component {
                                     size="xs"
                                     color="primary"
                                     className="mr-2"
-                                    onClick={this.marksubservice.bind(this, {
+                                    onClick={this.marksubcategory.bind(this, {
                                       id: item._id,
                                       is_active: false,
                                       is_deleted: item.is_deleted,
@@ -243,7 +248,7 @@ class Subservuce extends Component {
                                   <Button
                                     size="xs"
                                     color="danger"
-                                    onClick={this.marksubservice.bind(this, {
+                                    onClick={this.marksubcategory.bind(this, {
                                       id: item._id,
                                       is_active: item.is_active,
                                       is_deleted: true,
@@ -271,17 +276,17 @@ class Subservuce extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    subservice: state.subservice.subservice,
-    subservices: state.subservice.subservices,
-    services: state.service.services,
+    subcategory: state.subcategory.subcategory,
+    subcategorys: state.subcategory.subcategorys,
+    categorys: state.category.categorys,
   };
 };
 
 export default withRouter(
   connect(mapStateToProps, {
-    getSubServices,
-    selectSUbService,
-    marksubservice,
-    getServices,
-  })(Subservuce)
+    getSubCategories,
+    selectSubcategory,
+    marksubcategory,
+    getCategories,
+  })(SubCategory)
 );

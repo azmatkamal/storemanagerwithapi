@@ -31,3 +31,9 @@ export const GET_SERVICES = "GET_SERVICES";
 
 export const GET_SUB_SERVICE = "GET_SUB_SERVICE";
 export const GET_SUB_SERVICES = "GET_SUB_SERVICES";
+
+export const GET_CATEGORY = "GET_CATEGORY";
+export const GET_CATEGORYS = "GET_CATEGORYS";
+
+export const GET_SUB_CATEGORY = "GET_SUB_CATEGORY";
+export const GET_SUB_CATEGORYS = "GET_SUB_CATEGORYS";
