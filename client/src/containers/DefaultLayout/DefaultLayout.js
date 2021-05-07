@@ -50,7 +50,7 @@ class DefaultLayout extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    let permissions = [];
+    // let permissions = [];
 
     if (nextProps && nextProps.auth) {
       if (!nextProps.auth.isAuthenticated) {
@@ -61,9 +61,9 @@ class DefaultLayout extends Component {
         nextProps.auth.user.permissions &&
         nextProps.auth.user.permissions.length
       ) {
-        permissions = nextProps.auth.user.permissions.map((i) => {
-          return i.id.link.toLowerCase().trim();
-        });
+        // permissions = nextProps.auth.user.permissions.map((i) => {
+        //   return i.id.link.toLowerCase().trim();
+        // });
       }
     }
 

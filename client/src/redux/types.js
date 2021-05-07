@@ -19,3 +19,15 @@ export const GET_DISTRICT = "GET_DISTRICT";
 
 export const GET_PERMISSION = "GET_PERMISSION";
 export const GET_PERMISSIONS = "GET_PERMISSIONS";
+
+export const GET_BRAND = "GET_BRAND";
+export const GET_BRANDS = "GET_BRANDS";
+
+export const GET_MODEL = "GET_MODEL";
+export const GET_MODELS = "GET_MODELS";
+
+export const GET_SERVICE = "GET_SERVICE";
+export const GET_SERVICES = "GET_SERVICES";
+
+export const GET_SUB_SERVICE = "GET_SUB_SERVICE";
+export const GET_SUB_SERVICES = "GET_SUB_SERVICES";

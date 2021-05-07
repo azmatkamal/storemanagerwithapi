@@ -15,7 +15,6 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "the-teams",
-    // format: async () => "raw",
     resource_type: "raw",
     public_id: (req, file) => uuidv4() + "-" + uuidv4(),
   },

@@ -2,8 +2,8 @@ import React from "react";
 
 const UsersList = React.lazy(() => import("./views/users/index"));
 const CountryList = React.lazy(() => import("./views/country/index"));
-// const CityList = React.lazy(() => import("./views/city/index"));
-// const DistrictList = React.lazy(() => import("./views/district/index"));
+const Brandslist = React.lazy(() => import("./views/brand/index"));
+const ServicesList = React.lazy(() => import("./views/service/index"));
 const PermissionList = React.lazy(() => import("./views/permissions/index"));
 
 const routes = [
@@ -19,6 +19,18 @@ const routes = [
     exact: true,
     name: "ادارة المواقع",
     component: CountryList,
+  },
+  {
+    path: "/brands",
+    exact: true,
+    name: "Brands",
+    component: Brandslist,
+  },
+  {
+    path: "/services",
+    exact: true,
+    name: "Services",
+    component: ServicesList,
   },
   {
     path: "/permissions",

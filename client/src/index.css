@@ -250,3 +250,7 @@ label {
 .modal-footer {
   justify-content: space-between !important;
 }
+
+.navbar-nav {
+  display: contents !important;
+}

@@ -20,6 +20,16 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
+          name: "Brands",
+          url: "/brands",
+          icon: "icon-options-vertical",
+        },
+        {
+          name: "Services",
+          url: "/services",
+          icon: "icon-options-vertical",
+        },
+        {
           name: "ادارة صلاحيات المستخدمين",
           url: "/permissions",
           icon: "icon-options-vertical",

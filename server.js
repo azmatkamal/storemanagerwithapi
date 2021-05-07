@@ -65,6 +65,16 @@ app.use(`/api/${current_version}/city`, City);
 app.use(`/api/${current_version}/district`, District);
 app.use(`/api/${current_version}/permission`, permission);
 
+var brand = require(`./routes/${current_version}/brand`);
+app.use(`/api/${current_version}/brand`, brand);
+var model = require(`./routes/${current_version}/model`);
+app.use(`/api/${current_version}/model`, model);
+
+var service = require(`./routes/${current_version}/service`);
+app.use(`/api/${current_version}/service`, service);
+var subservice = require(`./routes/${current_version}/subservice`);
+app.use(`/api/${current_version}/subservice`, subservice);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   app.get("*", (req, res) => {

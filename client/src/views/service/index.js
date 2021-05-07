@@ -13,28 +13,28 @@ import {
   Badge,
 } from "reactstrap";
 import moment from "moment";
-import AddCountry from "./addCountry";
-import City from "../city";
+import Addservice from "./addService";
+import SubService from "../subservice";
 
 import {
-  getCountries,
-  selectCountry,
-  markCountry,
-} from "../../redux/country/action";
+  getServices,
+  selectService,
+  markservice,
+} from "../../redux/service/action";
 
-class Countires extends Component {
+class Services extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       // OTHERS
       show_modal: false,
-      selected_country: "",
+      selected_service: "",
       is_table_loading: false,
       is_modal_loading: false,
 
       // Data
-      countries: [],
+      services: [],
     };
   }
 
@@ -50,59 +50,59 @@ class Countires extends Component {
     this.setState({ is_table_loading: !this.state.is_table_loading });
   };
 
-  toggleCities = (country) => {
-    this.setState({ selected_country: country });
+  toggleSubService = (service) => {
+    this.setState({ selected_service: service });
   };
 
-  markCountry = (data) => {
+  markservice = (data) => {
     if (window.confirm("Would like to proceed with this action?")) {
-      this.props.markCountry(data, this.toggleTableLoading);
+      this.props.markservice(data, this.toggleTableLoading);
     }
   };
 
-  updateRow = (country) => {
+  updateRow = (service) => {
     this.toggleModal();
-    if (!country) {
-      this.props.selectCountry({});
+    if (!service) {
+      this.props.selectService({});
     } else {
-      this.props.selectCountry(country);
+      this.props.selectService(service);
     }
   };
 
   componentDidMount() {
-    this.props.getCountries(this.toggleTableLoading);
+    this.props.getServices(this.toggleTableLoading);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.countries) {
-      this.setState({ countries: nextProps.countries });
+    if (nextProps && nextProps.services) {
+      this.setState({ services: nextProps.services });
     }
   }
 
-  onCloseCity = () => {
-    this.setState({ selected_country: "" });
+  onCloseSubService = () => {
+    this.setState({ selected_service: "" });
   };
 
   render() {
     const {
       is_table_loading,
       is_modal_loading,
-      countries,
+      services,
       show_modal,
-      selected_country,
+      selected_service,
     } = this.state;
 
     return (
       <div>
         <Row>
-          <AddCountry
+          <Addservice
             show_modal={show_modal}
             is_modal_loading={is_modal_loading}
             toggleModal={this.toggleModal}
             toggleModalLoading={this.toggleModalLoading}
             toggleTableLoading={this.toggleTableLoading}
           />
-          <Col md={selected_country ? "6" : "12"}>
+          <Col md={selected_service ? "6" : "12"}>
             <LoadingOverlay
               active={is_table_loading}
               spinner
@@ -110,7 +110,7 @@ class Countires extends Component {
             >
               <Card>
                 <CardHeader>
-                  إدارة دول
+                  Services
                   <Button
                     size="xs"
                     color="success"
@@ -134,8 +134,8 @@ class Countires extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {countries &&
-                        countries.map((item, idx) => {
+                      {services &&
+                        services.map((item, idx) => {
                           return (
                             <Fragment>
                               <tr key={idx}>
@@ -183,7 +183,7 @@ class Countires extends Component {
                                       size="xs"
                                       color="success"
                                       className="mr-2"
-                                      onClick={this.markCountry.bind(this, {
+                                      onClick={this.markservice.bind(this, {
                                         id: item._id,
                                         is_active: true,
                                         is_deleted: item.is_deleted,
@@ -198,7 +198,7 @@ class Countires extends Component {
                                       size="xs"
                                       color="primary"
                                       className="mr-2"
-                                      onClick={this.markCountry.bind(this, {
+                                      onClick={this.markservice.bind(this, {
                                         id: item._id,
                                         is_active: false,
                                         is_deleted: item.is_deleted,
@@ -213,7 +213,7 @@ class Countires extends Component {
                                       size="xs"
                                       color="danger"
                                       className="mr-2"
-                                      onClick={this.markCountry.bind(this, {
+                                      onClick={this.markservice.bind(this, {
                                         id: item._id,
                                         is_active: item.is_active,
                                         is_deleted: true,
@@ -227,11 +227,11 @@ class Countires extends Component {
                                     size="xs"
                                     color="success"
                                     className="mr-2"
-                                    onClick={this.toggleCities.bind(
+                                    onClick={this.toggleSubService.bind(
                                       this,
                                       item._id
                                     )}
-                                    title="Cities"
+                                    title="SubServices"
                                   >
                                     <i className="fa fa-map-pin"></i>
                                   </Button>
@@ -246,11 +246,11 @@ class Countires extends Component {
               </Card>
             </LoadingOverlay>
           </Col>
-          {selected_country && (
-            <Col md={selected_country ? "6" : "12"}>
-              <City
-                country={selected_country}
-                closeSection={this.onCloseCity}
+          {selected_service && (
+            <Col md={selected_service ? "6" : "12"}>
+              <SubService
+                service={selected_service}
+                closeSection={this.onCloseSubService}
               />
             </Col>
           )}
@@ -262,13 +262,13 @@ class Countires extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    country: state.country.country,
-    countries: state.country.countries,
+    service: state.service.service,
+    services: state.service.services,
   };
 };
 
 export default withRouter(
-  connect(mapStateToProps, { getCountries, selectCountry, markCountry })(
-    Countires
+  connect(mapStateToProps, { getServices, selectService, markservice })(
+    Services
   )
 );
