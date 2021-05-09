@@ -9,6 +9,7 @@ const Categorylist = React.lazy(() => import("./views/category/index"));
 const PageList = React.lazy(() => import("./views/page/index"));
 const ColorList = React.lazy(() => import("./views/color/index"));
 const CompanyList = React.lazy(() => import("./views/company/index"));
+const ProductList = React.lazy(() => import("./views/product/index"));
 
 const routes = [
   { path: "/", exact: true, name: "الرئيسية" },
@@ -61,9 +62,15 @@ const routes = [
     component: ColorList,
   },
   {
+    path: "/product",
+    exact: true,
+    name: "Manage Products",
+    component: ProductList,
+  },
+  {
     path: "/company",
     exact: true,
-    name: "Company",
+    name: "Manage Company",
     component: CompanyList,
   },
 ];

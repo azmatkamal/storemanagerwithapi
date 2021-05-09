@@ -96,10 +96,11 @@ router.post(
           last_name: req.body.last_name,
           email: req.body.email.trim().toLowerCase(),
           mobile: req.body.mobile,
-          permissions:
-            req.body.permissions & Array.isArray(req.body.permissions)
-              ? req.body.permissions
-              : [],
+          permissions: req.body.permissions
+            ? req.body.permissions.split(",").map((i) => ({
+                id: i,
+              }))
+            : [],
           user_type: "2",
           avatar,
           password: req.body.password,

@@ -1,21 +1,21 @@
 import axios from "axios";
 import {
-  GET_CATEGORYS,
-  GET_CATEGORY,
+  GET_PRODUCTS,
+  GET_PRODUCT,
   CLEAR_ALERTS,
   CLEAR_ERRORS,
   GET_ERRORS,
 } from "../types";
 
-export const markgategory = (data, loading) => (dispatch) => {
+export const markproduct = (data, loading) => (dispatch) => {
   dispatch({ type: CLEAR_ALERTS });
   dispatch({ type: CLEAR_ERRORS });
   loading();
   axios
-    .post("/api/v1/category/markcategory", data)
+    .post("/api/v1/product/markproduct", data)
     .then((res) => {
       loading();
-      dispatch(getCategories(loading));
+      dispatch(getProducts(loading));
     })
     .catch((err) => {
       console.log(err);
@@ -27,23 +27,23 @@ export const markgategory = (data, loading) => (dispatch) => {
     });
 };
 
-export const selectCategory = (brand) => (dispatch) => {
+export const selectproduct = (product) => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
   dispatch({
-    type: GET_CATEGORY,
-    payload: brand,
+    type: GET_PRODUCT,
+    payload: product,
   });
 };
 
-export const getCategories = (loading) => (dispatch) => {
+export const getProducts = (loading) => (dispatch) => {
   dispatch({ type: CLEAR_ALERTS });
   dispatch({ type: CLEAR_ERRORS });
   loading();
   axios
-    .get("/api/v1/category")
+    .get("/api/v1/product")
     .then((res) => {
       dispatch({
-        type: GET_CATEGORYS,
+        type: GET_PRODUCTS,
         payload: res.data,
       });
       loading();
@@ -58,7 +58,17 @@ export const getCategories = (loading) => (dispatch) => {
     });
 };
 
-export const addorUpdateCategory = (
+export const uploadImg = (data) => async (dispatch) => {
+  const res = await axios.post("/api/v1/upload", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return res.data;
+};
+
+export const addorUpdateProduct = (
   data,
   isCreate,
   loading,
@@ -71,24 +81,16 @@ export const addorUpdateCategory = (
 
   let req;
   if (!isCreate) {
-    req = axios.put("/api/v1/category", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    req = axios.put("/api/v1/product", data);
   } else {
-    req = axios.post("/api/v1/category", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    req = axios.post("/api/v1/product", data);
   }
 
   req
     .then((res) => {
       loading();
       hideModal();
-      dispatch(getCategories(tblLoading));
+      dispatch(getProducts(tblLoading));
     })
     .catch((err) => {
       console.log(err);

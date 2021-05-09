@@ -89,6 +89,15 @@ app.use(`/api/${current_version}/color`, color);
 var company = require(`./routes/${current_version}/company`);
 app.use(`/api/${current_version}/company`, company);
 
+var upload = require(`./routes/${current_version}/upload`);
+app.use(`/api/${current_version}/upload`, upload);
+
+var product = require(`./routes/${current_version}/product`);
+app.use(`/api/${current_version}/product`, product);
+
+var upload = require(`./routes/${current_version}/upload`);
+app.use(`/api/${current_version}/upload`, upload);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   app.get("*", (req, res) => {

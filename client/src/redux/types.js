@@ -10,6 +10,9 @@ export const GET_PAGE = "GET_PAGE";
 export const GET_COLOR = "GET_COLOR";
 export const GET_COLORS = "GET_COLORS";
 
+export const GET_PRODUCT = "GET_PRODUCT";
+export const GET_PRODUCTS = "GET_PRODUCTS";
+
 export const GET_COMPANY_PROFILE = "GET_COMPANY_PROFILE";
 export const GET_COMPANY_PROFILES = "GET_COMPANY_PROFILES";
 

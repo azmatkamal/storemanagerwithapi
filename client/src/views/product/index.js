@@ -13,15 +13,16 @@ import {
   Badge,
 } from "reactstrap";
 import moment from "moment";
-import AddCompany from "./addCompany";
+import AddProduct from "./addProduct";
 
 import {
-  getCompanys,
-  selectcompany,
-  markcompany,
-} from "../../redux/company/action";
+  getProducts,
+  selectproduct,
+  markproduct,
+  uploadImg,
+} from "../../redux/product/action";
 
-class Companies extends Component {
+class Products extends Component {
   constructor(props) {
     super(props);
 
@@ -32,7 +33,7 @@ class Companies extends Component {
       is_modal_loading: false,
 
       // Data
-      companys: [],
+      products: [],
     };
   }
 
@@ -48,28 +49,28 @@ class Companies extends Component {
     this.setState({ is_table_loading: !this.state.is_table_loading });
   };
 
-  markcompany = (data) => {
+  markproduct = (data) => {
     if (window.confirm("Would like to proceed with this action?")) {
-      this.props.markcompany(data, this.toggleTableLoading);
+      this.props.markproduct(data, this.toggleTableLoading);
     }
   };
 
-  updateRow = (company) => {
+  updateRow = (product) => {
     this.toggleModal();
-    if (!company) {
-      this.props.selectcompany({});
+    if (!product) {
+      this.props.selectproduct({});
     } else {
-      this.props.selectcompany(company);
+      this.props.selectproduct(product);
     }
   };
 
   componentDidMount() {
-    this.props.getCompanys(this.toggleTableLoading);
+    this.props.getProducts(this.toggleTableLoading);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.companys) {
-      this.setState({ companys: nextProps.companys });
+    if (nextProps && nextProps.products) {
+      this.setState({ products: nextProps.products });
     }
   }
 
@@ -77,14 +78,14 @@ class Companies extends Component {
     const {
       is_table_loading,
       is_modal_loading,
-      companys,
+      products,
       show_modal,
     } = this.state;
 
     return (
       <div>
         <Row>
-          <AddCompany
+          <AddProduct
             show_modal={show_modal}
             is_modal_loading={is_modal_loading}
             toggleModal={this.toggleModal}
@@ -99,7 +100,7 @@ class Companies extends Component {
             >
               <Card>
                 <CardHeader>
-                  Company Profile
+                  Products
                   <Button
                     size="xs"
                     color="success"
@@ -114,7 +115,9 @@ class Companies extends Component {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>صورة</th>
+                        <th>1 صورة</th>
+                        <th>2 صورة</th>
+                        <th>3 صورة</th>
                         <th>اسم – انجليزي</th>
                         <th>اسم – عربي</th>
                         <th>تاريخ الادخال</th>
@@ -123,16 +126,38 @@ class Companies extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {companys &&
-                        companys.map((item, idx) => {
+                      {products &&
+                        products.map((item, idx) => {
                           return (
                             <Fragment>
                               <tr key={idx}>
                                 <th scope="row">{idx + 1}</th>
                                 <td>
-                                  {item.icon ? (
+                                  {item.img1 ? (
                                     <img
-                                      src={item.icon}
+                                      src={item.img1}
+                                      alt={item.en_name}
+                                      style={{ maxWidth: "75px" }}
+                                    />
+                                  ) : (
+                                    ""
+                                  )}
+                                </td>
+                                <td>
+                                  {item.img2 ? (
+                                    <img
+                                      src={item.img2}
+                                      alt={item.en_name}
+                                      style={{ maxWidth: "75px" }}
+                                    />
+                                  ) : (
+                                    ""
+                                  )}
+                                </td>
+                                <td>
+                                  {item.img3 ? (
+                                    <img
+                                      src={item.img3}
                                       alt={item.en_name}
                                       style={{ maxWidth: "75px" }}
                                     />
@@ -172,7 +197,7 @@ class Companies extends Component {
                                       size="xs"
                                       color="success"
                                       className="mr-2"
-                                      onClick={this.markcompany.bind(this, {
+                                      onClick={this.markproduct.bind(this, {
                                         id: item._id,
                                         is_active: true,
                                         is_deleted: item.is_deleted,
@@ -187,7 +212,7 @@ class Companies extends Component {
                                       size="xs"
                                       color="primary"
                                       className="mr-2"
-                                      onClick={this.markcompany.bind(this, {
+                                      onClick={this.markproduct.bind(this, {
                                         id: item._id,
                                         is_active: false,
                                         is_deleted: item.is_deleted,
@@ -202,7 +227,7 @@ class Companies extends Component {
                                       size="xs"
                                       color="danger"
                                       className="mr-2"
-                                      onClick={this.markcompany.bind(this, {
+                                      onClick={this.markproduct.bind(this, {
                                         id: item._id,
                                         is_active: item.is_active,
                                         is_deleted: true,
@@ -231,13 +256,16 @@ class Companies extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    company: state.company.company,
-    companys: state.company.companys,
+    product: state.product.product,
+    products: state.product.products,
   };
 };
 
 export default withRouter(
-  connect(mapStateToProps, { getCompanys, selectcompany, markcompany })(
-    Companies
-  )
+  connect(mapStateToProps, {
+    getProducts,
+    selectproduct,
+    markproduct,
+    uploadImg,
+  })(Products)
 );

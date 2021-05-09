@@ -17,6 +17,7 @@ import pagesReducer from "./page/reducer";
 import subcategorysReducer from "./subcategory/reducer";
 import colorsReducer from "./color/reducer";
 import companysReducer from "./company/reducer";
+import productsReducer from "./product/reducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -36,4 +37,5 @@ export default combineReducers({
   page: pagesReducer,
   color: colorsReducer,
   company: companysReducer,
+  product: productsReducer,
 });

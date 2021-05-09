@@ -50,7 +50,7 @@ class DefaultLayout extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // let permissions = [];
+    let permissions = [];
 
     if (nextProps && nextProps.auth) {
       if (!nextProps.auth.isAuthenticated) {
@@ -61,26 +61,28 @@ class DefaultLayout extends Component {
         nextProps.auth.user.permissions &&
         nextProps.auth.user.permissions.length
       ) {
-        // permissions = nextProps.auth.user.permissions.map((i) => {
-        //   return i.id.link.toLowerCase().trim();
-        // });
+        permissions = nextProps.auth.user.permissions.map((i) => {
+          return i.id.link.toLowerCase().trim();
+        });
+        permissions.push("#");
+        console.log(permissions, "navigationnavigationnavigationnavigation");
+
+        const navigation = this.filterByProperty(
+          defaultNavigation.items,
+          "url",
+          permissions
+        );
+
+        console.log(navigation, "navigationnavigation");
+
+        // const navigation = defaultNavigation.items;
+
+        this.setState({
+          permissions,
+          navigation: navigation ? { items: navigation } : { items: [] },
+        });
       }
     }
-
-    // permissions.push("#");
-
-    // const navigation = this.filterByProperty(
-    //   defaultNavigation.items,
-    //   "url",
-    //   permissions
-    // );
-
-    const navigation = defaultNavigation.items;
-
-    this.setState({
-      // permissions,
-      navigation: navigation ? { items: navigation } : { items: [] },
-    });
   }
 
   signOut(e) {
@@ -115,10 +117,11 @@ class DefaultLayout extends Component {
   };
 
   render() {
-    let { navigation } = this.state;
+    let { permissions, navigation } = this.state;
 
-    if (!(navigation && navigation.items && navigation.items.length))
+    if (!(navigation && navigation.items && navigation.items.length)) {
       navigation = defaultNavigation;
+    }
 
     console.log(navigation, "navigation");
 
@@ -153,8 +156,8 @@ class DefaultLayout extends Component {
                 <Switch>
                   {routes.map((route, idx) => {
                     if (
-                      route.path
-                      // permissions.includes(route.path.toLowerCase().trim())
+                      (route.path,
+                      permissions.includes(route.path.toLowerCase().trim()))
                     ) {
                       return route.component ? (
                         <PrivateRoute

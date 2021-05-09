@@ -134,8 +134,6 @@ class AddUser extends Component {
       selected_permissions,
     } = this.state;
 
-    console.log(selected_permissions, "selected_permissions");
-
     const custom_permissions =
       permissions &&
       permissions.map((item) => {

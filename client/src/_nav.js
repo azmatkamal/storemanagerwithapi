@@ -40,6 +40,11 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
+          name: "Manage Products",
+          url: "/product",
+          icon: "icon-options-vertical",
+        },
+        {
           name: "Manage Company",
           url: "/company",
           icon: "icon-options-vertical",
