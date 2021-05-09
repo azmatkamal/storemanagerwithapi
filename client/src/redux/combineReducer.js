@@ -13,7 +13,10 @@ import modelsReducer from "./model/reducer";
 import servicesReducer from "./service/reducer";
 import categorysReducer from "./category/reducer";
 import subservicesReducer from "./subservice/reducer";
+import pagesReducer from "./page/reducer";
 import subcategorysReducer from "./subcategory/reducer";
+import colorsReducer from "./color/reducer";
+import companysReducer from "./company/reducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -30,4 +33,7 @@ export default combineReducers({
   subcategory: subcategorysReducer,
   service: servicesReducer,
   model: modelsReducer,
+  page: pagesReducer,
+  color: colorsReducer,
+  company: companysReducer,
 });

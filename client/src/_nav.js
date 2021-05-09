@@ -35,6 +35,16 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
+          name: "Colors",
+          url: "/colors",
+          icon: "icon-options-vertical",
+        },
+        {
+          name: "Manage Company",
+          url: "/company",
+          icon: "icon-options-vertical",
+        },
+        {
           name: "ادارة صلاحيات المستخدمين",
           url: "/permissions",
           icon: "icon-options-vertical",
@@ -45,6 +55,11 @@ const nav = {
       name: "ادارة المستخدمين",
       url: "/users",
       icon: "icon-people",
+    },
+    {
+      name: "Manage Pages",
+      url: "/page",
+      icon: "icon-options-vertical",
     },
   ],
 };

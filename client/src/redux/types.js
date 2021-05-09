@@ -5,6 +5,14 @@ export const CLEAR_ALERTS = "CLEAR_ALERTS";
 
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
+export const GET_PAGE = "GET_PAGE";
+
+export const GET_COLOR = "GET_COLOR";
+export const GET_COLORS = "GET_COLORS";
+
+export const GET_COMPANY_PROFILE = "GET_COMPANY_PROFILE";
+export const GET_COMPANY_PROFILES = "GET_COMPANY_PROFILES";
+
 export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
 

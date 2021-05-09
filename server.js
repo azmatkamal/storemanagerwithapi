@@ -80,6 +80,15 @@ app.use(`/api/${current_version}/category`, category);
 var subcategory = require(`./routes/${current_version}/subcategory`);
 app.use(`/api/${current_version}/subcategory`, subcategory);
 
+var page = require(`./routes/${current_version}/page`);
+app.use(`/api/${current_version}/page`, page);
+
+var color = require(`./routes/${current_version}/color`);
+app.use(`/api/${current_version}/color`, color);
+
+var company = require(`./routes/${current_version}/company`);
+app.use(`/api/${current_version}/company`, company);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   app.get("*", (req, res) => {
