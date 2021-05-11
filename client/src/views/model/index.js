@@ -34,6 +34,7 @@ class Models extends Component {
       // Data
       models: [],
       brands: [],
+      brandDetails: {},
       selected_filtered_brand: "",
     };
   }
@@ -74,7 +75,7 @@ class Models extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps, "nextProps 2");
+    // console.log(nextProps, "nextProps 2");
     if (nextProps && nextProps.models) {
       this.setState({
         models: nextProps.models,
@@ -83,6 +84,11 @@ class Models extends Component {
     if (nextProps && nextProps.brand) {
       this.setState({
         selected_filtered_brand: nextProps.brand,
+      });
+    }
+    if (nextProps && nextProps.brandDetails) {
+      this.setState({
+        brandDetails: nextProps.brandDetails,
       });
     }
   }
@@ -98,9 +104,10 @@ class Models extends Component {
       models,
       show_modal,
       selected_filtered_brand,
+      brandDetails,
     } = this.state;
 
-    console.log(selected_filtered_brand, "selected_filtered_brand");
+    // console.log(selected_filtered_brand, "selected_filtered_brand");
 
     let filtered_models = selected_filtered_brand
       ? models.filter((i) => i.brand._id === selected_filtered_brand)
@@ -125,6 +132,9 @@ class Models extends Component {
             >
               <Card>
                 <CardHeader>
+                  {brandDetails && brandDetails.ar_name
+                    ? `${brandDetails.ar_name} - `
+                    : ""}
                   Models
                   <Button
                     size="xs"
@@ -152,8 +162,6 @@ class Models extends Component {
                         <th>اسم – انجليزي</th>
                         <th>اسم – عربي</th>
                         <th>Year</th>
-                        <th>دول</th>
-                        <th>تاريخ الادخال</th>
                         <th>حالة التفعيل</th>
                         <th>الاجراءات</th>
                       </tr>
@@ -178,13 +186,13 @@ class Models extends Component {
                               <td>{item.en_name}</td>
                               <td>{item.ar_name}</td>
                               <td>{item.year}</td>
-                              <td>
+                              {/* <td>
                                 {item.brand.en_name} - {item.brand.ar_name}
-                              </td>
-                              <td>
+                              </td> */}
+                              {/* <td>
                                 {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
                                 {moment(item.createdAt).fromNow()}
-                              </td>
+                              </td> */}
                               <td>
                                 {item.is_active ? (
                                   <Badge color="primary" outline>

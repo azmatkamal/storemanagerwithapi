@@ -35,6 +35,7 @@ class Category extends Component {
 
       // Data
       categorys: [],
+      catDetails: {},
     };
   }
 
@@ -51,7 +52,7 @@ class Category extends Component {
   };
 
   toggleSubcategory = (category) => {
-    this.setState({ selected_category: category });
+    this.setState({ selected_category: category._id, catDetails: category });
   };
 
   markgategory = (data) => {
@@ -90,6 +91,7 @@ class Category extends Component {
       categorys,
       show_modal,
       selected_category,
+      catDetails,
     } = this.state;
 
     return (
@@ -229,7 +231,7 @@ class Category extends Component {
                                     className="mr-2"
                                     onClick={this.toggleSubcategory.bind(
                                       this,
-                                      item._id
+                                      item
                                     )}
                                     title="Subcategories"
                                   >
@@ -250,6 +252,7 @@ class Category extends Component {
             <Col md={selected_category ? "6" : "12"}>
               <Subcategory
                 category={selected_category}
+                catDetails={catDetails}
                 closeSection={this.onCloseSubcategory}
               />
             </Col>

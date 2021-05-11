@@ -35,6 +35,7 @@ class Services extends Component {
 
       // Data
       services: [],
+      serviceDetails: {},
     };
   }
 
@@ -51,7 +52,7 @@ class Services extends Component {
   };
 
   toggleSubService = (service) => {
-    this.setState({ selected_service: service });
+    this.setState({ selected_service: service._id, serviceDetails: service });
   };
 
   markservice = (data) => {
@@ -90,6 +91,7 @@ class Services extends Component {
       services,
       show_modal,
       selected_service,
+      serviceDetails,
     } = this.state;
 
     return (
@@ -229,7 +231,7 @@ class Services extends Component {
                                     className="mr-2"
                                     onClick={this.toggleSubService.bind(
                                       this,
-                                      item._id
+                                      item
                                     )}
                                     title="SubServices"
                                   >
@@ -250,6 +252,7 @@ class Services extends Component {
             <Col md={selected_service ? "6" : "12"}>
               <SubService
                 service={selected_service}
+                serviceDetails={serviceDetails}
                 closeSection={this.onCloseSubService}
               />
             </Col>

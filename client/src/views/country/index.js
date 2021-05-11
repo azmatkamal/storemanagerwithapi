@@ -35,6 +35,7 @@ class Countires extends Component {
 
       // Data
       countries: [],
+      countryDetails: {},
     };
   }
 
@@ -51,7 +52,7 @@ class Countires extends Component {
   };
 
   toggleCities = (country) => {
-    this.setState({ selected_country: country });
+    this.setState({ selected_country: country._id, countryDetails: country });
   };
 
   markCountry = (data) => {
@@ -87,6 +88,7 @@ class Countires extends Component {
     const {
       is_table_loading,
       is_modal_loading,
+      countryDetails,
       countries,
       show_modal,
       selected_country,
@@ -227,10 +229,7 @@ class Countires extends Component {
                                     size="xs"
                                     color="success"
                                     className="mr-2"
-                                    onClick={this.toggleCities.bind(
-                                      this,
-                                      item._id
-                                    )}
+                                    onClick={this.toggleCities.bind(this, item)}
                                     title="Cities"
                                   >
                                     <i className="fa fa-list-alt"></i>
@@ -250,6 +249,7 @@ class Countires extends Component {
             <Col md={selected_country ? "6" : "12"}>
               <City
                 country={selected_country}
+                countryDetails={countryDetails}
                 closeSection={this.onCloseCity}
               />
             </Col>

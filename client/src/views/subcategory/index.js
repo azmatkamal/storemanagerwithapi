@@ -39,6 +39,7 @@ class SubCategory extends Component {
       subcategorys: [],
       categorys: [],
       selected_filtered_category: "",
+      catDetails: {},
     };
   }
 
@@ -94,6 +95,11 @@ class SubCategory extends Component {
         selected_filtered_category: nextProps.category,
       });
     }
+    if (nextProps && nextProps.catDetails) {
+      this.setState({
+        catDetails: nextProps.catDetails,
+      });
+    }
   }
 
   onCloseSection = () => {
@@ -107,6 +113,7 @@ class SubCategory extends Component {
       subcategorys,
       show_modal,
       selected_filtered_category,
+      catDetails,
     } = this.state;
 
     let filtered_subcategorys = selected_filtered_category
@@ -135,6 +142,9 @@ class SubCategory extends Component {
               <Card>
                 <CardHeader>
                   Sub Categories
+                  {catDetails &&
+                    catDetails.ar_name &&
+                    `- ${catDetails.ar_name}`}{" "}
                   <Button
                     size="xs"
                     color="danger"
@@ -160,8 +170,6 @@ class SubCategory extends Component {
                         <th>صورة</th>
                         <th>اسم – انجليزي</th>
                         <th>اسم – عربي</th>
-                        <th>دول</th>
-                        <th>تاريخ الادخال</th>
                         <th>حالة التفعيل</th>
                         <th>الاجراءات</th>
                       </tr>
@@ -185,14 +193,14 @@ class SubCategory extends Component {
                               </td>
                               <td>{item.en_name}</td>
                               <td>{item.ar_name}</td>
-                              <td>
+                              {/* <td>
                                 {item.category.en_name} -{" "}
                                 {item.category.ar_name}
                               </td>
                               <td>
                                 {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
                                 {moment(item.createdAt).fromNow()}
-                              </td>
+                              </td> */}
                               <td>
                                 {item.is_active ? (
                                   <Badge color="primary" outline>

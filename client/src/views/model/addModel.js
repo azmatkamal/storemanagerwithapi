@@ -31,6 +31,7 @@ class AddModel extends Component {
       is_modal_loading: false,
       show_modal: false,
       countries: [],
+      brandDetails: {},
       errors: {},
     };
   }
@@ -97,7 +98,7 @@ class AddModel extends Component {
   };
 
   render() {
-    const { ar_name, en_name, year, id, is_modal_loading, errors, show_modal } =
+    const { ar_name, en_name, id, is_modal_loading, errors, show_modal } =
       this.state;
 
     return (
@@ -105,7 +106,7 @@ class AddModel extends Component {
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
           <Modal isOpen={show_modal} toggle={this.props.toggleModal}>
             <ModalHeader toggle={this.props.toggleModal}>
-              {id ? "Update" : "Create"} Model
+              {id ? "Update" : "Create"} Model{" "}
             </ModalHeader>
             <ModalBody>
               <Row form>

@@ -33,6 +33,7 @@ class Countries extends Component {
 
       // Data
       cities: [],
+      countryDetails: {},
       countries: [],
       selected_filtered_country: "",
     };
@@ -85,6 +86,11 @@ class Countries extends Component {
         selected_filtered_country: nextProps.country,
       });
     }
+    if (nextProps && nextProps.countryDetails) {
+      this.setState({
+        countryDetails: nextProps.countryDetails,
+      });
+    }
   }
 
   onCloseSection = () => {
@@ -98,6 +104,7 @@ class Countries extends Component {
       cities,
       show_modal,
       selected_filtered_country,
+      countryDetails,
     } = this.state;
 
     let filtered_cities = selected_filtered_country
@@ -124,6 +131,9 @@ class Countries extends Component {
               <Card>
                 <CardHeader>
                   إدارة المدن
+                  {countryDetails &&
+                    countryDetails.ar_name &&
+                    `- ${countryDetails.ar_name}`}{" "}
                   <Button
                     size="xs"
                     color="danger"
@@ -149,8 +159,6 @@ class Countries extends Component {
                         <th>صورة</th>
                         <th>اسم – انجليزي</th>
                         <th>اسم – عربي</th>
-                        <th>دول</th>
-                        <th>تاريخ الادخال</th>
                         <th>حالة التفعيل</th>
                         <th>الاجراءات</th>
                       </tr>
@@ -174,13 +182,13 @@ class Countries extends Component {
                               </td>
                               <td>{item.en_name}</td>
                               <td>{item.ar_name}</td>
-                              <td>
+                              {/* <td>
                                 {item.country.en_name} - {item.country.ar_name}
                               </td>
                               <td>
                                 {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
                                 {moment(item.createdAt).fromNow()}
-                              </td>
+                              </td> */}
                               <td>
                                 {item.is_active ? (
                                   <Badge color="primary" outline>

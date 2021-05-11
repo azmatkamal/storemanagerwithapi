@@ -26,6 +26,7 @@ class Brands extends Component {
       // OTHERS
       show_modal: false,
       selected_brand: "",
+      brandDetails: {},
       is_table_loading: false,
       is_modal_loading: false,
 
@@ -47,7 +48,7 @@ class Brands extends Component {
   };
 
   toggleModel = (brand) => {
-    this.setState({ selected_brand: brand });
+    this.setState({ selected_brand: brand._id, brandDetails: brand });
   };
 
   markbrand = (data) => {
@@ -86,6 +87,7 @@ class Brands extends Component {
       brands,
       show_modal,
       selected_brand,
+      brandDetails,
     } = this.state;
 
     return (
@@ -223,10 +225,7 @@ class Brands extends Component {
                                     size="xs"
                                     color="success"
                                     className="mr-2"
-                                    onClick={this.toggleModel.bind(
-                                      this,
-                                      item._id
-                                    )}
+                                    onClick={this.toggleModel.bind(this, item)}
                                     title="Models"
                                   >
                                     <i className="fa fa-list-alt"></i>
@@ -244,7 +243,11 @@ class Brands extends Component {
           </Col>
           {selected_brand && (
             <Col md={selected_brand ? "6" : "12"}>
-              <Model brand={selected_brand} closeSection={this.onCloseModel} />
+              <Model
+                brand={selected_brand}
+                brandDetails={brandDetails}
+                closeSection={this.onCloseModel}
+              />
             </Col>
           )}
         </Row>

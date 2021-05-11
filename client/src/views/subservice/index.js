@@ -37,6 +37,7 @@ class Subservuce extends Component {
 
       // Data
       subservices: [],
+      serviceDetails: {},
       services: [],
       selected_filtered_service: "",
     };
@@ -88,6 +89,11 @@ class Subservuce extends Component {
         selected_filtered_service: nextProps.service,
       });
     }
+    if (nextProps && nextProps.serviceDetails) {
+      this.setState({
+        serviceDetails: nextProps.serviceDetails,
+      });
+    }
   }
 
   onCloseSection = () => {
@@ -101,9 +107,10 @@ class Subservuce extends Component {
       subservices,
       show_modal,
       selected_filtered_service,
+      serviceDetails,
     } = this.state;
 
-    console.log(selected_filtered_service, "selected_filtered_service");
+    // console.log(selected_filtered_service, "selected_filtered_service");
 
     let filtered_subservices = selected_filtered_service
       ? subservices.filter((i) => i.service._id === selected_filtered_service)
@@ -129,6 +136,9 @@ class Subservuce extends Component {
               <Card>
                 <CardHeader>
                   Sub Services
+                  {serviceDetails &&
+                    serviceDetails.ar_name &&
+                    `- ${serviceDetails.ar_name}`}{" "}
                   <Button
                     size="xs"
                     color="danger"
@@ -152,10 +162,10 @@ class Subservuce extends Component {
                       <tr>
                         <th>#</th>
                         {/* <th>صورة</th> */}
-                        <th>اسم – انجليزي</th>
+                        {/* <th>اسم – انجليزي</th> */}
                         <th>اسم – عربي</th>
                         <th>Price</th>
-                        <th>دول</th>
+                        {/* <th>دول</th> */}
                         <th>تاريخ الادخال</th>
                         <th>حالة التفعيل</th>
                         <th>الاجراءات</th>
@@ -178,12 +188,12 @@ class Subservuce extends Component {
                                   ""
                                 )}
                               </td> */}
-                              <td>{item.en_name}</td>
+                              {/* <td>{item.en_name}</td> */}
                               <td>{item.ar_name}</td>
                               <td>{item.price}</td>
-                              <td>
+                              {/* <td>
                                 {item.service.en_name} - {item.service.ar_name}
-                              </td>
+                              </td> */}
                               <td>
                                 {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
                                 {moment(item.createdAt).fromNow()}
