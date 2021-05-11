@@ -9,6 +9,7 @@ module.exports = function validateCreateInput(data) {
   data.sub_category = !isEmpty(data.sub_category)
     ? data.sub_category.toString()
     : "";
+  data.category = !isEmpty(data.category) ? data.category.toString() : "";
   // data.ar_desc = !isEmpty(data.ar_desc) ? data.ar_desc : "";
   // data.en_desc = !isEmpty(data.en_desc) ? data.en_desc : "";
   // data.address = !isEmpty(data.address) ? data.address : "";
@@ -40,6 +41,9 @@ module.exports = function validateCreateInput(data) {
 
   if (Validator.isEmpty(data.sub_category)) {
     errors.sub_category = "Sub Category field is required";
+  }
+  if (Validator.isEmpty(data.category)) {
+    errors.category = "Category field is required";
   }
 
   return {

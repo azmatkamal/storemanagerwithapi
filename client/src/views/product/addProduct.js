@@ -24,6 +24,7 @@ import {
 } from "../../redux/product/action";
 import { getColors } from "../../redux/color/action";
 import { getSubCategories } from "../../redux/subcategory/action";
+import { getCategories } from "../../redux/category/action";
 
 const animatedComponents = makeAnimated();
 
@@ -53,10 +54,12 @@ class AddProduct extends Component {
       custom_colors: [],
       img1: "",
       img2: "",
+      category: "",
       img3: null,
       is_modal_loading: false,
       show_modal: false,
       subcategorys: [],
+      categorys: [],
       errors: {},
     };
   }
@@ -67,6 +70,7 @@ class AddProduct extends Component {
 
   componentDidMount() {
     this.props.getSubCategories(() => {});
+    this.props.getCategories(() => {});
     this.props.getColors(() => {});
     this.setState({
       sub_category: "",
@@ -84,6 +88,7 @@ class AddProduct extends Component {
       currency_code: "",
       is_featured: false,
       stock_count: "",
+      category: "",
       stock_alert: "",
       img1: null,
       img2: null,
@@ -104,6 +109,7 @@ class AddProduct extends Component {
           : [],
     });
     this.setState({ subcategorys: nextProps.subcategorys });
+    this.setState({ categorys: nextProps.categorys });
 
     if (nextProps && nextProps.show_modal !== this.state.show_modal) {
       this.setState({
@@ -123,6 +129,7 @@ class AddProduct extends Component {
         is_featured: false,
         stock_count: "",
         stock_alert: "",
+        category: "",
         img1: null,
         img2: null,
         img3: null,
@@ -143,6 +150,7 @@ class AddProduct extends Component {
         height: nextProps.product.height,
         size: nextProps.product.size,
         price: nextProps.product.price,
+        category: nextProps.product.category,
         selected_colors:
           nextProps.product.colors && nextProps.product.colors.length
             ? nextProps.product.colors.map((i) => {
@@ -216,6 +224,7 @@ class AddProduct extends Component {
         height: this.state.height,
         size: this.state.size,
         price: this.state.price,
+        category: this.state.category,
         colors:
           this.state.selected_colors && this.state.selected_colors.length
             ? this.state.selected_colors.map((i) => i.value).join(",")
@@ -248,6 +257,7 @@ class AddProduct extends Component {
         height: this.state.height,
         size: this.state.size,
         price: this.state.price,
+        category: this.state.category,
         colors:
           this.state.selected_colors && this.state.selected_colors.length
             ? this.state.selected_colors.map((i) => i.value).join(",")
@@ -294,21 +304,28 @@ class AddProduct extends Component {
       is_modal_loading,
       errors,
       show_modal,
+      categorys,
+      category,
       subcategorys,
     } = this.state;
 
-    console.log(this.state);
+    let Filteredsubcategorys =
+      category && category.length
+        ? subcategorys.filter((item) => item.category._id === category)
+        : [];
+
+    // console.log(Filteredsubcategorys, "Filteredsubcategorys");
 
     return (
       <div>
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
           <Modal isOpen={show_modal} toggle={this.props.toggleModal}>
             <ModalHeader toggle={this.props.toggleModal}>
-              {id ? "Update" : "Create"} Company Profile
+              {id ? "Update" : "Create"} Shop Items
             </ModalHeader>
             <ModalBody>
               <Row form>
-                <Col md={4}>
+                <Col md={6}>
                   <FormGroup>
                     <Label for="ar_name">Arabic Name</Label>
                     <Input
@@ -322,7 +339,7 @@ class AddProduct extends Component {
                     <p className="error">{errors && errors.ar_name}</p>
                   </FormGroup>
                 </Col>
-                <Col md={4}>
+                <Col md={6}>
                   <FormGroup>
                     <Label for="en_name">English Name</Label>
                     <Input
@@ -336,7 +353,33 @@ class AddProduct extends Component {
                     <p className="error">{errors && errors.en_name}</p>
                   </FormGroup>
                 </Col>
-                <Col md={4}>
+              </Row>
+              <Row form>
+                <Col md={6}>
+                  <FormGroup>
+                    <Label for="category">Category</Label>
+                    <Input
+                      type="select"
+                      name="category"
+                      onChange={this.onChange}
+                      id="category"
+                      value={category}
+                      placeholder="Featured"
+                    >
+                      <option value="">Select Sub Category</option>
+                      {categorys &&
+                        categorys.map((item, idx) => {
+                          return (
+                            <option value={item._id}>
+                              {item.en_name} - {item.ar_name}
+                            </option>
+                          );
+                        })}
+                    </Input>
+                    <p className="error">{errors && errors.category}</p>
+                  </FormGroup>
+                </Col>
+                <Col md={6}>
                   <FormGroup>
                     <Label for="sub_category">Sub Category</Label>
                     <Input
@@ -348,8 +391,8 @@ class AddProduct extends Component {
                       placeholder="Featured"
                     >
                       <option value="">Select Sub Category</option>
-                      {subcategorys &&
-                        subcategorys.map((item, idx) => {
+                      {Filteredsubcategorys &&
+                        Filteredsubcategorys.map((item, idx) => {
                           return (
                             <option value={item._id}>
                               {item.en_name} - {item.ar_name}
@@ -616,6 +659,7 @@ const mapDispatchToProps = (state) => {
     product: state.product.product,
     colors: state.color.colors,
     subcategorys: state.subcategory.subcategorys,
+    categorys: state.category.categorys,
     errors: state.errors.errors,
   };
 };
@@ -627,5 +671,6 @@ export default withRouter(
     getColors,
     getSubCategories,
     uploadImg,
+    getCategories,
   })(AddProduct)
 );

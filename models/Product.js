@@ -8,6 +8,10 @@ const CitySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "subcategory",
   },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: "category",
+  },
   en_name: {
     type: String,
     required: true,

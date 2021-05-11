@@ -71,12 +71,8 @@ class Colors extends Component {
   }
 
   render() {
-    const {
-      is_table_loading,
-      is_modal_loading,
-      colors,
-      show_modal,
-    } = this.state;
+    const { is_table_loading, is_modal_loading, colors, show_modal } =
+      this.state;
 
     return (
       <div>
@@ -126,7 +122,19 @@ class Colors extends Component {
                             <Fragment>
                               <tr key={idx}>
                                 <th scope="row">{idx + 1}</th>
-                                <td>{item.code}</td>
+                                <td>
+                                  <div
+                                    style={{
+                                      width: "20px",
+                                      height: "15px",
+                                      background: item.code,
+                                      border: "1px solid black",
+                                      display: "inline-block",
+                                      marginLeft: "10px",
+                                    }}
+                                  ></div>
+                                  {item.code}
+                                </td>
                                 <td>{item.en_name}</td>
                                 <td>{item.ar_name}</td>
                                 <td>
