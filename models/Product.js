@@ -36,7 +36,6 @@ const CitySchema = new Schema({
   },
   width: {
     type: String,
-    required: true,
   },
   height: {
     type: String,
