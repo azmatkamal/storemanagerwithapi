@@ -132,10 +132,10 @@ class Models extends Component {
             >
               <Card>
                 <CardHeader>
-                  {brandDetails && brandDetails.ar_name
-                    ? `${brandDetails.ar_name} - `
-                    : ""}
                   Models
+                  {brandDetails && brandDetails.ar_name
+                    ? ` - ${brandDetails.ar_name}`
+                    : ""}
                   <Button
                     size="xs"
                     color="danger"

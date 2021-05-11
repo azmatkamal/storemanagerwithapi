@@ -144,7 +144,7 @@ class SubCategory extends Component {
                   Sub Categories
                   {catDetails &&
                     catDetails.ar_name &&
-                    `- ${catDetails.ar_name}`}{" "}
+                    ` - ${catDetails.ar_name}`}{" "}
                   <Button
                     size="xs"
                     color="danger"

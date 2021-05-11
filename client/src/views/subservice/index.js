@@ -138,7 +138,7 @@ class Subservuce extends Component {
                   Sub Services
                   {serviceDetails &&
                     serviceDetails.ar_name &&
-                    `- ${serviceDetails.ar_name}`}{" "}
+                    ` - ${serviceDetails.ar_name}`}{" "}
                   <Button
                     size="xs"
                     color="danger"
