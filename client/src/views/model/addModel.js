@@ -83,7 +83,7 @@ class AddModel extends Component {
     formData.append("id", this.state.id);
     formData.append("ar_name", this.state.ar_name);
     formData.append("en_name", this.state.en_name);
-    formData.append("year", this.state.year);
+    // formData.append("year", this.state.year);
     formData.append("brand", this.state.brand);
     formData.append("icon", this.state.icon);
 
@@ -97,15 +97,8 @@ class AddModel extends Component {
   };
 
   render() {
-    const {
-      ar_name,
-      en_name,
-      year,
-      id,
-      is_modal_loading,
-      errors,
-      show_modal,
-    } = this.state;
+    const { ar_name, en_name, year, id, is_modal_loading, errors, show_modal } =
+      this.state;
 
     return (
       <div>
@@ -116,7 +109,7 @@ class AddModel extends Component {
             </ModalHeader>
             <ModalBody>
               <Row form>
-                <Col md={4}>
+                <Col md={6}>
                   <FormGroup>
                     <Label for="ar_name">اسم – عربي</Label>
                     <Input
@@ -130,7 +123,7 @@ class AddModel extends Component {
                     <p className="error">{errors && errors.ar_name}</p>
                   </FormGroup>
                 </Col>
-                <Col md={4}>
+                <Col md={6}>
                   <FormGroup>
                     <Label for="en_name">اسم – انجليزي</Label>
                     <Input
@@ -144,7 +137,7 @@ class AddModel extends Component {
                     <p className="error">{errors && errors.en_name}</p>
                   </FormGroup>
                 </Col>
-                <Col md={4}>
+                {/* <Col md={4}>
                   <FormGroup>
                     <Label for="year">Year</Label>
                     <Input
@@ -157,7 +150,7 @@ class AddModel extends Component {
                     />
                     <p className="error">{errors && errors.year}</p>
                   </FormGroup>
-                </Col>
+                </Col> */}
               </Row>
               <FormGroup>
                 <Label for="icon">صورة</Label>

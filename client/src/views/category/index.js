@@ -233,7 +233,7 @@ class Category extends Component {
                                     )}
                                     title="Subcategories"
                                   >
-                                    <i className="fa fa-map-pin"></i>
+                                    <i className="fa fa-list-alt"></i>
                                   </Button>
                                 </td>
                               </tr>

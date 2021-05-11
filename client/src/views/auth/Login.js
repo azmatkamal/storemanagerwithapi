@@ -109,7 +109,7 @@ class Login extends Component {
                       <p className="error">{errors && errors.password}</p>
                       <Row className="mt-4">
                         <Col xs="6">
-                          <Button color="primary" className="px-4">
+                          <Button color="primary" className="loginBtn">
                             Login
                           </Button>
                         </Col>

@@ -56,7 +56,11 @@ class DefaultHeader extends Component {
               <i className="icon-location-pin"></i>
             </NavLink>
           </NavItem> */}
-          <UncontrolledDropdown nav direction="down">
+          <UncontrolledDropdown
+            nav
+            direction="down"
+            style={{ marginRight: "80%" }}
+          >
             <DropdownToggle nav>
               <img
                 src={this.props.user.avatar}

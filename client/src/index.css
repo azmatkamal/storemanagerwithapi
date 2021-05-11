@@ -254,3 +254,7 @@ label {
 .navbar-nav {
   display: contents !important;
 }
+
+.loginBtn {
+  padding: 5px 20px !important
+}

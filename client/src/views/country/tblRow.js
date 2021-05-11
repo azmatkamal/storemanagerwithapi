@@ -128,7 +128,7 @@ class UserTableRow extends Component {
             onClick={this.props.toggleCities.bind(this, item._id)}
             title="Cities"
           >
-            <i className="fa fa-map-pin"></i>
+            <i className="fa fa-list-alt"></i>
           </Button>
         </td>
       </tr>,

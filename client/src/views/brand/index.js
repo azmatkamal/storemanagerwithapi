@@ -229,7 +229,7 @@ class Brands extends Component {
                                     )}
                                     title="Models"
                                   >
-                                    <i className="fa fa-map-pin"></i>
+                                    <i className="fa fa-list-alt"></i>
                                   </Button>
                                 </td>
                               </tr>
