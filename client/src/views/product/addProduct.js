@@ -154,7 +154,7 @@ class AddProduct extends Component {
         selected_colors:
           nextProps.product.colors && nextProps.product.colors.length
             ? nextProps.product.colors.map((i) => {
-                return { value: i.id._id, label: i.id.name };
+                return { value: i.id._id, label: i.id.en_name };
               })
             : "",
         currency_code: nextProps.product.currency_code,
@@ -314,7 +314,7 @@ class AddProduct extends Component {
         ? subcategorys.filter((item) => item.category._id === category)
         : [];
 
-    // console.log(Filteredsubcategorys, "Filteredsubcategorys");
+    console.log(selected_colors, custom_colors, "Filteredsubcategorys");
 
     return (
       <div>
@@ -626,18 +626,20 @@ class AddProduct extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-              <FormGroup>
-                <Label for="colors">Colors</Label>
-                <Select
-                  closeMenuOnSelect={false}
-                  components={animatedComponents}
-                  onChange={this.onChangecolors}
-                  defaultValue={selected_colors}
-                  isMulti
-                  options={custom_colors}
-                />
-                <p className="error">{errors && errors.colors}</p>
-              </FormGroup>
+              {custom_colors && custom_colors.length && (
+                <FormGroup>
+                  <Label for="colors">Colors</Label>
+                  <Select
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    onChange={this.onChangecolors}
+                    defaultValue={selected_colors}
+                    isMulti
+                    options={custom_colors}
+                  />
+                  <p className="error">{errors && errors.colors}</p>
+                </FormGroup>
+              )}
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.onSubmit}>

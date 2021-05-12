@@ -41,7 +41,8 @@ router.post(
           ar_desc: req.body.ar_desc,
           en_desc: req.body.en_desc,
           address: req.body.address,
-          location: req.body.location,
+          lat: req.body.lat,
+          lng: req.body.lng,
           tel: req.body.tel,
           mobile1: req.body.mobile1,
           mobile2: req.body.mobile2,
@@ -72,6 +73,7 @@ router.put(
   (req, res) => {
     const { errors, isValid } = validateCreateInput(req.body);
 
+    // console.log(req.body);
     // Check Validation
     if (!isValid) {
       return res.status(400).json(errors);
@@ -87,7 +89,8 @@ router.put(
           ar_desc: req.body.ar_desc,
           en_desc: req.body.en_desc,
           address: req.body.address,
-          location: req.body.location,
+          lat: req.body.lat,
+          lng: req.body.lng,
           tel: req.body.tel,
           mobile1: req.body.mobile1,
           mobile2: req.body.mobile2,

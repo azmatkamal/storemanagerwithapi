@@ -14,8 +14,19 @@ import {
   Label,
   Input,
 } from "reactstrap";
+import {
+  withGoogleMap,
+  GoogleMap,
+  withScriptjs,
+  Marker,
+} from "react-google-maps";
+import Autocomplete from "react-google-autocomplete";
+import Geocode from "react-geocode";
 
 import { getCompanys, addorUpdateCompany } from "../../redux/company/action";
+
+Geocode.setApiKey("AIzaSyBF03sTiafhKlqgZLQq0_YIP5bgOcdxTW4");
+Geocode.enableDebug();
 
 class AddCompany extends Component {
   constructor(props) {
@@ -41,11 +52,30 @@ class AddCompany extends Component {
       is_modal_loading: false,
       show_modal: false,
       errors: {},
+      // MAP
+      map_lat: 31.963158,
+      map_lng: 35.930359,
+      marker_lat: 31.963158,
+      marker_lng: 35.930359,
     };
   }
 
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onChangeLatMap = (e) => {
+    this.setState({
+      map_lat: e.target.value ? parseFloat(e.target.value) : "",
+      marker_lat: e.target.value ? parseFloat(e.target.value) : "",
+    });
+  };
+
+  onChangeLngMap = (e) => {
+    this.setState({
+      map_lng: e.target.value ? parseFloat(e.target.value) : "",
+      marker_lng: e.target.value ? parseFloat(e.target.value) : "",
+    });
   };
 
   componentDidMount() {
@@ -56,6 +86,10 @@ class AddCompany extends Component {
       en_desc: "",
       address: "",
       location: "",
+      map_lat: 31.963158,
+      map_lng: 35.930359,
+      marker_lat: 31.963158,
+      marker_lng: 35.930359,
       tel: "",
       mobile1: "",
       mobile2: "",
@@ -109,6 +143,14 @@ class AddCompany extends Component {
         snapchat: nextProps.company.snapchat,
         youtube: nextProps.company.youtube,
         id: nextProps.company._id,
+        map_lat: nextProps.company.lat ? parseFloat(nextProps.company.lat) : 0,
+        map_lng: nextProps.company.lng ? parseFloat(nextProps.company.lng) : 0,
+        marker_lat: nextProps.company.lat
+          ? parseFloat(nextProps.company.lat)
+          : 0,
+        marker_lng: nextProps.company.lng
+          ? parseFloat(nextProps.company.lng)
+          : 0,
       });
     }
 
@@ -131,7 +173,8 @@ class AddCompany extends Component {
     formData.append("ar_desc", this.state.ar_desc);
     formData.append("en_desc", this.state.en_desc);
     formData.append("address", this.state.address);
-    formData.append("location", this.state.location);
+    formData.append("lat", this.state.marker_lat);
+    formData.append("lng", this.state.marker_lng);
     formData.append("tel", this.state.tel);
     formData.append("mobile1", this.state.mobile1);
     formData.append("mobile2", this.state.mobile2);
@@ -151,6 +194,32 @@ class AddCompany extends Component {
     );
   };
 
+  onPlaceSelected = (place) => {
+    try {
+      const latValue = place.geometry.location.lat(),
+        lngValue = place.geometry.location.lng();
+      this.setState({
+        map_lat: latValue,
+        map_lng: lngValue,
+        marker_lat: latValue,
+        marker_lng: lngValue,
+      });
+    } catch (e) {
+      return false;
+    }
+  };
+
+  onMarkerDragEnd = (event) => {
+    let latValue = event.latLng.lat(),
+      lngValue = event.latLng.lng();
+    this.setState({
+      map_lat: latValue,
+      map_lng: lngValue,
+      marker_lat: latValue,
+      marker_lng: lngValue,
+    });
+  };
+
   render() {
     const {
       ar_name,
@@ -158,7 +227,6 @@ class AddCompany extends Component {
       ar_desc,
       en_desc,
       address,
-      location,
       tel,
       mobile1,
       mobile2,
@@ -171,240 +239,312 @@ class AddCompany extends Component {
       is_modal_loading,
       errors,
       show_modal,
+      map_lat,
+      map_lng,
+      marker_lat,
+      marker_lng,
     } = this.state;
 
-    console.log(this.state);
+    // console.log(this.state);
+    const AsyncMap = withScriptjs(
+      withGoogleMap((props) => (
+        <GoogleMap
+          google={this.props.google}
+          defaultZoom={15}
+          defaultCenter={{
+            lat: map_lat ? map_lat : 31.963158,
+            lng: map_lng ? map_lng : 35.930359,
+          }}
+        >
+          {/* For Auto complete Search Box */}
+          <Autocomplete
+            style={{
+              width: "100%",
+              height: "40px",
+              paddingLeft: "16px",
+              marginTop: "2px",
+              marginBottom: "100px",
+            }}
+            onPlaceSelected={this.onPlaceSelected}
+            types={[]}
+          />
+          {/*Marker*/}
+          <Marker
+            google={this.props.google}
+            name={"Dolores park"}
+            draggable={true}
+            onDragEnd={this.onMarkerDragEnd}
+            position={{
+              lat: marker_lat ? marker_lat : 31.963158,
+              lng: marker_lng ? marker_lng : 35.930359,
+            }}
+          />
+          <Marker />
+        </GoogleMap>
+      ))
+    );
 
     return (
       <div>
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal} toggle={this.props.toggleModal}>
+          <Modal isOpen={show_modal} toggle={this.props.toggleModal} size="lg">
             <ModalHeader toggle={this.props.toggleModal}>
               {id ? "Update" : "Create"} Company Profile
             </ModalHeader>
             <ModalBody>
-              <Row form>
-                <Col md={6}>
+              <Row>
+                <Col md="8">
+                  <Row form>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="ar_name">Arabic Name</Label>
+                        <Input
+                          type="text"
+                          name="ar_name"
+                          onChange={this.onChange}
+                          id="ar_name"
+                          value={ar_name}
+                          placeholder="Arabic Name"
+                        />
+                        <p className="error">{errors && errors.ar_name}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="en_name">English Name</Label>
+                        <Input
+                          type="text"
+                          name="en_name"
+                          onChange={this.onChange}
+                          id="en_name"
+                          value={en_name}
+                          placeholder="English Name"
+                        />
+                        <p className="error">{errors && errors.en_name}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="ar_desc">Arabic Description</Label>
+                        <Input
+                          type="text"
+                          name="ar_desc"
+                          onChange={this.onChange}
+                          id="ar_desc"
+                          value={ar_desc}
+                          placeholder="Arabic Description"
+                        />
+                        <p className="error">{errors && errors.ar_desc}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="en_desc">English Description</Label>
+                        <Input
+                          type="text"
+                          name="en_desc"
+                          onChange={this.onChange}
+                          id="en_desc"
+                          value={en_desc}
+                          placeholder="English Description"
+                        />
+                        <p className="error">{errors && errors.en_desc}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="address">Address</Label>
+                        <Input
+                          type="text"
+                          name="address"
+                          onChange={this.onChange}
+                          id="address"
+                          value={address}
+                          placeholder="Address"
+                        />
+                        <p className="error">{errors && errors.address}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="marker_lat">Latitude</Label>
+                        <Input
+                          type="text"
+                          name="marker_lat"
+                          onChange={this.onChangeLatMap}
+                          id="marker_lat"
+                          value={marker_lat}
+                          placeholder="Latitude"
+                        />
+                        <p className="error">{errors && errors.lat}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="marker_lng">Longitude</Label>
+                        <Input
+                          type="text"
+                          name="marker_lng"
+                          onChange={this.onChangeLngMap}
+                          id="marker_lng"
+                          value={marker_lng}
+                          placeholder="Longitude"
+                        />
+                        <p className="error">{errors && errors.lng}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="tel">Telephone</Label>
+                        <Input
+                          type="text"
+                          name="tel"
+                          onChange={this.onChange}
+                          id="tel"
+                          value={tel}
+                          placeholder="Telephone"
+                        />
+                        <p className="error">{errors && errors.tel}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="mobile1">Mobile 1</Label>
+                        <Input
+                          type="text"
+                          name="mobile1"
+                          onChange={this.onChange}
+                          id="mobile1"
+                          value={mobile1}
+                          placeholder="Mobile 1"
+                        />
+                        <p className="error">{errors && errors.mobile1}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="mobile2">Mobile 2</Label>
+                        <Input
+                          type="text"
+                          name="mobile2"
+                          onChange={this.onChange}
+                          id="mobile2"
+                          value={mobile2}
+                          placeholder="Mobile 2"
+                        />
+                        <p className="error">{errors && errors.mobile2}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="facebook">Facebook</Label>
+                        <Input
+                          type="text"
+                          name="facebook"
+                          onChange={this.onChange}
+                          id="facebook"
+                          value={facebook}
+                          placeholder="Facebook"
+                        />
+                        <p className="error">{errors && errors.facebook}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="twitter">Twitter</Label>
+                        <Input
+                          type="text"
+                          name="twitter"
+                          onChange={this.onChange}
+                          id="twitter"
+                          value={twitter}
+                          placeholder="Twitter"
+                        />
+                        <p className="error">{errors && errors.twitter}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="instagram">Instagram</Label>
+                        <Input
+                          type="text"
+                          name="instagram"
+                          onChange={this.onChange}
+                          id="instagram"
+                          value={instagram}
+                          placeholder="Instagram"
+                        />
+                        <p className="error">{errors && errors.instagram}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="snapchat">Snapchat</Label>
+                        <Input
+                          type="text"
+                          name="snapchat"
+                          onChange={this.onChange}
+                          id="snapchat"
+                          value={snapchat}
+                          placeholder="Snapchat"
+                        />
+                        <p className="error">{errors && errors.snapchat}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="youtube">Youtube</Label>
+                        <Input
+                          type="text"
+                          name="youtube"
+                          onChange={this.onChange}
+                          id="youtube"
+                          value={youtube}
+                          placeholder="Youtube"
+                        />
+                        <p className="error">{errors && errors.youtube}</p>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
                   <FormGroup>
-                    <Label for="ar_name">Arabic Name</Label>
+                    <Label for="icon">Icon</Label>
                     <Input
-                      type="text"
-                      name="ar_name"
-                      onChange={this.onChange}
-                      id="ar_name"
-                      value={ar_name}
-                      placeholder="Arabic Name"
+                      type="file"
+                      name="icon"
+                      onChange={this.onFileSelect}
+                      id="icon"
+                      placeholder="Icon"
+                      required
                     />
-                    <p className="error">{errors && errors.ar_name}</p>
+                    <p className="error">{errors && errors.icon}</p>
                   </FormGroup>
                 </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="en_name">English Name</Label>
-                    <Input
-                      type="text"
-                      name="en_name"
-                      onChange={this.onChange}
-                      id="en_name"
-                      value={en_name}
-                      placeholder="English Name"
-                    />
-                    <p className="error">{errors && errors.en_name}</p>
-                  </FormGroup>
+                <Col md="4">
+                  <Row>
+                    <Col md="12">
+                      <AsyncMap
+                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF03sTiafhKlqgZLQq0_YIP5bgOcdxTW4&libraries=places"
+                        loadingElement={<div style={{ height: `100%` }} />}
+                        containerElement={<div style={{ height: "500px" }} />}
+                        mapElement={<div style={{ height: `100%` }} />}
+                      />
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-              <Row form>
-                <Col md={12}>
-                  <FormGroup>
-                    <Label for="ar_desc">Arabic Description</Label>
-                    <Input
-                      type="text"
-                      name="ar_desc"
-                      onChange={this.onChange}
-                      id="ar_desc"
-                      value={ar_desc}
-                      placeholder="Arabic Description"
-                    />
-                    <p className="error">{errors && errors.ar_desc}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={12}>
-                  <FormGroup>
-                    <Label for="en_desc">English Description</Label>
-                    <Input
-                      type="text"
-                      name="en_desc"
-                      onChange={this.onChange}
-                      id="en_desc"
-                      value={en_desc}
-                      placeholder="English Description"
-                    />
-                    <p className="error">{errors && errors.en_desc}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row form>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="address">Address</Label>
-                    <Input
-                      type="text"
-                      name="address"
-                      onChange={this.onChange}
-                      id="address"
-                      value={address}
-                      placeholder="Address"
-                    />
-                    <p className="error">{errors && errors.address}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="location">Location</Label>
-                    <Input
-                      type="text"
-                      name="location"
-                      onChange={this.onChange}
-                      id="location"
-                      value={location}
-                      placeholder="Location"
-                    />
-                    <p className="error">{errors && errors.location}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row form>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="tel">Telephone</Label>
-                    <Input
-                      type="text"
-                      name="tel"
-                      onChange={this.onChange}
-                      id="tel"
-                      value={tel}
-                      placeholder="Telephone"
-                    />
-                    <p className="error">{errors && errors.tel}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="mobile1">Mobile 1</Label>
-                    <Input
-                      type="text"
-                      name="mobile1"
-                      onChange={this.onChange}
-                      id="mobile1"
-                      value={mobile1}
-                      placeholder="Mobile 1"
-                    />
-                    <p className="error">{errors && errors.mobile1}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="mobile2">Mobile 2</Label>
-                    <Input
-                      type="text"
-                      name="mobile2"
-                      onChange={this.onChange}
-                      id="mobile2"
-                      value={mobile2}
-                      placeholder="Mobile 2"
-                    />
-                    <p className="error">{errors && errors.mobile2}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row form>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="facebook">Facebook</Label>
-                    <Input
-                      type="text"
-                      name="facebook"
-                      onChange={this.onChange}
-                      id="facebook"
-                      value={facebook}
-                      placeholder="Facebook"
-                    />
-                    <p className="error">{errors && errors.facebook}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="twitter">Twitter</Label>
-                    <Input
-                      type="text"
-                      name="twitter"
-                      onChange={this.onChange}
-                      id="twitter"
-                      value={twitter}
-                      placeholder="Twitter"
-                    />
-                    <p className="error">{errors && errors.twitter}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row form>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="instagram">Instagram</Label>
-                    <Input
-                      type="text"
-                      name="instagram"
-                      onChange={this.onChange}
-                      id="instagram"
-                      value={instagram}
-                      placeholder="Instagram"
-                    />
-                    <p className="error">{errors && errors.instagram}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="snapchat">Snapchat</Label>
-                    <Input
-                      type="text"
-                      name="snapchat"
-                      onChange={this.onChange}
-                      id="snapchat"
-                      value={snapchat}
-                      placeholder="Snapchat"
-                    />
-                    <p className="error">{errors && errors.snapchat}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row form>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="youtube">Youtube</Label>
-                    <Input
-                      type="text"
-                      name="youtube"
-                      onChange={this.onChange}
-                      id="youtube"
-                      value={youtube}
-                      placeholder="Youtube"
-                    />
-                    <p className="error">{errors && errors.youtube}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
-              <FormGroup>
-                <Label for="icon">Icon</Label>
-                <Input
-                  type="file"
-                  name="icon"
-                  onChange={this.onFileSelect}
-                  id="icon"
-                  placeholder="Icon"
-                  required
-                />
-                <p className="error">{errors && errors.icon}</p>
-              </FormGroup>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.onSubmit}>
