@@ -59,7 +59,7 @@ class AddUser extends Component {
     this.setState({ show_modal: nextProps.show_modal });
     this.setState({ permissions: nextProps.permissions });
     this.setState({ is_modal_loading: nextProps.is_modal_loading });
-    if (nextProps && nextProps.user) {
+    if (nextProps && nextProps.user && nextProps.user.email) {
       this.setState({
         first_name: nextProps.user.first_name ? nextProps.user.first_name : "",
         last_name: nextProps.user.last_name ? nextProps.user.last_name : "",

@@ -14,14 +14,8 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import {
-  withGoogleMap,
-  GoogleMap,
-  withScriptjs,
-  Marker,
-} from "react-google-maps";
-import Autocomplete from "react-google-autocomplete";
 import Geocode from "react-geocode";
+import Map from "./Map";
 
 import { getCompanys, addorUpdateCompany } from "../../redux/company/action";
 
@@ -244,45 +238,6 @@ class AddCompany extends Component {
       marker_lat,
       marker_lng,
     } = this.state;
-
-    // console.log(this.state);
-    const AsyncMap = withScriptjs(
-      withGoogleMap((props) => (
-        <GoogleMap
-          google={this.props.google}
-          defaultZoom={15}
-          defaultCenter={{
-            lat: map_lat ? map_lat : 31.963158,
-            lng: map_lng ? map_lng : 35.930359,
-          }}
-        >
-          {/* For Auto complete Search Box */}
-          <Autocomplete
-            style={{
-              width: "100%",
-              height: "40px",
-              paddingLeft: "16px",
-              marginTop: "2px",
-              marginBottom: "100px",
-            }}
-            onPlaceSelected={this.onPlaceSelected}
-            types={[]}
-          />
-          {/*Marker*/}
-          <Marker
-            google={this.props.google}
-            name={"Dolores park"}
-            draggable={true}
-            onDragEnd={this.onMarkerDragEnd}
-            position={{
-              lat: marker_lat ? marker_lat : 31.963158,
-              lng: marker_lng ? marker_lng : 35.930359,
-            }}
-          />
-          <Marker />
-        </GoogleMap>
-      ))
-    );
 
     return (
       <div>
@@ -536,11 +491,13 @@ class AddCompany extends Component {
                 <Col md="4">
                   <Row>
                     <Col md="12">
-                      <AsyncMap
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF03sTiafhKlqgZLQq0_YIP5bgOcdxTW4&libraries=places"
-                        loadingElement={<div style={{ height: `100%` }} />}
-                        containerElement={<div style={{ height: "500px" }} />}
-                        mapElement={<div style={{ height: `100%` }} />}
+                      <Map
+                        map_lat={map_lat}
+                        map_lng={map_lng}
+                        marker_lat={marker_lat}
+                        marker_lng={marker_lng}
+                        onMarkerDragEnd={this.onMarkerDragEnd}
+                        onPlaceSelected={this.onPlaceSelected}
                       />
                     </Col>
                   </Row>
