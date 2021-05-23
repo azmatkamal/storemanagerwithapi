@@ -95,29 +95,33 @@ class AddCompany extends Component {
     });
   }
 
+  resetState = () => {
+    this.setState({
+      en_name: "",
+      ar_name: "",
+      ar_desc: "",
+      en_desc: "",
+      address: "",
+      location: "",
+      tel: "",
+      mobile1: "",
+      mobile2: "",
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      snapchat: "",
+      youtube: "",
+      icon: null,
+      id: null,
+    });
+  };
+
   componentWillReceiveProps(nextProps) {
     this.setState({ show_modal: nextProps.show_modal });
     this.setState({ is_modal_loading: nextProps.is_modal_loading });
 
     if (nextProps && nextProps.show_modal !== this.state.show_modal) {
-      this.setState({
-        en_name: "",
-        ar_name: "",
-        ar_desc: "",
-        en_desc: "",
-        address: "",
-        location: "",
-        tel: "",
-        mobile1: "",
-        mobile2: "",
-        facebook: "",
-        twitter: "",
-        instagram: "",
-        snapchat: "",
-        youtube: "",
-        icon: null,
-        id: null,
-      });
+      this.resetState();
     }
 
     if (nextProps && nextProps.company && nextProps.company.en_name) {
@@ -160,6 +164,8 @@ class AddCompany extends Component {
   };
 
   onSubmit = () => {
+    console.log(this.state.marker_lng, this.state.marker_lat);
+    // return;
     const formData = new FormData();
     formData.append("id", this.state.id);
     formData.append("ar_name", this.state.ar_name);
@@ -184,7 +190,8 @@ class AddCompany extends Component {
       this.state.id ? false : true,
       this.props.toggleModalLoading,
       this.props.toggleModal,
-      this.props.toggleTableLoading
+      this.props.toggleTableLoading,
+      this.resetState
     );
   };
 
@@ -238,6 +245,8 @@ class AddCompany extends Component {
       marker_lat,
       marker_lng,
     } = this.state;
+
+    console.log(this.state.marker_lng, this.state.marker_lat, map_lat, map_lng);
 
     return (
       <div>

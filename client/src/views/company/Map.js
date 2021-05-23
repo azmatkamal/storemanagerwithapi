@@ -18,21 +18,20 @@ export default class Map extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      map_lat: nextProps.map_lat ? parseFloat(nextProps.map_lat) : 31.963158,
-      map_lng: nextProps.map_lng ? parseFloat(nextProps.map_lng) : 35.930359,
-      marker_lat: nextProps.marker_lat
-        ? parseFloat(nextProps.marker_lat)
-        : 31.963158,
-      marker_lng: nextProps.marker_lng
-        ? parseFloat(nextProps.marker_lng)
-        : 35.930359,
-    });
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.map_lat !== nextState.map_lat) return true;
+    if (this.state.map_lat !== nextProps.map_lat) {
+      this.setState({
+        map_lat: nextProps.map_lat ? parseFloat(nextProps.map_lat) : 31.963158,
+        map_lng: nextProps.map_lng ? parseFloat(nextProps.map_lng) : 35.930359,
+        marker_lat: nextProps.marker_lat
+          ? parseFloat(nextProps.marker_lat)
+          : 31.963158,
+        marker_lng: nextProps.marker_lng
+          ? parseFloat(nextProps.marker_lng)
+          : 35.930359,
+      });
+      return true;
+    }
     return false;
   }
   render() {
