@@ -91,22 +91,15 @@ class AddColor extends Component {
   };
 
   render() {
-    const {
-      ar_name,
-      en_name,
-      code,
-      id,
-      is_modal_loading,
-      errors,
-      show_modal,
-    } = this.state;
+    const { ar_name, en_name, code, id, is_modal_loading, errors, show_modal } =
+      this.state;
 
     console.log(this.state);
 
     return (
       <div>
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal} toggle={this.props.toggleModal}>
+          <Modal isOpen={show_modal}>
             <ModalHeader toggle={this.props.toggleModal}>
               {id ? "Update" : "Create"} Color
             </ModalHeader>

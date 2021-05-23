@@ -32,7 +32,7 @@ router.post("/register", (req, res) => {
       errors.email = "Email already exists";
       return res.status(400).json(errors);
     } else {
-      const avatar = gravatar.url(req.body.email.toLowerCase(), {
+      const avatar = gravatar.url(req.body.email, {
         s: "200", // Size
         r: "pg", // Rating
         d: "mm", // Default
@@ -81,7 +81,7 @@ router.post(
         errors.email = "Email already exists";
         return res.status(400).json(errors);
       } else {
-        let avatar = gravatar.url(req.body.email.toLowerCase(), {
+        let avatar = gravatar.url(req.body.email, {
           s: "200", // Size
           r: "pg", // Rating
           d: "mm", // Default
@@ -232,7 +232,7 @@ router.post("/login", (req, res) => {
             id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
-            email: user.email,
+            email: user.email.toLowerCase(),
             permissions: user.permissions,
             avatar: user.avatar,
             user_type: user.user_type,

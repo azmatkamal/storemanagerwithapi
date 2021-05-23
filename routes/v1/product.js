@@ -22,7 +22,7 @@ router.post(
     }
 
     Product.findOne({
-      en_name: req.body.en_name.toLowerCase(),
+      en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
       is_deleted: false,
     }).then((b) => {
       if (b) {
@@ -36,7 +36,7 @@ router.post(
           }));
         }
         const newProduct = new Product({
-          en_name: req.body.en_name.toLowerCase(),
+          en_name: req.body.en_name,
           sub_category: req.body.sub_category,
           ar_name: req.body.ar_name,
           en_desc: req.body.en_desc,
@@ -94,7 +94,7 @@ router.put(
         const data = {
           updatedBy: req.user.id,
           sub_category: req.body.sub_category,
-          en_name: req.body.en_name.toLowerCase(),
+          en_name: req.body.en_name,
           ar_name: req.body.ar_name,
           en_desc: req.body.en_desc,
           ar_desc: req.body.ar_desc,

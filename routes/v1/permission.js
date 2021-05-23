@@ -22,7 +22,7 @@ router.post(
     }
 
     City.findOne({
-      link: req.body.link.toLowerCase(),
+      link: new RegExp(["^", req.body.link, "$"].join(""), "i"),
       is_deleted: false,
     }).then((user) => {
       if (user) {
@@ -30,7 +30,7 @@ router.post(
         return res.status(400).json(errors);
       } else {
         const newCity = new City({
-          link: req.body.link.toLowerCase(),
+          link: req.body.link,
           name: req.body.name,
         });
 
@@ -60,7 +60,7 @@ router.put(
     City.findOne({ _id: link_id }).then((city) => {
       if (city) {
         const data = {
-          link: req.body.link.toLowerCase(),
+          link: req.body.link,
           name: req.body.name,
         };
 

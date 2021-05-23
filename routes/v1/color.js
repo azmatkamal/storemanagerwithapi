@@ -22,7 +22,7 @@ router.post(
     }
 
     Color.findOne({
-      en_name: req.body.en_name.toLowerCase(),
+      en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
       is_deleted: false,
     }).then((b) => {
       if (b) {
@@ -30,7 +30,7 @@ router.post(
         return res.status(400).json(errors);
       } else {
         const newColor = new Color({
-          en_name: req.body.en_name.toLowerCase(),
+          en_name: req.body.en_name,
           ar_name: req.body.ar_name,
           code: req.body.code,
           updatedBy: req.user.id,

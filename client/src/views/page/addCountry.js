@@ -113,7 +113,7 @@ class AddCountry extends Component {
     return (
       <div>
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal} toggle={this.props.toggleModal}>
+          <Modal isOpen={show_modal}>
             <ModalHeader toggle={this.props.toggleModal}>
               {id ? "Update" : "Create"} Into Video
             </ModalHeader>

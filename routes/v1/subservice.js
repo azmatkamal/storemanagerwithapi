@@ -24,7 +24,7 @@ router.post(
     }
 
     Subservice.findOne({
-      en_name: req.body.en_name.toLowerCase(),
+      en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
       is_deleted: false,
     }).then((b) => {
       if (b) {
@@ -32,7 +32,7 @@ router.post(
         return res.status(400).json(errors);
       } else {
         const newSubservice = new Subservice({
-          en_name: req.body.en_name.toLowerCase(),
+          en_name: req.body.en_name,
           ar_name: req.body.ar_name,
           en_desc: req.body.en_desc,
           ar_desc: req.body.ar_desc,

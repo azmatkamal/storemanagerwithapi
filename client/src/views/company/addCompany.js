@@ -287,7 +287,7 @@ class AddCompany extends Component {
     return (
       <div>
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal} toggle={this.props.toggleModal} size="lg">
+          <Modal isOpen={show_modal} size="lg">
             <ModalHeader toggle={this.props.toggleModal}>
               {id ? "Update" : "Create"} Company Profile
             </ModalHeader>
@@ -517,20 +517,21 @@ class AddCompany extends Component {
                         <p className="error">{errors && errors.youtube}</p>
                       </FormGroup>
                     </Col>
+                    <Col md={6}>
+                      <FormGroup>
+                        <Label for="icon">Icon</Label>
+                        <Input
+                          type="file"
+                          name="icon"
+                          onChange={this.onFileSelect}
+                          id="icon"
+                          placeholder="Icon"
+                          required
+                        />
+                        <p className="error">{errors && errors.icon}</p>
+                      </FormGroup>
+                    </Col>
                   </Row>
-
-                  <FormGroup>
-                    <Label for="icon">Icon</Label>
-                    <Input
-                      type="file"
-                      name="icon"
-                      onChange={this.onFileSelect}
-                      id="icon"
-                      placeholder="Icon"
-                      required
-                    />
-                    <p className="error">{errors && errors.icon}</p>
-                  </FormGroup>
                 </Col>
                 <Col md="4">
                   <Row>

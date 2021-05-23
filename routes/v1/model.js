@@ -30,7 +30,7 @@ router.post(
     }
 
     Model.findOne({
-      en_name: req.body.en_name.toLowerCase(),
+      en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
       is_deleted: false,
     }).then((model) => {
       if (model) {
@@ -38,7 +38,7 @@ router.post(
         return res.status(400).json(errors);
       } else {
         const newBrand = new Model({
-          en_name: req.body.en_name.toLowerCase(),
+          en_name: req.body.en_name,
           ar_name: req.body.ar_name,
           year: req.body.year,
           brand: req.body.brand,

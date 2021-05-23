@@ -29,7 +29,7 @@ router.post(
     }
 
     Company.findOne({
-      en_name: req.body.en_name.toLowerCase(),
+      en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
       is_deleted: false,
     }).then((user) => {
       if (user) {
@@ -37,7 +37,7 @@ router.post(
         return res.status(400).json(errors);
       } else {
         const newCompany = new Company({
-          en_name: req.body.en_name.toLowerCase(),
+          en_name: req.body.en_name,
           ar_name: req.body.ar_name,
           ar_desc: req.body.ar_desc,
           en_desc: req.body.en_desc,
