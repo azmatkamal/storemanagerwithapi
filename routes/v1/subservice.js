@@ -17,7 +17,7 @@ router.post(
   (req, res) => {
     console.log(req.body);
     const { errors, isValid } = validateCreateInput(req.body);
-    console.log(errors);
+    // console.log(errors);
     // Check Validation
     if (!isValid) {
       return res.status(400).json(errors);
