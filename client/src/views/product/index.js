@@ -75,12 +75,8 @@ class Products extends Component {
   }
 
   render() {
-    const {
-      is_table_loading,
-      is_modal_loading,
-      products,
-      show_modal,
-    } = this.state;
+    const { is_table_loading, is_modal_loading, products, show_modal } =
+      this.state;
 
     return (
       <div>
@@ -115,14 +111,14 @@ class Products extends Component {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>1 صورة</th>
-                        <th>2 صورة</th>
-                        <th>3 صورة</th>
-                        <th>اسم – انجليزي</th>
-                        <th>اسم – عربي</th>
-                        <th>تاريخ الادخال</th>
-                        <th>حالة التفعيل</th>
-                        <th>الاجراءات</th>
+                        <th>Icon 1</th>
+                        <th>Icon 2</th>
+                        <th>Icon 3</th>
+                        <th>En Name</th>
+                        <th>Ar Name</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>

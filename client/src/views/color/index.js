@@ -108,11 +108,11 @@ class Colors extends Component {
                       <tr>
                         <th>#</th>
                         <th>Code</th>
-                        <th>اسم – انجليزي</th>
-                        <th>اسم – عربي</th>
-                        <th>تاريخ الادخال</th>
-                        <th>حالة التفعيل</th>
-                        <th>الاجراءات</th>
+                        <th>En Name</th>
+                        <th>Ar Name</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>

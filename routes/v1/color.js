@@ -23,6 +23,7 @@ router.post(
 
     Color.findOne({
       en_name: req.body.en_name.toLowerCase(),
+      is_deleted: false,
     }).then((b) => {
       if (b) {
         errors.en_name = "COlor already exists";

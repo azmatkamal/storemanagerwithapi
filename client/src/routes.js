@@ -12,17 +12,17 @@ const CompanyList = React.lazy(() => import("./views/company/index"));
 const ProductList = React.lazy(() => import("./views/product/index"));
 
 const routes = [
-  { path: "/", exact: true, name: "الرئيسية" },
+  { path: "/", exact: true, name: "Dashboard" },
   {
     path: "/users",
     exact: true,
-    name: "ادارة المستخدمين",
+    name: "Manage Users",
     component: UsersList,
   },
   {
     path: "/locations",
     exact: true,
-    name: "ادارة المواقع",
+    name: "Manage Locations",
     component: CountryList,
   },
   {
@@ -46,7 +46,7 @@ const routes = [
   {
     path: "/permissions",
     exact: true,
-    name: "ادارة صلاحيات المستخدمين",
+    name: "Manage Permissions",
     component: PermissionList,
   },
   {

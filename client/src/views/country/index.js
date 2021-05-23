@@ -112,7 +112,7 @@ class Countires extends Component {
             >
               <Card>
                 <CardHeader>
-                  إدارة دول
+                  Countries
                   <Button
                     size="xs"
                     color="success"
@@ -127,12 +127,12 @@ class Countires extends Component {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>صورة</th>
-                        <th>اسم – انجليزي</th>
-                        <th>اسم – عربي</th>
-                        <th>تاريخ الادخال</th>
-                        <th>حالة التفعيل</th>
-                        <th>الاجراءات</th>
+                        <th>Icon</th>
+                        <th>En Name</th>
+                        <th>Ar Name</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>

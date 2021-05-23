@@ -30,6 +30,7 @@ router.post(
 
     Country.findOne({
       en_name: req.body.en_name.toLowerCase(),
+      is_deleted: false,
     }).then((user) => {
       if (user) {
         errors.en_name = "Country already exists";

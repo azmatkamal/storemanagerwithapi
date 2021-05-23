@@ -158,12 +158,12 @@ class Models extends Component {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>صورة</th>
-                        <th>اسم – انجليزي</th>
-                        <th>اسم – عربي</th>
+                        <th>Icon</th>
+                        <th>En Name</th>
+                        <th>Ar Name</th>
                         <th>Year</th>
-                        <th>حالة التفعيل</th>
-                        <th>الاجراءات</th>
+                        <th>Status</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
