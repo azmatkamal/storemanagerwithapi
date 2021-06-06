@@ -13,6 +13,7 @@ import {
   Badge,
 } from "reactstrap";
 import moment from "moment";
+import DataTable from "react-data-table-component";
 import AddCountry from "./addCountry";
 import City from "../city";
 
@@ -76,12 +77,121 @@ class Countires extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.countries) {
-      this.setState({ countries: nextProps.countries });
+      this.setState({
+        countries: nextProps.countries.map((item, idx) => ({
+          ...item,
+          index: idx + 1,
+        })),
+      });
     }
   }
 
   onCloseCity = () => {
     this.setState({ selected_country: "" });
+  };
+
+  actionFormater = (row) => {
+    let item = row;
+    return (
+      <div>
+        <Button
+          size="xs"
+          color="warning"
+          className="mr-2"
+          onClick={this.updateRow.bind(this, item)}
+          title="Update"
+        >
+          <i className="fa fa-pencil"></i>
+        </Button>
+        {!item.is_active && (
+          <Button
+            size="xs"
+            color="success"
+            className="mr-2"
+            onClick={this.markCountry.bind(this, {
+              id: item._id,
+              is_active: true,
+              is_deleted: item.is_deleted,
+            })}
+            title="Enable Account"
+          >
+            <i className="fa fa-check"></i>
+          </Button>
+        )}
+        {item.is_active && (
+          <Button
+            size="xs"
+            color="primary"
+            className="mr-2"
+            onClick={this.markCountry.bind(this, {
+              id: item._id,
+              is_active: false,
+              is_deleted: item.is_deleted,
+            })}
+            title="Disable Account"
+          >
+            <i className="fa fa-times"></i>
+          </Button>
+        )}
+        <Button
+          size="xs"
+          color="danger"
+          className="mr-2"
+          onClick={this.markCountry.bind(this, {
+            id: item._id,
+            is_active: item.is_active,
+            is_deleted: true,
+          })}
+          title="Delete"
+        >
+          <i className="fa fa-trash"></i>
+        </Button>
+        <Button
+          size="xs"
+          color="success"
+          className="mr-2"
+          onClick={this.toggleCities.bind(this, item)}
+          title="Cities"
+        >
+          <i className="fa fa-list-alt"></i>
+        </Button>
+      </div>
+    );
+  };
+
+  createdAtFormater = (row) => {
+    let item = row;
+    return (
+      <div>
+        {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
+        {moment(item.createdAt).fromNow()}
+      </div>
+    );
+  };
+
+  iconFormator = (row) => {
+    return (
+      <Fragment>
+        {row.icon ? (
+          <img src={row.icon} alt={row.en_name} style={{ maxWidth: "75px" }} />
+        ) : (
+          ""
+        )}
+      </Fragment>
+    );
+  };
+
+  statusFormat = (row) => {
+    let item = row;
+    return item.is_active ? (
+      <Badge color="primary" outline>
+        Active
+      </Badge>
+    ) : (
+      <Badge color="danger" outline>
+        Inactive
+      </Badge>
+    );
   };
 
   render() {
@@ -93,6 +203,44 @@ class Countires extends Component {
       show_modal,
       selected_country,
     } = this.state;
+
+    const columns = [
+      {
+        name: "Id",
+        selector: "index",
+        maxWidth: "50px",
+      },
+      {
+        name: "Icon",
+        selector: "icon",
+        format: this.iconFormator,
+      },
+      {
+        name: "EN Name",
+        selector: "en_name",
+      },
+      {
+        name: "Ar Name",
+        selector: "ar_name",
+      },
+      {
+        name: "Created At",
+        selector: "created_at",
+        format: this.createdAtFormater,
+        minWidth: "200px",
+      },
+      {
+        name: "Status",
+        selector: "status",
+        format: this.statusFormat,
+      },
+      {
+        name: "Actions",
+        selector: "id",
+        format: this.actionFormater,
+        minWidth: "250px",
+      },
+    ];
 
     return (
       <div>
@@ -123,124 +271,12 @@ class Countires extends Component {
                   </Button>
                 </CardHeader>
                 <CardBody>
-                  <Table responsive striped bordered>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Icon</th>
-                        <th>En Name</th>
-                        <th>Ar Name</th>
-                        <th>Created At</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {countries &&
-                        countries.map((item, idx) => {
-                          return (
-                            <Fragment>
-                              <tr key={idx}>
-                                <th scope="row">{idx + 1}</th>
-                                <td>
-                                  {item.icon ? (
-                                    <img
-                                      src={item.icon}
-                                      alt={item.en_name}
-                                      style={{ maxWidth: "75px" }}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}
-                                </td>
-                                <td>{item.en_name}</td>
-                                <td>{item.ar_name}</td>
-                                <td>
-                                  {moment(item.createdAt).format("DD/MM/YYYY")}{" "}
-                                  - {moment(item.createdAt).fromNow()}
-                                </td>
-                                <td>
-                                  {item.is_active ? (
-                                    <Badge color="primary" outline>
-                                      Active
-                                    </Badge>
-                                  ) : (
-                                    <Badge color="danger" outline>
-                                      Inactive
-                                    </Badge>
-                                  )}
-                                </td>
-                                <td style={{ minWidth: "200px" }}>
-                                  <Button
-                                    size="xs"
-                                    color="warning"
-                                    className="mr-2"
-                                    onClick={this.updateRow.bind(this, item)}
-                                    title="Update"
-                                  >
-                                    <i className="fa fa-pencil"></i>
-                                  </Button>
-                                  {!item.is_active && (
-                                    <Button
-                                      size="xs"
-                                      color="success"
-                                      className="mr-2"
-                                      onClick={this.markCountry.bind(this, {
-                                        id: item._id,
-                                        is_active: true,
-                                        is_deleted: item.is_deleted,
-                                      })}
-                                      title="Enable Account"
-                                    >
-                                      <i className="fa fa-check"></i>
-                                    </Button>
-                                  )}
-                                  {item.is_active && (
-                                    <Button
-                                      size="xs"
-                                      color="primary"
-                                      className="mr-2"
-                                      onClick={this.markCountry.bind(this, {
-                                        id: item._id,
-                                        is_active: false,
-                                        is_deleted: item.is_deleted,
-                                      })}
-                                      title="Disable Account"
-                                    >
-                                      <i className="fa fa-times"></i>
-                                    </Button>
-                                  )}
-                                  {item.user_type !== "1" && (
-                                    <Button
-                                      size="xs"
-                                      color="danger"
-                                      className="mr-2"
-                                      onClick={this.markCountry.bind(this, {
-                                        id: item._id,
-                                        is_active: item.is_active,
-                                        is_deleted: true,
-                                      })}
-                                      title="Delete"
-                                    >
-                                      <i className="fa fa-trash"></i>
-                                    </Button>
-                                  )}
-                                  <Button
-                                    size="xs"
-                                    color="success"
-                                    className="mr-2"
-                                    onClick={this.toggleCities.bind(this, item)}
-                                    title="Cities"
-                                  >
-                                    <i className="fa fa-list-alt"></i>
-                                  </Button>
-                                </td>
-                              </tr>
-                            </Fragment>
-                          );
-                        })}
-                    </tbody>
-                  </Table>
+                  <DataTable
+                    noHeader={true}
+                    columns={columns}
+                    data={countries}
+                    pagination
+                  />
                 </CardBody>
               </Card>
             </LoadingOverlay>

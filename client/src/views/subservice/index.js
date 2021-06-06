@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
@@ -8,7 +8,7 @@ import {
   Row,
   Col,
   CardHeader,
-  Table,
+  // Table,
   Button,
   Badge,
   // FormGroup,
@@ -16,6 +16,7 @@ import {
   // Input,
 } from "reactstrap";
 import moment from "moment";
+import DataTable from "react-data-table-component";
 import AddSubService from "./addSubService";
 
 import {
@@ -81,7 +82,10 @@ class Subservuce extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.subservices) {
       this.setState({
-        subservices: nextProps.subservices,
+        subservices: nextProps.subservices.map((item, idx) => ({
+          ...item,
+          index: idx + 1,
+        })),
       });
     }
     if (nextProps && nextProps.service) {
@@ -100,6 +104,101 @@ class Subservuce extends Component {
     this.props.closeSection();
   };
 
+  actionFormater = (row) => {
+    let item = row;
+    return (
+      <div>
+        <Button
+          size="xs"
+          color="warning"
+          className="mr-2"
+          onClick={this.updateRow.bind(this, item)}
+          title="Update"
+        >
+          <i className="fa fa-pencil"></i>
+        </Button>
+        {!item.is_active && (
+          <Button
+            size="xs"
+            color="success"
+            className="mr-2"
+            onClick={this.marksubservice.bind(this, {
+              id: item._id,
+              is_active: true,
+              is_deleted: item.is_deleted,
+            })}
+            title="Enable Account"
+          >
+            <i className="fa fa-check"></i>
+          </Button>
+        )}
+        {item.is_active && (
+          <Button
+            size="xs"
+            color="primary"
+            className="mr-2"
+            onClick={this.marksubservice.bind(this, {
+              id: item._id,
+              is_active: false,
+              is_deleted: item.is_deleted,
+            })}
+            title="Disable Account"
+          >
+            <i className="fa fa-times"></i>
+          </Button>
+        )}
+        <Button
+          size="xs"
+          color="danger"
+          className="mr-2"
+          onClick={this.marksubservice.bind(this, {
+            id: item._id,
+            is_active: item.is_active,
+            is_deleted: true,
+          })}
+          title="Delete"
+        >
+          <i className="fa fa-trash"></i>
+        </Button>
+      </div>
+    );
+  };
+
+  iconFormator = (row) => {
+    return (
+      <Fragment>
+        {row.icon ? (
+          <img src={row.icon} alt={row.en_name} style={{ maxWidth: "75px" }} />
+        ) : (
+          ""
+        )}
+      </Fragment>
+    );
+  };
+
+  createdAtFormater = (row) => {
+    let item = row;
+    return (
+      <div>
+        {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
+        {moment(item.createdAt).fromNow()}
+      </div>
+    );
+  };
+
+  statusFormat = (row) => {
+    let item = row;
+    return item.is_active ? (
+      <Badge color="primary" outline>
+        Active
+      </Badge>
+    ) : (
+      <Badge color="danger" outline>
+        Inactive
+      </Badge>
+    );
+  };
+
   render() {
     const {
       is_table_loading,
@@ -115,6 +214,39 @@ class Subservuce extends Component {
     let filtered_subservices = selected_filtered_service
       ? subservices.filter((i) => i.service._id === selected_filtered_service)
       : subservices;
+
+    const columns = [
+      {
+        name: "Id",
+        selector: "index",
+        maxWidth: "50px",
+      },
+      {
+        name: "Ar Name",
+        selector: "ar_name",
+      },
+      {
+        name: "Price",
+        selector: "price",
+      },
+      {
+        name: "Created At",
+        selector: "created_at",
+        format: this.createdAtFormater,
+        minWidth: "200px",
+      },
+      {
+        name: "Status",
+        selector: "status",
+        format: this.statusFormat,
+      },
+      {
+        name: "Actions",
+        selector: "id",
+        format: this.actionFormater,
+        minWidth: "250px",
+      },
+    ];
 
     return (
       <div>
@@ -157,118 +289,12 @@ class Subservuce extends Component {
                   </Button>
                 </CardHeader>
                 <CardBody>
-                  <Table responsive striped bordered>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        {/* <th>صورة</th> */}
-                        {/* <th>اسم – انجليزي</th> */}
-                        <th>اAr Name</th>
-                        <th>Price</th>
-                        {/* <th>دول</th> */}
-                        <th>Created At</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filtered_subservices &&
-                        filtered_subservices.map((item, idx) => {
-                          return (
-                            <tr key={idx}>
-                              <th scope="row">{idx + 1}</th>
-                              {/* <td>
-                                {item.icon ? (
-                                  <img
-                                    src={item.icon}
-                                    alt={item.en_name}
-                                    style={{ maxWidth: "75px" }}
-                                  />
-                                ) : (
-                                  ""
-                                )}
-                              </td> */}
-                              {/* <td>{item.en_name}</td> */}
-                              <td>{item.ar_name}</td>
-                              <td>{item.price}</td>
-                              {/* <td>
-                                {item.service.en_name} - {item.service.ar_name}
-                              </td> */}
-                              <td>
-                                {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
-                                {moment(item.createdAt).fromNow()}
-                              </td>
-                              <td>
-                                {item.is_active ? (
-                                  <Badge color="primary" outline>
-                                    Active
-                                  </Badge>
-                                ) : (
-                                  <Badge color="danger" outline>
-                                    Inactive
-                                  </Badge>
-                                )}
-                              </td>
-                              <td style={{ minWidth: "200px" }}>
-                                <Button
-                                  size="xs"
-                                  color="warning"
-                                  className="mr-2"
-                                  onClick={this.updateRow.bind(this, item)}
-                                  title="Update"
-                                >
-                                  <i className="fa fa-pencil"></i>
-                                </Button>
-                                {!item.is_active && (
-                                  <Button
-                                    size="xs"
-                                    color="success"
-                                    className="mr-2"
-                                    onClick={this.marksubservice.bind(this, {
-                                      id: item._id,
-                                      is_active: true,
-                                      is_deleted: item.is_deleted,
-                                    })}
-                                    title="Enable Account"
-                                  >
-                                    <i className="fa fa-check"></i>
-                                  </Button>
-                                )}
-                                {item.is_active && (
-                                  <Button
-                                    size="xs"
-                                    color="primary"
-                                    className="mr-2"
-                                    onClick={this.marksubservice.bind(this, {
-                                      id: item._id,
-                                      is_active: false,
-                                      is_deleted: item.is_deleted,
-                                    })}
-                                    title="Disable Account"
-                                  >
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                )}
-                                {item.user_type !== "1" && (
-                                  <Button
-                                    size="xs"
-                                    color="danger"
-                                    onClick={this.marksubservice.bind(this, {
-                                      id: item._id,
-                                      is_active: item.is_active,
-                                      is_deleted: true,
-                                    })}
-                                    title="Delete"
-                                  >
-                                    <i className="fa fa-trash"></i>
-                                  </Button>
-                                )}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </Table>
+                  <DataTable
+                    noHeader={true}
+                    columns={columns}
+                    data={filtered_subservices}
+                    pagination
+                  />
                 </CardBody>
               </Card>
             </LoadingOverlay>

@@ -16,6 +16,7 @@ import {
   Input,
 } from "reactstrap";
 import moment from "moment";
+import DataTable from "react-data-table-component";
 import AddDistrict from "./addDistrict";
 
 import {

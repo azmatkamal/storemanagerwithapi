@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
@@ -15,7 +15,8 @@ import {
   // Label,
   // Input,
 } from "reactstrap";
-import moment from "moment";
+// import moment from "moment";
+import DataTable from "react-data-table-component";
 import AddModel from "./addModel";
 
 import { getModels, selectModel, markmodel } from "../../redux/model/action";
@@ -78,7 +79,10 @@ class Models extends Component {
     // console.log(nextProps, "nextProps 2");
     if (nextProps && nextProps.models) {
       this.setState({
-        models: nextProps.models,
+        models: nextProps.models.map((item, idx) => ({
+          ...item,
+          index: idx + 1,
+        })),
       });
     }
     if (nextProps && nextProps.brand) {
@@ -97,6 +101,91 @@ class Models extends Component {
     this.props.closeSection();
   };
 
+  actionFormater = (row) => {
+    let item = row;
+    return (
+      <div>
+        <Button
+          size="xs"
+          color="warning"
+          className="mr-2"
+          onClick={this.updateRow.bind(this, item)}
+          title="Update"
+        >
+          <i className="fa fa-pencil"></i>
+        </Button>
+        {!item.is_active && (
+          <Button
+            size="xs"
+            color="success"
+            className="mr-2"
+            onClick={this.markmodel.bind(this, {
+              id: item._id,
+              is_active: true,
+              is_deleted: item.is_deleted,
+            })}
+            title="Enable Account"
+          >
+            <i className="fa fa-check"></i>
+          </Button>
+        )}
+        {item.is_active && (
+          <Button
+            size="xs"
+            color="primary"
+            className="mr-2"
+            onClick={this.markmodel.bind(this, {
+              id: item._id,
+              is_active: false,
+              is_deleted: item.is_deleted,
+            })}
+            title="Disable Account"
+          >
+            <i className="fa fa-times"></i>
+          </Button>
+        )}
+        <Button
+          size="xs"
+          color="danger"
+          className="mr-2"
+          onClick={this.markmodel.bind(this, {
+            id: item._id,
+            is_active: item.is_active,
+            is_deleted: true,
+          })}
+          title="Delete"
+        >
+          <i className="fa fa-trash"></i>
+        </Button>
+      </div>
+    );
+  };
+
+  iconFormator = (row) => {
+    return (
+      <Fragment>
+        {row.icon ? (
+          <img src={row.icon} alt={row.en_name} style={{ maxWidth: "75px" }} />
+        ) : (
+          ""
+        )}
+      </Fragment>
+    );
+  };
+
+  statusFormat = (row) => {
+    let item = row;
+    return item.is_active ? (
+      <Badge color="primary" outline>
+        Active
+      </Badge>
+    ) : (
+      <Badge color="danger" outline>
+        Inactive
+      </Badge>
+    );
+  };
+
   render() {
     const {
       is_table_loading,
@@ -106,6 +195,38 @@ class Models extends Component {
       selected_filtered_brand,
       brandDetails,
     } = this.state;
+
+    const columns = [
+      {
+        name: "Id",
+        selector: "index",
+        maxWidth: "50px",
+      },
+      {
+        name: "Icon",
+        selector: "icon",
+        format: this.iconFormator,
+      },
+      {
+        name: "EN Name",
+        selector: "en_name",
+      },
+      {
+        name: "Ar Name",
+        selector: "ar_name",
+      },
+      {
+        name: "Status",
+        selector: "status",
+        format: this.statusFormat,
+      },
+      {
+        name: "Actions",
+        selector: "id",
+        format: this.actionFormater,
+        minWidth: "250px",
+      },
+    ];
 
     // console.log(selected_filtered_brand, "selected_filtered_brand");
 
@@ -154,116 +275,12 @@ class Models extends Component {
                   </Button>
                 </CardHeader>
                 <CardBody>
-                  <Table responsive striped bordered>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Icon</th>
-                        <th>En Name</th>
-                        <th>Ar Name</th>
-                        <th>Year</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filtered_models &&
-                        filtered_models.map((item, idx) => {
-                          return (
-                            <tr key={idx}>
-                              <th scope="row">{idx + 1}</th>
-                              <td>
-                                {item.icon ? (
-                                  <img
-                                    src={item.icon}
-                                    alt={item.en_name}
-                                    style={{ maxWidth: "75px" }}
-                                  />
-                                ) : (
-                                  ""
-                                )}
-                              </td>
-                              <td>{item.en_name}</td>
-                              <td>{item.ar_name}</td>
-                              <td>{item.year}</td>
-                              {/* <td>
-                                {item.brand.en_name} - {item.brand.ar_name}
-                              </td> */}
-                              {/* <td>
-                                {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
-                                {moment(item.createdAt).fromNow()}
-                              </td> */}
-                              <td>
-                                {item.is_active ? (
-                                  <Badge color="primary" outline>
-                                    Active
-                                  </Badge>
-                                ) : (
-                                  <Badge color="danger" outline>
-                                    Inactive
-                                  </Badge>
-                                )}
-                              </td>
-                              <td style={{ minWidth: "200px" }}>
-                                <Button
-                                  size="xs"
-                                  color="warning"
-                                  className="mr-2"
-                                  onClick={this.updateRow.bind(this, item)}
-                                  title="Update"
-                                >
-                                  <i className="fa fa-pencil"></i>
-                                </Button>
-                                {!item.is_active && (
-                                  <Button
-                                    size="xs"
-                                    color="success"
-                                    className="mr-2"
-                                    onClick={this.markmodel.bind(this, {
-                                      id: item._id,
-                                      is_active: true,
-                                      is_deleted: item.is_deleted,
-                                    })}
-                                    title="Enable Account"
-                                  >
-                                    <i className="fa fa-check"></i>
-                                  </Button>
-                                )}
-                                {item.is_active && (
-                                  <Button
-                                    size="xs"
-                                    color="primary"
-                                    className="mr-2"
-                                    onClick={this.markmodel.bind(this, {
-                                      id: item._id,
-                                      is_active: false,
-                                      is_deleted: item.is_deleted,
-                                    })}
-                                    title="Disable Account"
-                                  >
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                )}
-                                {item.user_type !== "1" && (
-                                  <Button
-                                    size="xs"
-                                    color="danger"
-                                    onClick={this.markmodel.bind(this, {
-                                      id: item._id,
-                                      is_active: item.is_active,
-                                      is_deleted: true,
-                                    })}
-                                    title="Delete"
-                                  >
-                                    <i className="fa fa-trash"></i>
-                                  </Button>
-                                )}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </Table>
+                  <DataTable
+                    noHeader={true}
+                    columns={columns}
+                    data={filtered_models}
+                    pagination
+                  />
                 </CardBody>
               </Card>
             </LoadingOverlay>

@@ -13,6 +13,7 @@ import {
   Badge,
 } from "reactstrap";
 import moment from "moment";
+import DataTable from "react-data-table-component";
 import AddProduct from "./addProduct";
 
 import {
@@ -70,13 +71,185 @@ class Products extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.products) {
-      this.setState({ products: nextProps.products });
+      this.setState({
+        products: nextProps.products.map((item, idx) => ({
+          ...item,
+          index: idx + 1,
+        })),
+      });
     }
   }
+
+  actionFormater = (row) => {
+    let item = row;
+    return (
+      <div>
+        <Button
+          size="xs"
+          color="warning"
+          className="mr-2"
+          onClick={this.updateRow.bind(this, item)}
+          title="Update"
+        >
+          <i className="fa fa-pencil"></i>
+        </Button>
+        {!item.is_active && (
+          <Button
+            size="xs"
+            color="success"
+            className="mr-2"
+            onClick={this.markproduct.bind(this, {
+              id: item._id,
+              is_active: true,
+              is_deleted: item.is_deleted,
+            })}
+            title="Enable Account"
+          >
+            <i className="fa fa-check"></i>
+          </Button>
+        )}
+        {item.is_active && (
+          <Button
+            size="xs"
+            color="primary"
+            className="mr-2"
+            onClick={this.markproduct.bind(this, {
+              id: item._id,
+              is_active: false,
+              is_deleted: item.is_deleted,
+            })}
+            title="Disable Account"
+          >
+            <i className="fa fa-times"></i>
+          </Button>
+        )}
+        <Button
+          size="xs"
+          color="danger"
+          className="mr-2"
+          onClick={this.markproduct.bind(this, {
+            id: item._id,
+            is_active: item.is_active,
+            is_deleted: true,
+          })}
+          title="Delete"
+        >
+          <i className="fa fa-trash"></i>
+        </Button>
+      </div>
+    );
+  };
+
+  createdAtFormater = (row) => {
+    let item = row;
+    return (
+      <div>
+        {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
+        {moment(item.createdAt).fromNow()}
+      </div>
+    );
+  };
+
+  iconFormator = (row) => {
+    return (
+      <Fragment>
+        {row.img1 ? (
+          <img src={row.img1} alt={row.en_name} style={{ maxWidth: "75px" }} />
+        ) : (
+          ""
+        )}
+      </Fragment>
+    );
+  };
+
+  iconFormator2 = (row) => {
+    return (
+      <Fragment>
+        {row.img2 ? (
+          <img src={row.img2} alt={row.en_name} style={{ maxWidth: "75px" }} />
+        ) : (
+          ""
+        )}
+      </Fragment>
+    );
+  };
+
+  iconFormator3 = (row) => {
+    return (
+      <Fragment>
+        {row.img3 ? (
+          <img src={row.img3} alt={row.en_name} style={{ maxWidth: "75px" }} />
+        ) : (
+          ""
+        )}
+      </Fragment>
+    );
+  };
+
+  statusFormat = (row) => {
+    let item = row;
+    return item.is_active ? (
+      <Badge color="primary" outline>
+        Active
+      </Badge>
+    ) : (
+      <Badge color="danger" outline>
+        Inactive
+      </Badge>
+    );
+  };
 
   render() {
     const { is_table_loading, is_modal_loading, products, show_modal } =
       this.state;
+
+    const columns = [
+      {
+        name: "Id",
+        selector: "index",
+        maxWidth: "50px",
+      },
+      {
+        name: "Image 1",
+        selector: "img1",
+        format: this.iconFormator,
+      },
+      {
+        name: "Image 2",
+        selector: "img2",
+        format: this.iconFormator2,
+      },
+      {
+        name: "Image 3",
+        selector: "img3",
+        format: this.iconFormator3,
+      },
+      {
+        name: "EN Name",
+        selector: "en_name",
+      },
+      {
+        name: "Ar Name",
+        selector: "ar_name",
+      },
+      {
+        name: "Created At",
+        selector: "created_at",
+        format: this.createdAtFormater,
+        minWidth: "200px",
+      },
+      {
+        name: "Status",
+        selector: "status",
+        format: this.statusFormat,
+      },
+      {
+        name: "Actions",
+        selector: "id",
+        format: this.actionFormater,
+        minWidth: "250px",
+      },
+    ];
 
     return (
       <div>
@@ -107,139 +280,12 @@ class Products extends Component {
                   </Button>
                 </CardHeader>
                 <CardBody>
-                  <Table responsive striped bordered>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Icon 1</th>
-                        <th>Icon 2</th>
-                        <th>Icon 3</th>
-                        <th>En Name</th>
-                        <th>Ar Name</th>
-                        <th>Created At</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {products &&
-                        products.map((item, idx) => {
-                          return (
-                            <Fragment>
-                              <tr key={idx}>
-                                <th scope="row">{idx + 1}</th>
-                                <td>
-                                  {item.img1 ? (
-                                    <img
-                                      src={item.img1}
-                                      alt={item.en_name}
-                                      style={{ maxWidth: "75px" }}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}
-                                </td>
-                                <td>
-                                  {item.img2 ? (
-                                    <img
-                                      src={item.img2}
-                                      alt={item.en_name}
-                                      style={{ maxWidth: "75px" }}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}
-                                </td>
-                                <td>
-                                  {item.img3 ? (
-                                    <img
-                                      src={item.img3}
-                                      alt={item.en_name}
-                                      style={{ maxWidth: "75px" }}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}
-                                </td>
-                                <td>{item.en_name}</td>
-                                <td>{item.ar_name}</td>
-                                <td>
-                                  {moment(item.createdAt).format("DD/MM/YYYY")}{" "}
-                                  - {moment(item.createdAt).fromNow()}
-                                </td>
-                                <td>
-                                  {item.is_active ? (
-                                    <Badge color="primary" outline>
-                                      Active
-                                    </Badge>
-                                  ) : (
-                                    <Badge color="danger" outline>
-                                      Inactive
-                                    </Badge>
-                                  )}
-                                </td>
-                                <td style={{ minWidth: "200px" }}>
-                                  <Button
-                                    size="xs"
-                                    color="warning"
-                                    className="mr-2"
-                                    onClick={this.updateRow.bind(this, item)}
-                                    title="Update"
-                                  >
-                                    <i className="fa fa-pencil"></i>
-                                  </Button>
-                                  {!item.is_active && (
-                                    <Button
-                                      size="xs"
-                                      color="success"
-                                      className="mr-2"
-                                      onClick={this.markproduct.bind(this, {
-                                        id: item._id,
-                                        is_active: true,
-                                        is_deleted: item.is_deleted,
-                                      })}
-                                      title="Enable Account"
-                                    >
-                                      <i className="fa fa-check"></i>
-                                    </Button>
-                                  )}
-                                  {item.is_active && (
-                                    <Button
-                                      size="xs"
-                                      color="primary"
-                                      className="mr-2"
-                                      onClick={this.markproduct.bind(this, {
-                                        id: item._id,
-                                        is_active: false,
-                                        is_deleted: item.is_deleted,
-                                      })}
-                                      title="Disable Account"
-                                    >
-                                      <i className="fa fa-times"></i>
-                                    </Button>
-                                  )}
-                                  {item.user_type !== "1" && (
-                                    <Button
-                                      size="xs"
-                                      color="danger"
-                                      className="mr-2"
-                                      onClick={this.markproduct.bind(this, {
-                                        id: item._id,
-                                        is_active: item.is_active,
-                                        is_deleted: true,
-                                      })}
-                                      title="Delete"
-                                    >
-                                      <i className="fa fa-trash"></i>
-                                    </Button>
-                                  )}
-                                </td>
-                              </tr>
-                            </Fragment>
-                          );
-                        })}
-                    </tbody>
-                  </Table>
+                  <DataTable
+                    noHeader={true}
+                    columns={columns}
+                    data={products}
+                    pagination
+                  />
                 </CardBody>
               </Card>
             </LoadingOverlay>
