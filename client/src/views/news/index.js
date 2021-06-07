@@ -90,7 +90,7 @@ class News extends Component {
     let item = row;
     return (
       <div>
-        <Button
+        {/* <Button
           size="xs"
           color="warning"
           className="mr-2"
@@ -98,7 +98,7 @@ class News extends Component {
           title="Update"
         >
           <i className="fa fa-pencil"></i>
-        </Button>
+        </Button> */}
         {!item.is_active && (
           <Button
             size="xs"
