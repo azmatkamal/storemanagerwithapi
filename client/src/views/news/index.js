@@ -90,7 +90,7 @@ class News extends Component {
     let item = row;
     return (
       <div>
-        {/* <Button
+        <Button
           size="xs"
           color="warning"
           className="mr-2"
@@ -98,7 +98,7 @@ class News extends Component {
           title="Update"
         >
           <i className="fa fa-pencil"></i>
-        </Button> */}
+        </Button>
         {!item.is_active && (
           <Button
             size="xs"
@@ -157,12 +157,7 @@ class News extends Component {
 
   createdAtFormater = (row) => {
     let item = row;
-    return (
-      <div>
-        {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
-        {moment(item.createdAt).fromNow()}
-      </div>
-    );
+    return <div>{moment(item.createdAt).format("DD/MM/YYYY")}</div>;
   };
 
   iconFormator = (row) => {
@@ -214,6 +209,10 @@ class News extends Component {
       {
         name: "Header",
         selector: "header",
+      },
+      {
+        name: "Ar Header",
+        selector: "ar_header",
       },
       {
         name: "Created At",

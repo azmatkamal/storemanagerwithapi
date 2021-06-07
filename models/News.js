@@ -11,10 +11,20 @@ const NewsSchema = new Schema({
   description: {
     type: String,
   },
-  year: {
+  client_name: {
     type: String,
   },
-  client_name: {
+  ar_header: {
+    type: String,
+    required: true,
+  },
+  ar_description: {
+    type: String,
+  },
+  ar_client_name: {
+    type: String,
+  },
+  year: {
     type: String,
   },
   date: {

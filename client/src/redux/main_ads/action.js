@@ -58,44 +58,39 @@ export const getAds = (loading) => (dispatch) => {
     });
 };
 
-export const addorUpdateAd = (
-  data,
-  isCreate,
-  loading,
-  hideModal,
-  tblLoading
-) => (dispatch) => {
-  dispatch({ type: CLEAR_ALERTS });
-  dispatch({ type: CLEAR_ERRORS });
-  loading();
+export const addorUpdateAd =
+  (data, isCreate, loading, hideModal, tblLoading) => (dispatch) => {
+    dispatch({ type: CLEAR_ALERTS });
+    dispatch({ type: CLEAR_ERRORS });
+    loading();
 
-  let req;
-  if (!isCreate) {
-    req = axios.put("/api/v1/ad", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  } else {
-    req = axios.post("/api/v1/ad", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  }
-
-  req
-    .then((res) => {
-      loading();
-      hideModal();
-      dispatch(getAds(tblLoading));
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
+    let req;
+    if (!isCreate) {
+      req = axios.put("/api/v1/ad", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      loading();
-    });
-};
+    } else {
+      req = axios.post("/api/v1/ad", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+
+    req
+      .then((res) => {
+        loading();
+        hideModal();
+        dispatch(getAds(tblLoading));
+      })
+      .catch((err) => {
+        console.log(err);
+        loading();
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data,
+        });
+      });
+  };

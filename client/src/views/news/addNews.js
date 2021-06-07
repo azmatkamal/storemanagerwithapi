@@ -39,6 +39,10 @@ class AddNews extends Component {
       services: [],
       description: "",
       header: "",
+      client_name: "",
+      ar_description: "",
+      ar_header: "",
+      ar_client_name: "",
       icon: null,
       brand: "",
       model: "",
@@ -46,7 +50,6 @@ class AddNews extends Component {
       service: "",
       year: "",
       allow_comment: "",
-      client_name: "",
       date: new Date(),
       errors: {},
     };
@@ -64,6 +67,10 @@ class AddNews extends Component {
     this.setState({
       description: "",
       header: "",
+      client_name: "",
+      ar_description: "",
+      ar_header: "",
+      ar_client_name: "",
       icon: null,
       brand: "",
       model: "",
@@ -71,7 +78,6 @@ class AddNews extends Component {
       service: "",
       year: "",
       allow_comment: "",
-      client_name: "",
       date: new Date(),
       id: null,
     });
@@ -79,7 +85,7 @@ class AddNews extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ show_modal: nextProps.show_modal });
-    this.setState({ is_modal_loading: nextProps.is_modal_loading });
+    // this.setState({ is_modal_loading: nextProps.is_modal_loading });
 
     if (nextProps && nextProps.subservices) {
       this.setState({
@@ -121,6 +127,10 @@ class AddNews extends Component {
       this.setState({
         description: "",
         header: "",
+        client_name: "",
+        ar_description: "",
+        ar_header: "",
+        ar_client_name: "",
         icon: null,
         brand: "",
         model: "",
@@ -128,7 +138,6 @@ class AddNews extends Component {
         service: "",
         year: "",
         allow_comment: "",
-        client_name: "",
         date: new Date(),
         id: null,
       });
@@ -138,13 +147,16 @@ class AddNews extends Component {
       this.setState({
         description: nextProps.news.description,
         header: nextProps.news.header,
+        client_name: nextProps.news.client_name,
+        ar_description: nextProps.news.ar_description,
+        ar_header: nextProps.news.ar_header,
+        ar_client_name: nextProps.news.ar_client_name,
         brand: nextProps.news.brand,
         model: nextProps.news.model,
         subservice: nextProps.news.subservice,
         service: nextProps.news.service,
         year: nextProps.news.year,
         allow_comment: nextProps.news.allow_comment,
-        client_name: nextProps.news.client_name,
         date: nextProps.news.date,
         id: nextProps.news._id,
       });
@@ -161,17 +173,24 @@ class AddNews extends Component {
     this.setState({ icon: e.target.files[0] });
   };
 
+  toggleModalLoading = () => {
+    this.setState({ is_modal_loading: !this.state.is_modal_loading });
+  };
+
   onSubmit = () => {
     const formData = new FormData();
     formData.append("description", this.state.description);
     formData.append("header", this.state.header);
+    formData.append("client_name", this.state.client_name);
+    formData.append("ar_description", this.state.ar_description);
+    formData.append("ar_header", this.state.ar_header);
+    formData.append("ar_client_name", this.state.ar_client_name);
     formData.append("brand", this.state.brand);
     formData.append("model", this.state.model);
     formData.append("subservice", this.state.subservice);
     formData.append("service", this.state.service);
     formData.append("year", this.state.year);
     formData.append("allow_comment", this.state.allow_comment);
-    formData.append("client_name", this.state.client_name);
     formData.append("date", this.state.date);
     formData.append("id", this.state.id);
     formData.append("icon", this.state.icon);
@@ -179,7 +198,7 @@ class AddNews extends Component {
     this.props.addorUpdateNews(
       formData,
       this.state.id ? false : true,
-      this.props.toggleModalLoading,
+      this.toggleModalLoading,
       this.props.toggleModal,
       this.props.toggleTableLoading
     );
@@ -189,10 +208,18 @@ class AddNews extends Component {
     this.setState({ description: e });
   };
 
+  onChangeDescriptionAR = (e) => {
+    this.setState({ ar_description: e });
+  };
+
   render() {
     const {
       header,
       description,
+      client_name,
+      ar_header,
+      ar_description,
+      ar_client_name,
       id,
       is_modal_loading,
       errors,
@@ -206,7 +233,6 @@ class AddNews extends Component {
       model,
       date,
       allow_comment,
-      client_name,
       show_modal,
       year,
     } = this.state;
@@ -216,16 +242,20 @@ class AddNews extends Component {
 
     return (
       <div>
-        <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal} size="lg">
-            <ModalHeader toggle={this.props.toggleModal}>
-              {id ? "Update" : "Create"} News
-            </ModalHeader>
+        <Modal isOpen={show_modal} size="lg">
+          <ModalHeader toggle={this.props.toggleModal}>
+            {id ? "Update" : "Create"} News
+          </ModalHeader>
+          <LoadingOverlay
+            active={is_modal_loading}
+            spinner
+            text="Please Wait..."
+          >
             <ModalBody>
               <Row form>
                 <Col md={8}>
                   <Row form>
-                    <Col md={8}>
+                    <Col md={4}>
                       <FormGroup>
                         <Label for="header">Header</Label>
                         <Input
@@ -237,6 +267,20 @@ class AddNews extends Component {
                           placeholder="Header"
                         />
                         <p className="error">{errors && errors.header}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={4}>
+                      <FormGroup>
+                        <Label for="ar_header">Header - AR</Label>
+                        <Input
+                          type="text"
+                          name="ar_header"
+                          onChange={this.onChange}
+                          id="ar_header"
+                          value={ar_header}
+                          placeholder="Header - AR"
+                        />
+                        <p className="error">{errors && errors.ar_header}</p>
                       </FormGroup>
                     </Col>
                     <Col md={4}>
@@ -289,12 +333,57 @@ class AddNews extends Component {
                               };
                             },
                             plugins:
-                              "image table colorpicker spellchecker hr link textcolor print noneditable  lists",
+                              "emoticons image table colorpicker spellchecker hr link textcolor print noneditable  lists",
                             toolbar:
-                              "image | styleselect | bold italic underline forecolor | alignleft aligncenter alignright | bullist numlist | outdent indent  ",
+                              "emoticons | image | styleselect | bold italic underline forecolor | alignleft aligncenter alignright | bullist numlist | outdent indent  ",
                           }}
                         />
                         <p className="error">{errors && errors.description}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="ar_description">Description - AR</Label>
+                        <Editor
+                          apiKey={API_KEY}
+                          value={ar_description}
+                          onEditorChange={this.onChangeDescriptionAR}
+                          init={{
+                            menubar: false,
+                            branding: false,
+                            statusbar: false,
+                            height: "250px",
+                            // directionality: "ltr",
+                            a11y_advanced_options: true,
+                            file_picker_callback: function (
+                              callback,
+                              value,
+                              meta
+                            ) {
+                              var input = document.createElement("input");
+                              input.setAttribute("type", "file");
+                              input.setAttribute("accept", "image/*");
+                              input.click();
+                              input.onchange = function () {
+                                var file = input.files[0];
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                  callback(e.target.result, {
+                                    alt: file.name,
+                                  });
+                                };
+                                reader.readAsDataURL(file);
+                              };
+                            },
+                            plugins:
+                              "emoticons image table colorpicker spellchecker hr link textcolor print noneditable  lists",
+                            toolbar:
+                              "emoticons | image | styleselect | bold italic underline forecolor | alignleft aligncenter alignright | bullist numlist | outdent indent  ",
+                          }}
+                        />
+                        <p className="error">
+                          {errors && errors.ar_description}
+                        </p>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -440,57 +529,74 @@ class AddNews extends Component {
                         <p className="error">{errors && errors.subservice}</p>
                       </FormGroup>
                     </Col>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="client_name">Client Name</Label>
+                        <Input
+                          type="text"
+                          name="client_name"
+                          onChange={this.onChange}
+                          id="client_name"
+                          value={client_name}
+                          placeholder="Client Name"
+                        />
+                        <p className="error">{errors && errors.client_name}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="ar_client_name">Client Name - AR</Label>
+                        <Input
+                          type="text"
+                          name="ar_client_name"
+                          onChange={this.onChange}
+                          id="ar_client_name"
+                          value={ar_client_name}
+                          placeholder="Client Name - AR"
+                        />
+                        <p className="error">
+                          {errors && errors.ar_client_name}
+                        </p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="icon">Icon</Label>
+                        <Input
+                          type="file"
+                          name="icon"
+                          onChange={this.onFileSelect}
+                          id="icon"
+                          placeholder="Icon"
+                          required
+                        />
+                        <p className="error">{errors && errors.icon}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="allow_comment">Allow Comment</Label>
+                        <Input
+                          type="select"
+                          name="allow_comment"
+                          onChange={this.onChange}
+                          id="allow_comment"
+                          value={allow_comment}
+                          placeholder="Allow Comment"
+                        >
+                          <option>Select an Option</option>
+                          <option value="0">No</option>
+                          <option value="1">Yes</option>
+                        </Input>
+                        <p className="error">
+                          {errors && errors.allow_comment}
+                        </p>
+                      </FormGroup>
+                    </Col>
                   </Row>
                 </Col>
               </Row>
-              <Row form>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="client_name">Client Name</Label>
-                    <Input
-                      type="text"
-                      name="client_name"
-                      onChange={this.onChange}
-                      id="client_name"
-                      value={client_name}
-                      placeholder="Client Name"
-                    />
-                    <p className="error">{errors && errors.client_name}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="icon">Icon</Label>
-                    <Input
-                      type="file"
-                      name="icon"
-                      onChange={this.onFileSelect}
-                      id="icon"
-                      placeholder="Icon"
-                      required
-                    />
-                    <p className="error">{errors && errors.icon}</p>
-                  </FormGroup>
-                </Col>
-                <Col md={4}>
-                  <FormGroup>
-                    <Label for="allow_comment">Allow Comment</Label>
-                    <Input
-                      type="select"
-                      name="allow_comment"
-                      onChange={this.onChange}
-                      id="allow_comment"
-                      value={allow_comment}
-                      placeholder="Allow Comment"
-                    >
-                      <option>Select an Option</option>
-                      <option value="0">No</option>
-                      <option value="1">Yes</option>
-                    </Input>
-                    <p className="error">{errors && errors.allow_comment}</p>
-                  </FormGroup>
-                </Col>
-              </Row>
+              <Row form></Row>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.onSubmit}>
@@ -500,8 +606,8 @@ class AddNews extends Component {
                 Cancel
               </Button>
             </ModalFooter>
-          </Modal>
-        </LoadingOverlay>
+          </LoadingOverlay>
+        </Modal>
       </div>
     );
   }

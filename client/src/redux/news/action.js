@@ -87,10 +87,10 @@ export const addorUpdateNews =
       })
       .catch((err) => {
         console.log(err);
+        loading();
         dispatch({
           type: GET_ERRORS,
           payload: err.response.data,
         });
-        loading();
       });
   };

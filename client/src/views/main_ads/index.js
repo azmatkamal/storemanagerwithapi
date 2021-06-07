@@ -149,12 +149,7 @@ class Ads extends Component {
 
   createdAtFormater = (row) => {
     let item = row;
-    return (
-      <div>
-        {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
-        {moment(item.createdAt).fromNow()}
-      </div>
-    );
+    return <div>{moment(item.createdAt).format("DD/MM/YYYY")}</div>;
   };
 
   iconFormator = (row) => {
@@ -163,7 +158,17 @@ class Ads extends Component {
     } else if (row.media_type === "gif") {
       return <img src={row.icon} alt={row.name} style={{ maxWidth: "75px" }} />;
     } else if (row.media_type === "video") {
-      return <source src={row.icon} type="video/mp4" />;
+      return (
+        <video
+          className="video-container video-container-overlay"
+          autoPlay=""
+          controls
+          data-reactid=".0.1.0.0"
+          style={{ maxHeight: "150px", width: "auto" }}
+        >
+          <source data-reactid=".0.1.0.0.0" src={row.icon} />
+        </video>
+      );
     } else {
       return "";
     }
@@ -186,11 +191,11 @@ class Ads extends Component {
     const { is_table_loading, is_modal_loading, ads, show_modal } = this.state;
 
     const columns = [
-      {
-        name: "Id",
-        selector: "index",
-        maxWidth: "50px",
-      },
+      // {
+      //   name: "Id",
+      //   selector: "index",
+      //   maxWidth: "50px",
+      // },
       {
         name: "Icon",
         selector: "icon",
@@ -207,10 +212,30 @@ class Ads extends Component {
       {
         name: "Internal Link",
         selector: "internal_link",
+        format: (row) => {
+          return (
+            <div
+              onClick={() => this.openExternalLink(this, row.external_link)}
+              style={{ cursor: "pointer", color: "blue" }}
+            >
+              Link
+            </div>
+          );
+        },
       },
       {
         name: "External Link",
         selector: "external_link",
+        format: (row) => {
+          return (
+            <div
+              onClick={() => this.openExternalLink(this, row.external_link)}
+              style={{ cursor: "pointer", color: "blue" }}
+            >
+              Link
+            </div>
+          );
+        },
       },
       {
         name: "Created At",

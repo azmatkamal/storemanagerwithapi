@@ -154,15 +154,29 @@ class Countries extends Component {
   };
 
   iconFormator = (row) => {
-    return (
-      <Fragment>
-        {row.icon ? (
-          <img src={row.icon} alt={row.en_name} style={{ maxWidth: "75px" }} />
-        ) : (
-          ""
-        )}
-      </Fragment>
-    );
+    if (row.media_type === "image") {
+      return (
+        <img src={row.icon} alt={row.media_type} style={{ maxWidth: "75px" }} />
+      );
+    } else if (row.media_type === "gif") {
+      return (
+        <img src={row.icon} alt={row.media_type} style={{ maxWidth: "75px" }} />
+      );
+    } else if (row.media_type === "video") {
+      return (
+        <video
+          className="video-container video-container-overlay"
+          autoPlay=""
+          controls
+          data-reactid=".0.1.0.0"
+          style={{ maxHeight: "150px", width: "auto" }}
+        >
+          <source data-reactid=".0.1.0.0.0" src={row.icon} />
+        </video>
+      );
+    } else {
+      return "";
+    }
   };
 
   statusFormat = (row) => {

@@ -43,7 +43,6 @@ class AddMedia extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ show_modal: nextProps.show_modal });
-    this.setState({ is_modal_loading: nextProps.is_modal_loading });
     this.setState({ news: nextProps.news });
 
     if (nextProps && nextProps.show_modal !== this.state.show_modal) {
@@ -71,6 +70,10 @@ class AddMedia extends Component {
     this.setState({ icon: e.target.files[0] });
   };
 
+  toggleModalLoading = () => {
+    this.setState({ is_modal_loading: !this.state.is_modal_loading });
+  };
+
   onSubmit = () => {
     const formData = new FormData();
     formData.append("media_type", this.state.media_type);
@@ -80,7 +83,7 @@ class AddMedia extends Component {
     this.props.addorUpdateMedia(
       formData,
       true,
-      this.props.toggleModalLoading,
+      this.toggleModalLoading,
       this.props.toggleModal,
       this.props.toggleTableLoading
     );
@@ -91,11 +94,15 @@ class AddMedia extends Component {
 
     return (
       <div>
-        <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal}>
-            <ModalHeader toggle={this.props.toggleModal}>
-              Create Media Type
-            </ModalHeader>
+        <Modal isOpen={show_modal}>
+          <ModalHeader toggle={this.props.toggleModal}>
+            Create Media Type
+          </ModalHeader>
+          <LoadingOverlay
+            active={is_modal_loading}
+            spinner
+            text="Please Wait..."
+          >
             <ModalBody>
               <Row form>
                 <Col md={6}>
@@ -141,8 +148,8 @@ class AddMedia extends Component {
                 Cancel
               </Button>
             </ModalFooter>
-          </Modal>
-        </LoadingOverlay>
+          </LoadingOverlay>
+        </Modal>
       </div>
     );
   }

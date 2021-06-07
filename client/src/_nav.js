@@ -45,18 +45,8 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
-          name: "Manage News & Media",
-          url: "/news",
-          icon: "icon-options-vertical",
-        },
-        {
           name: "Manage Company",
           url: "/company",
-          icon: "icon-options-vertical",
-        },
-        {
-          name: "Manage Ads",
-          url: "/ads",
           icon: "icon-options-vertical",
         },
         {
@@ -65,6 +55,16 @@ const nav = {
           icon: "icon-options-vertical",
         },
       ],
+    },
+    {
+      name: "Manage News & Media",
+      url: "/news",
+      icon: "icon-options-vertical",
+    },
+    {
+      name: "Manage Ads",
+      url: "/ads",
+      icon: "icon-options-vertical",
     },
     {
       name: "Manage Users",
