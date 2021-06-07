@@ -59,7 +59,7 @@ class DefaultHeader extends Component {
           <UncontrolledDropdown
             nav
             direction="down"
-            style={{ marginRight: "80%" }}
+            style={{ marginLeft: "80%" }}
           >
             <DropdownToggle nav>
               <img

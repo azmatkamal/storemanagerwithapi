@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
@@ -8,17 +8,20 @@ import {
   Row,
   Col,
   CardHeader,
-  //Table,
+  Table,
   Button,
   Badge,
+  FormGroup,
+  Label,
+  Input,
 } from "reactstrap";
 import moment from "moment";
 import DataTable from "react-data-table-component";
-import AddUser from "./addUser";
+import AddAd from "./addAd";
 
-import { getUsers, selectUser, markAccount } from "../../redux/users/action";
+import { getAds, selectAd, markad } from "../../redux/main_ads/action";
 
-class Users extends Component {
+class Ads extends Component {
   constructor(props) {
     super(props);
 
@@ -29,12 +32,13 @@ class Users extends Component {
       is_modal_loading: false,
 
       // Data
-      users: [],
+      ads: [],
+      selected_filtered_ad: "",
     };
   }
 
   toggleModal = () => {
-    this.setState({ show_modal: !this.state.show_modal, user: {} });
+    this.setState({ show_modal: !this.state.show_modal });
   };
 
   toggleModalLoading = () => {
@@ -45,36 +49,43 @@ class Users extends Component {
     this.setState({ is_table_loading: !this.state.is_table_loading });
   };
 
-  markAccount = (data) => {
+  markad = (data) => {
     if (window.confirm("Would like to proceed with this action?")) {
-      this.props.markAccount(data, this.toggleTableLoading);
+      this.props.markad(data, this.toggleTableLoading);
     }
   };
 
-  updateRow = (user) => {
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  updateRow = (ad) => {
     this.toggleModal();
-    if (!user) {
-      this.props.selectUser({});
+    if (!ad) {
+      this.props.selectAd({});
     } else {
-      console.log(user, "user");
-      this.props.selectUser(user);
+      this.props.selectAd(ad);
     }
   };
 
   componentDidMount() {
-    this.props.getUsers(this.toggleTableLoading);
+    this.props.getAds(this.toggleTableLoading);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.users) {
+    if (nextProps && nextProps.ads) {
       this.setState({
-        users: nextProps.users.users.map((item, idx) => ({
+        ads: nextProps.ads.map((item, idx) => ({
           ...item,
           index: idx + 1,
         })),
       });
     }
   }
+
+  openExternalLink = (link) => {
+    window.open(link, "_blank");
+  };
 
   actionFormater = (row) => {
     let item = row;
@@ -94,7 +105,7 @@ class Users extends Component {
             size="xs"
             color="success"
             className="mr-2"
-            onClick={this.markAccount.bind(this, {
+            onClick={this.markad.bind(this, {
               id: item._id,
               is_active: true,
               is_deleted: item.is_deleted,
@@ -109,7 +120,7 @@ class Users extends Component {
             size="xs"
             color="primary"
             className="mr-2"
-            onClick={this.markAccount.bind(this, {
+            onClick={this.markad.bind(this, {
               id: item._id,
               is_active: false,
               is_deleted: item.is_deleted,
@@ -123,7 +134,7 @@ class Users extends Component {
           size="xs"
           color="danger"
           className="mr-2"
-          onClick={this.markAccount.bind(this, {
+          onClick={this.markad.bind(this, {
             id: item._id,
             is_active: item.is_active,
             is_deleted: true,
@@ -147,19 +158,15 @@ class Users extends Component {
   };
 
   iconFormator = (row) => {
-    return (
-      <Fragment>
-        {row.avatar ? (
-          <img
-            src={row.avatar}
-            alt={row.first_name}
-            style={{ maxWidth: "75px" }}
-          />
-        ) : (
-          ""
-        )}
-      </Fragment>
-    );
+    if (row.media_type === "image") {
+      return <img src={row.icon} alt={row.name} style={{ maxWidth: "75px" }} />;
+    } else if (row.media_type === "gif") {
+      return <img src={row.icon} alt={row.name} style={{ maxWidth: "75px" }} />;
+    } else if (row.media_type === "video") {
+      return <source src={row.icon} type="video/mp4" />;
+    } else {
+      return "";
+    }
   };
 
   statusFormat = (row) => {
@@ -176,8 +183,7 @@ class Users extends Component {
   };
 
   render() {
-    const { is_table_loading, is_modal_loading, users, show_modal } =
-      this.state;
+    const { is_table_loading, is_modal_loading, ads, show_modal } = this.state;
 
     const columns = [
       {
@@ -186,25 +192,25 @@ class Users extends Component {
         maxWidth: "50px",
       },
       {
-        name: "Avatar",
-        selector: "avatar",
+        name: "Icon",
+        selector: "icon",
         format: this.iconFormator,
       },
       {
-        name: "First Name",
-        selector: "first_name",
+        name: "Name",
+        selector: "name",
       },
       {
-        name: "Last Name",
-        selector: "last_name",
+        name: "Tel",
+        selector: "tel",
       },
       {
-        name: "Email",
-        selector: "email",
+        name: "Internal Link",
+        selector: "internal_link",
       },
       {
-        name: "Mobile",
-        selector: "mobile",
+        name: "External Link",
+        selector: "external_link",
       },
       {
         name: "Created At",
@@ -220,15 +226,15 @@ class Users extends Component {
       {
         name: "Actions",
         selector: "id",
+        minWidth: "200px",
         format: this.actionFormater,
-        minWidth: "250px",
       },
     ];
 
     return (
       <div>
         <Row>
-          <AddUser
+          <AddAd
             show_modal={show_modal}
             is_modal_loading={is_modal_loading}
             toggleModal={this.toggleModal}
@@ -243,7 +249,7 @@ class Users extends Component {
             >
               <Card>
                 <CardHeader>
-                  Manage USers
+                  Manage Main Ads
                   <Button
                     size="xs"
                     color="success"
@@ -257,7 +263,7 @@ class Users extends Component {
                   <DataTable
                     noHeader={true}
                     columns={columns}
-                    data={users}
+                    data={ads}
                     pagination
                   />
                 </CardBody>
@@ -272,10 +278,15 @@ class Users extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users,
+    ad: state.ad.ad,
+    ads: state.ad.ads,
   };
 };
 
 export default withRouter(
-  connect(mapStateToProps, { getUsers, selectUser, markAccount })(Users)
+  connect(mapStateToProps, {
+    getAds,
+    selectAd,
+    markad,
+  })(Ads)
 );

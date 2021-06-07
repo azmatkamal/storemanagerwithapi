@@ -18,6 +18,9 @@ import subcategorysReducer from "./subcategory/reducer";
 import colorsReducer from "./color/reducer";
 import companysReducer from "./company/reducer";
 import productsReducer from "./product/reducer";
+import newsmMediaReducer from "./news-media/reducer";
+import newsReducer from "./news/reducer";
+import adReducer from "./main_ads/reducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -38,4 +41,7 @@ export default combineReducers({
   color: colorsReducer,
   company: companysReducer,
   product: productsReducer,
+  news: newsReducer,
+  newsmedia: newsmMediaReducer,
+  ad: adReducer,
 });

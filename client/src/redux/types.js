@@ -48,3 +48,12 @@ export const GET_CATEGORYS = "GET_CATEGORYS";
 
 export const GET_SUB_CATEGORY = "GET_SUB_CATEGORY";
 export const GET_SUB_CATEGORYS = "GET_SUB_CATEGORYS";
+
+export const GET_NEWSLIST = "GET_NEWSLIST";
+export const GET_NEWS = "GET_NEWS";
+
+export const GET_NEWSMEDIALIST = "GET_NEWSMEDIALIST";
+export const GET_NEWSMEDIA = "GET_NEWSMEDIA";
+
+export const GET_MAIN_AD = "GET_MAIN_AD";
+export const GET_MAIN_ADS = "GET_MAIN_ADS";

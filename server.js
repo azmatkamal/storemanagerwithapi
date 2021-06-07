@@ -98,6 +98,15 @@ app.use(`/api/${current_version}/product`, product);
 var upload = require(`./routes/${current_version}/upload`);
 app.use(`/api/${current_version}/upload`, upload);
 
+var news = require(`./routes/${current_version}/news`);
+app.use(`/api/${current_version}/news`, news);
+
+var newsmedia = require(`./routes/${current_version}/newsmedia`);
+app.use(`/api/${current_version}/newsmedia`, newsmedia);
+
+var ad = require(`./routes/${current_version}/ad`);
+app.use(`/api/${current_version}/ad`, ad);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   app.get("*", (req, res) => {

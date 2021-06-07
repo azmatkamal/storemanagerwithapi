@@ -10,6 +10,8 @@ const PageList = React.lazy(() => import("./views/page/index"));
 const ColorList = React.lazy(() => import("./views/color/index"));
 const CompanyList = React.lazy(() => import("./views/company/index"));
 const ProductList = React.lazy(() => import("./views/product/index"));
+const NewsList = React.lazy(() => import("./views/news/index"));
+const AdsList = React.lazy(() => import("./views/main_ads/index"));
 
 const routes = [
   { path: "/", exact: true, name: "Dashboard" },
@@ -66,6 +68,18 @@ const routes = [
     exact: true,
     name: "Manage Products",
     component: ProductList,
+  },
+  {
+    name: "Manage News & Media",
+    path: "/news",
+    exact: true,
+    component: NewsList,
+  },
+  {
+    path: "/ads",
+    exact: true,
+    name: "Manage Ads",
+    component: AdsList,
   },
   {
     path: "/company",

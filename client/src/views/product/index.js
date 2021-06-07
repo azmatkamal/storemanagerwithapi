@@ -8,7 +8,7 @@ import {
   Row,
   Col,
   CardHeader,
-  Table,
+  // Table,
   Button,
   Badge,
 } from "reactstrap";

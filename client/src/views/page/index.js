@@ -92,14 +92,8 @@ class AddCountry extends Component {
   };
 
   render() {
-    const {
-      terms,
-      privacy,
-      ar_privacy,
-      ar_terms,
-      is_loading,
-      errors,
-    } = this.state;
+    const { terms, privacy, ar_privacy, ar_terms, is_loading, errors } =
+      this.state;
 
     return (
       <div>

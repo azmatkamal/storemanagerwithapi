@@ -11,14 +11,21 @@ import {
   //Table,
   Button,
   Badge,
+  // FormGroup,
+  // Label,
+  // Input,
 } from "reactstrap";
-import moment from "moment";
 import DataTable from "react-data-table-component";
-import AddUser from "./addUser";
+// import moment from "moment";
+import AddMedia from "./addMedia";
 
-import { getUsers, selectUser, markAccount } from "../../redux/users/action";
+import {
+  getMedias,
+  markmedia,
+  selectMedia,
+} from "../../redux/news-media/action";
 
-class Users extends Component {
+class Countries extends Component {
   constructor(props) {
     super(props);
 
@@ -29,12 +36,14 @@ class Users extends Component {
       is_modal_loading: false,
 
       // Data
-      users: [],
+      mediaList: [],
+      newsDetails: {},
+      selected_filtered_news: "",
     };
   }
 
   toggleModal = () => {
-    this.setState({ show_modal: !this.state.show_modal, user: {} });
+    this.setState({ show_modal: !this.state.show_modal });
   };
 
   toggleModalLoading = () => {
@@ -45,30 +54,43 @@ class Users extends Component {
     this.setState({ is_table_loading: !this.state.is_table_loading });
   };
 
-  markAccount = (data) => {
+  markmedia = (data) => {
     if (window.confirm("Would like to proceed with this action?")) {
-      this.props.markAccount(data, this.toggleTableLoading);
+      this.props.markmedia(data, this.toggleTableLoading);
     }
   };
 
-  updateRow = (user) => {
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  updateRow = (city) => {
     this.toggleModal();
-    if (!user) {
-      this.props.selectUser({});
+    if (!city) {
+      this.props.selectMedia({});
     } else {
-      console.log(user, "user");
-      this.props.selectUser(user);
+      this.props.selectMedia(city);
     }
   };
 
   componentDidMount() {
-    this.props.getUsers(this.toggleTableLoading);
+    this.props.getMedias(this.toggleTableLoading);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.users) {
+    if (nextProps && nextProps.news) {
       this.setState({
-        users: nextProps.users.users.map((item, idx) => ({
+        selected_filtered_news: nextProps.news,
+      });
+    }
+    if (nextProps && nextProps.newsDetails) {
+      this.setState({
+        newsDetails: nextProps.newsDetails,
+      });
+    }
+    if (nextProps && nextProps.newsmedialist) {
+      this.setState({
+        mediaList: nextProps.newsmedialist.map((item, idx) => ({
           ...item,
           index: idx + 1,
         })),
@@ -76,25 +98,20 @@ class Users extends Component {
     }
   }
 
+  onCloseSection = () => {
+    this.props.closeSection();
+  };
+
   actionFormater = (row) => {
     let item = row;
     return (
       <div>
-        <Button
-          size="xs"
-          color="warning"
-          className="mr-2"
-          onClick={this.updateRow.bind(this, item)}
-          title="Update"
-        >
-          <i className="fa fa-pencil"></i>
-        </Button>
         {!item.is_active && (
           <Button
             size="xs"
             color="success"
             className="mr-2"
-            onClick={this.markAccount.bind(this, {
+            onClick={this.markmedia.bind(this, {
               id: item._id,
               is_active: true,
               is_deleted: item.is_deleted,
@@ -109,7 +126,7 @@ class Users extends Component {
             size="xs"
             color="primary"
             className="mr-2"
-            onClick={this.markAccount.bind(this, {
+            onClick={this.markmedia.bind(this, {
               id: item._id,
               is_active: false,
               is_deleted: item.is_deleted,
@@ -123,7 +140,7 @@ class Users extends Component {
           size="xs"
           color="danger"
           className="mr-2"
-          onClick={this.markAccount.bind(this, {
+          onClick={this.markmedia.bind(this, {
             id: item._id,
             is_active: item.is_active,
             is_deleted: true,
@@ -136,25 +153,11 @@ class Users extends Component {
     );
   };
 
-  createdAtFormater = (row) => {
-    let item = row;
-    return (
-      <div>
-        {moment(item.createdAt).format("DD/MM/YYYY")} -{" "}
-        {moment(item.createdAt).fromNow()}
-      </div>
-    );
-  };
-
   iconFormator = (row) => {
     return (
       <Fragment>
-        {row.avatar ? (
-          <img
-            src={row.avatar}
-            alt={row.first_name}
-            style={{ maxWidth: "75px" }}
-          />
+        {row.icon ? (
+          <img src={row.icon} alt={row.en_name} style={{ maxWidth: "75px" }} />
         ) : (
           ""
         )}
@@ -176,8 +179,18 @@ class Users extends Component {
   };
 
   render() {
-    const { is_table_loading, is_modal_loading, users, show_modal } =
-      this.state;
+    const {
+      is_table_loading,
+      is_modal_loading,
+      mediaList,
+      show_modal,
+      selected_filtered_news,
+      newsDetails,
+    } = this.state;
+
+    let filtered_newsmedia = selected_filtered_news
+      ? mediaList.filter((i) => i.news._id === selected_filtered_news)
+      : mediaList;
 
     const columns = [
       {
@@ -186,31 +199,13 @@ class Users extends Component {
         maxWidth: "50px",
       },
       {
-        name: "Avatar",
-        selector: "avatar",
+        name: "Icon",
+        selector: "icon",
         format: this.iconFormator,
       },
       {
-        name: "First Name",
-        selector: "first_name",
-      },
-      {
-        name: "Last Name",
-        selector: "last_name",
-      },
-      {
-        name: "Email",
-        selector: "email",
-      },
-      {
-        name: "Mobile",
-        selector: "mobile",
-      },
-      {
-        name: "Created At",
-        selector: "created_at",
-        format: this.createdAtFormater,
-        minWidth: "200px",
+        name: "Media Type",
+        selector: "media_type",
       },
       {
         name: "Status",
@@ -228,10 +223,11 @@ class Users extends Component {
     return (
       <div>
         <Row>
-          <AddUser
+          <AddMedia
             show_modal={show_modal}
             is_modal_loading={is_modal_loading}
             toggleModal={this.toggleModal}
+            news={selected_filtered_news}
             toggleModalLoading={this.toggleModalLoading}
             toggleTableLoading={this.toggleTableLoading}
           />
@@ -243,7 +239,18 @@ class Users extends Component {
             >
               <Card>
                 <CardHeader>
-                  Manage USers
+                  Media List
+                  {newsDetails &&
+                    newsDetails.header &&
+                    `- ${newsDetails.header}`}{" "}
+                  <Button
+                    size="xs"
+                    color="danger"
+                    className="mr-2 float-right"
+                    onClick={this.onCloseSection}
+                  >
+                    <i className="fa fa-close" alt="Update"></i>
+                  </Button>
                   <Button
                     size="xs"
                     color="success"
@@ -257,7 +264,7 @@ class Users extends Component {
                   <DataTable
                     noHeader={true}
                     columns={columns}
-                    data={users}
+                    data={filtered_newsmedia}
                     pagination
                   />
                 </CardBody>
@@ -272,10 +279,15 @@ class Users extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users,
+    newsmedia: state.newsmedia.newsmedia,
+    newsmedialist: state.newsmedia.newsmedialist,
   };
 };
 
 export default withRouter(
-  connect(mapStateToProps, { getUsers, selectUser, markAccount })(Users)
+  connect(mapStateToProps, {
+    getMedias,
+    markmedia,
+    selectMedia,
+  })(Countries)
 );

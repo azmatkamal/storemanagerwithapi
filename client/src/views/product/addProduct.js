@@ -314,7 +314,7 @@ class AddProduct extends Component {
         ? subcategorys.filter((item) => item.category._id === category)
         : [];
 
-    console.log(selected_colors, custom_colors, "Filteredsubcategorys");
+    // console.log(selected_colors, custom_colors, "Filteredsubcategorys");
 
     return (
       <div>

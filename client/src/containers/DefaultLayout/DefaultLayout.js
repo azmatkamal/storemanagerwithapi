@@ -65,7 +65,7 @@ class DefaultLayout extends Component {
           return i.id.link.toLowerCase().trim();
         });
         permissions.push("#");
-        console.log(permissions, "navigationnavigationnavigationnavigation");
+        // console.log(permissions, "navigationnavigationnavigationnavigation");
 
         const navigation = this.filterByProperty(
           defaultNavigation.items,
@@ -73,7 +73,7 @@ class DefaultLayout extends Component {
           permissions
         );
 
-        console.log(navigation, "navigationnavigation");
+        // console.log(navigation, "navigationnavigation");
 
         // const navigation = defaultNavigation.items;
 
