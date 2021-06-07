@@ -266,7 +266,7 @@ class AddNews extends Component {
                             branding: false,
                             statusbar: false,
                             height: "250px",
-                            directionality: "rtl",
+                            // directionality: "ltr",
                             a11y_advanced_options: true,
                             file_picker_callback: function (
                               callback,
