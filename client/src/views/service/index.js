@@ -222,7 +222,7 @@ class Services extends Component {
         name: "Created At",
         selector: "created_at",
         format: this.createdAtFormater,
-        minWidth: "200px",
+        minWidth: "100px",
       },
       {
         name: "Status",
