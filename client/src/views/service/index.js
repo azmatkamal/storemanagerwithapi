@@ -151,7 +151,7 @@ class Services extends Component {
           color="success"
           className="mr-2"
           onClick={this.toggleSubService.bind(this, item)}
-          title="Cities"
+          title="Sub Services"
         >
           <i className="fa fa-list-alt"></i>
         </Button>
