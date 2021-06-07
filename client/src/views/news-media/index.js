@@ -220,6 +220,7 @@ class Countries extends Component {
       {
         name: "Media Type",
         selector: "media_type",
+        maxWidth: "100px",
       },
       {
         name: "Status",
