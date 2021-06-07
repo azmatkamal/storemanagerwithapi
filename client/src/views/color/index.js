@@ -187,11 +187,11 @@ class Colors extends Component {
       this.state;
 
     const columns = [
-      {
-        name: "Id",
-        selector: "index",
-        maxWidth: "50px",
-      },
+      // {
+      //   name: "Id",
+      //   selector: "index",
+      //   maxWidth: "50px",
+      // },
       {
         name: "Code",
         selector: "code",
@@ -215,6 +215,7 @@ class Colors extends Component {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        maxWidth: "100px",
       },
       {
         name: "Actions",

@@ -175,11 +175,11 @@ class Users extends Component {
       this.state;
 
     const columns = [
-      {
-        name: "Id",
-        selector: "index",
-        maxWidth: "50px",
-      },
+      // {
+      //   name: "Id",
+      //   selector: "index",
+      //   maxWidth: "50px",
+      // },
       {
         name: "Avatar",
         selector: "avatar",
@@ -211,6 +211,7 @@ class Users extends Component {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        maxWidth: "100px",
       },
       {
         name: "Actions",

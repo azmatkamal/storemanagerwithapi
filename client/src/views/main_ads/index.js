@@ -218,7 +218,7 @@ class Ads extends Component {
               onClick={() => this.openExternalLink(this, row.external_link)}
               style={{ cursor: "pointer", color: "blue" }}
             >
-              Link
+              {row.external_link}
             </div>
           );
         },
@@ -232,7 +232,7 @@ class Ads extends Component {
               onClick={() => this.openExternalLink(this, row.external_link)}
               style={{ cursor: "pointer", color: "blue" }}
             >
-              Link
+              {row.external_link}
             </div>
           );
         },
@@ -247,6 +247,7 @@ class Ads extends Component {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        maxWidth: "100px",
       },
       {
         name: "Actions",

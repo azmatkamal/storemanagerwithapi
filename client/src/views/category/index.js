@@ -151,7 +151,7 @@ class Category extends Component {
           color="success"
           className="mr-2"
           onClick={this.toggleSubcategory.bind(this, item)}
-          title="Cities"
+          title="Sub Categories"
         >
           <i className="fa fa-list-alt"></i>
         </Button>
@@ -200,11 +200,11 @@ class Category extends Component {
     } = this.state;
 
     const columns = [
-      {
-        name: "Id",
-        selector: "index",
-        maxWidth: "50px",
-      },
+      // {
+      //   name: "Id",
+      //   selector: "index",
+      //   maxWidth: "50px",
+      // },
       {
         name: "Icon",
         selector: "icon",
@@ -228,6 +228,7 @@ class Category extends Component {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        maxWidth: "100px",
       },
       {
         name: "Actions",

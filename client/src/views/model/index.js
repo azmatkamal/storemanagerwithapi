@@ -219,6 +219,7 @@ class Models extends Component {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        maxWidth: "100px",
       },
       {
         name: "Actions",

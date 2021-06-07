@@ -147,7 +147,7 @@ class News extends Component {
           color="success"
           className="mr-2"
           onClick={this.toggleNews.bind(this, item)}
-          title="Cities"
+          title="Media"
         >
           <i className="fa fa-list-alt"></i>
         </Button>
@@ -224,6 +224,7 @@ class News extends Component {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        maxWidth: "100px",
       },
       {
         name: "Actions",

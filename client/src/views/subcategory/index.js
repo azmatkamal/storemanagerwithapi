@@ -217,11 +217,11 @@ class SubCategory extends Component {
       //   selector: "index",
       //   maxWidth: "50px",
       // },
-      // {
-      //   name: "Icon",
-      //   selector: "icon",
-      //   format: this.iconFormator,
-      // },
+      {
+        name: "Icon",
+        selector: "icon",
+        format: this.iconFormator,
+      },
       {
         name: "EN Name",
         selector: "en_name",
