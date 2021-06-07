@@ -56,11 +56,11 @@ class AddCategory extends Component {
       });
     }
 
-    if (nextProps && nextProps.service && nextProps.service.en_name) {
+    if (nextProps && nextProps.category && nextProps.category.en_name) {
       this.setState({
-        en_name: nextProps.service.en_name,
-        ar_name: nextProps.service.ar_name,
-        id: nextProps.service._id,
+        en_name: nextProps.category.en_name,
+        ar_name: nextProps.category.ar_name,
+        id: nextProps.category._id,
       });
     }
 

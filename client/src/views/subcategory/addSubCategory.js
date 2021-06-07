@@ -49,6 +49,7 @@ class Addsubcategory extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.category, "asdadadadasd");
     this.setState({ show_modal: nextProps.show_modal });
     this.setState({ is_modal_loading: nextProps.is_modal_loading });
     this.setState({ category: nextProps.category });
@@ -65,7 +66,7 @@ class Addsubcategory extends Component {
       this.setState({
         en_name: nextProps.subcategory.en_name,
         ar_name: nextProps.subcategory.ar_name,
-        category: nextProps.subcategory.category,
+        // category: nextProps.subcategory.category,
         id: nextProps.subcategory._id,
       });
     }
@@ -116,7 +117,7 @@ class Addsubcategory extends Component {
               <Row form>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="ar_name">اسم – عربي</Label>
+                    <Label for="ar_name">Arabic Name</Label>
                     <Input
                       type="text"
                       name="ar_name"
@@ -130,7 +131,7 @@ class Addsubcategory extends Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="en_name">اسم – انجليزي</Label>
+                    <Label for="en_name">English Name</Label>
                     <Input
                       type="text"
                       name="en_name"

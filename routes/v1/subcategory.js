@@ -28,29 +28,19 @@ router.post(
       icon = req.files.icon[0].path;
     }
 
-    SubCategory.findOne({
-      en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
-      is_deleted: false,
-    }).then((user) => {
-      if (user) {
-        errors.en_name = "Sub Category already exists";
-        return res.status(400).json(errors);
-      } else {
-        const newSubCategory = new SubCategory({
-          en_name: req.body.en_name,
-          ar_name: req.body.ar_name,
-          category: req.body.category,
-          updatedBy: req.user.id,
-          createdBy: req.user.id,
-          icon,
-        });
-
-        newSubCategory
-          .save()
-          .then((subcategory) => res.json(subcategory))
-          .catch((err) => console.log(err));
-      }
+    const newSubCategory = new SubCategory({
+      en_name: req.body.en_name,
+      ar_name: req.body.ar_name,
+      category: req.body.category,
+      updatedBy: req.user.id,
+      createdBy: req.user.id,
+      icon,
     });
+
+    newSubCategory
+      .save()
+      .then((subcategory) => res.json(subcategory))
+      .catch((err) => console.log(err));
   }
 );
 
@@ -82,7 +72,7 @@ router.put(
         }
 
         SubCategory.findOneAndUpdate(
-          { _id: Subcategory_id },
+          { _id: subcategory_id },
           { $set: data },
           { useFindAndModify: false }
         )
