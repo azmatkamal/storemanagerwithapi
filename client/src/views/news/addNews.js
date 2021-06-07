@@ -212,7 +212,7 @@ class AddNews extends Component {
     } = this.state;
 
     let years = [];
-    for (let i = 1975; i <= 2050; i++) years.push(i);
+    for (let i = 1990; i <= 2050; i++) years.push(i);
 
     return (
       <div>
@@ -361,6 +361,29 @@ class AddNews extends Component {
                     </Col>
                     <Col md="12">
                       <FormGroup>
+                        <Label for="year">Year</Label>
+                        <Input
+                          type="select"
+                          name="year"
+                          onChange={this.onChange}
+                          id="year"
+                          value={year}
+                        >
+                          <option value="">Select Year</option>
+                          {years &&
+                            years.map((item, idx) => {
+                              return (
+                                <option value={item} key={idx}>
+                                  {item}
+                                </option>
+                              );
+                            })}
+                        </Input>
+                        <p className="error">{errors && errors.year}</p>
+                      </FormGroup>
+                    </Col>
+                    <Col md="12">
+                      <FormGroup>
                         <Label for="service">Services</Label>
                         <Input
                           type="select"
@@ -415,29 +438,6 @@ class AddNews extends Component {
                               })}
                         </Input>
                         <p className="error">{errors && errors.subservice}</p>
-                      </FormGroup>
-                    </Col>
-                    <Col md="12">
-                      <FormGroup>
-                        <Label for="year">Year</Label>
-                        <Input
-                          type="select"
-                          name="year"
-                          onChange={this.onChange}
-                          id="year"
-                          value={year}
-                        >
-                          <option value="">Select Year</option>
-                          {years &&
-                            years.map((item, idx) => {
-                              return (
-                                <option value={item} key={idx}>
-                                  {item}
-                                </option>
-                              );
-                            })}
-                        </Input>
-                        <p className="error">{errors && errors.year}</p>
                       </FormGroup>
                     </Col>
                   </Row>
