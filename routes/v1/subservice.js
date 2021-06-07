@@ -147,7 +147,7 @@ router.get(
       .populate("service")
       .sort({ createdAt: -1 })
       .then((subservice) => {
-        console.log(subservice);
+        // console.log(subservice);
         if (subservice) return res.json(subservice);
 
         return res.json([]);
