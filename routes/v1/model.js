@@ -29,28 +29,18 @@ router.post(
       icon = req.files.icon[0].path;
     }
 
-    Model.findOne({
-      en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
-      is_deleted: false,
-    }).then((model) => {
-      if (model) {
-        errors.en_name = "Model already exists";
-        return res.status(400).json(errors);
-      } else {
-        const newBrand = new Model({
-          en_name: req.body.en_name,
-          ar_name: req.body.ar_name,
-          year: req.body.year,
-          brand: req.body.brand,
-          icon,
-        });
-
-        newBrand
-          .save()
-          .then((model) => res.json(model))
-          .catch((err) => console.log(err));
-      }
+    const newBrand = new Model({
+      en_name: req.body.en_name,
+      ar_name: req.body.ar_name,
+      year: req.body.year,
+      brand: req.body.brand,
+      icon,
     });
+
+    newBrand
+      .save()
+      .then((model) => res.json(model))
+      .catch((err) => console.log(err));
   }
 );
 

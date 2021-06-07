@@ -216,11 +216,11 @@ class Subservuce extends Component {
       : subservices;
 
     const columns = [
-      {
-        name: "Id",
-        selector: "index",
-        maxWidth: "50px",
-      },
+      // {
+      //   name: "Id",
+      //   selector: "index",
+      //   maxWidth: "50px",
+      // },
       {
         name: "Ar Name",
         selector: "ar_name",

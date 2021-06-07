@@ -197,11 +197,11 @@ class Models extends Component {
     } = this.state;
 
     const columns = [
-      {
-        name: "Id",
-        selector: "index",
-        maxWidth: "50px",
-      },
+      // {
+      //   name: "Id",
+      //   selector: "index",
+      //   maxWidth: "50px",
+      // },
       {
         name: "Icon",
         selector: "icon",
