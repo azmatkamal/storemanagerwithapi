@@ -176,6 +176,40 @@ class Services extends Component {
     );
   };
 
+  iconFormator2 = (row) => {
+    if (row.media_type === "image") {
+      return (
+        <img
+          src={row.icon2}
+          alt={row.media_type}
+          style={{ maxWidth: "75px" }}
+        />
+      );
+    } else if (row.media_type === "gif") {
+      return (
+        <img
+          src={row.icon2}
+          alt={row.media_type}
+          style={{ maxWidth: "75px" }}
+        />
+      );
+    } else if (row.media_type === "video") {
+      return (
+        <video
+          className="video-container video-container-overlay"
+          autoPlay=""
+          controls
+          data-reactid=".0.1.0.0"
+          style={{ maxHeight: "150px", width: "auto" }}
+        >
+          <source data-reactid=".0.1.0.0.0" src={row.icon2} />
+        </video>
+      );
+    } else {
+      return "";
+    }
+  };
+
   statusFormat = (row) => {
     let item = row;
     return item.is_active ? (
@@ -209,6 +243,11 @@ class Services extends Component {
         name: "Icon",
         selector: "icon",
         format: this.iconFormator,
+      },
+      {
+        name: "Banner Image",
+        selector: "icon2",
+        format: this.iconFormator2,
       },
       {
         name: "EN Name",

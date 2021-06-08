@@ -194,6 +194,18 @@ class Subservuce extends Component {
     );
   };
 
+  iconFormator = (row) => {
+    return (
+      <Fragment>
+        {row.icon ? (
+          <img src={row.icon} alt={row.en_name} style={{ maxWidth: "75px" }} />
+        ) : (
+          ""
+        )}
+      </Fragment>
+    );
+  };
+
   render() {
     const {
       is_table_loading,
@@ -216,6 +228,11 @@ class Subservuce extends Component {
       //   selector: "index",
       //   maxWidth: "50px",
       // },
+      {
+        name: "Icon",
+        selector: "icon",
+        format: this.iconFormator,
+      },
       {
         name: "Ar Name",
         selector: "ar_name",

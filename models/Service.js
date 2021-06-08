@@ -23,6 +23,12 @@ const ServiceSchema = new Schema({
   icon: {
     type: String,
   },
+  icon2: {
+    type: String,
+  },
+  media_type: {
+    type: String,
+  },
   banner: {
     type: String,
   },

@@ -58,44 +58,41 @@ export const getServices = (loading) => (dispatch) => {
     });
 };
 
-export const addorUpdateService = (
-  data,
-  isCreate,
-  loading,
-  hideModal,
-  tblLoading
-) => (dispatch) => {
-  dispatch({ type: CLEAR_ALERTS });
-  dispatch({ type: CLEAR_ERRORS });
-  loading();
+export const addorUpdateService =
+  (data, isCreate, loading, hideModal, tblLoading) => (dispatch) => {
+    dispatch({ type: CLEAR_ALERTS });
+    dispatch({ type: CLEAR_ERRORS });
+    loading();
 
-  let req;
-  if (!isCreate) {
-    req = axios.put("/api/v1/service", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  } else {
-    req = axios.post("/api/v1/service", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  }
+    let req;
+    if (!isCreate) {
+      req = axios.put("/api/v1/service", data);
+    } else {
+      req = axios.post("/api/v1/service", data);
+    }
 
-  req
-    .then((res) => {
-      loading();
-      hideModal();
-      dispatch(getServices(tblLoading));
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
+    req
+      .then((res) => {
+        loading();
+        hideModal();
+        dispatch(getServices(tblLoading));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data,
+        });
+        loading();
       });
-      loading();
-    });
+  };
+
+export const uploadImg = (data) => async (dispatch) => {
+  const res = await axios.post("/api/v1/upload", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return res.data;
 };

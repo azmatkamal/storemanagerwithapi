@@ -58,36 +58,38 @@ export const getSubServices = (loading) => (dispatch) => {
     });
 };
 
-export const addorUpdateSubService = (
-  data,
-  isCreate,
-  loading,
-  hideModal,
-  tblLoading
-) => (dispatch) => {
-  dispatch({ type: CLEAR_ALERTS });
-  dispatch({ type: CLEAR_ERRORS });
-  loading();
+export const addorUpdateSubService =
+  (data, isCreate, loading, hideModal, tblLoading) => (dispatch) => {
+    dispatch({ type: CLEAR_ALERTS });
+    dispatch({ type: CLEAR_ERRORS });
 
-  let req;
-  if (!isCreate) {
-    req = axios.put("/api/v1/subservice", data);
-  } else {
-    req = axios.post("/api/v1/subservice", data);
-  }
-
-  req
-    .then((res) => {
-      loading();
-      hideModal();
-      dispatch(getSubServices(tblLoading));
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
+    let req;
+    if (!isCreate) {
+      req = axios.put("/api/v1/subservice", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      loading();
-    });
-};
+    } else {
+      req = axios.post("/api/v1/subservice", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+
+    req
+      .then((res) => {
+        loading();
+        hideModal();
+        dispatch(getSubServices(tblLoading));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data,
+        });
+        loading();
+      });
+  };

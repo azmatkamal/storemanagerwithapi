@@ -14,7 +14,6 @@ router.options("/", cors());
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
-  Uploader.fields([{ name: "icon", maxCount: 1 }]),
   (req, res) => {
     const { errors, isValid } = validateCreateInput(req.body);
 
@@ -22,15 +21,6 @@ router.post(
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    let icon = "";
-    if (req.files.icon) {
-      icon = req.files.icon[0].path;
-    }
-
-    // let banner = "";
-    // if (req.files.banner) {
-    //   banner = req.files.banner[0].path;
-    // }
 
     Service.findOne({
       en_name: new RegExp(["^", req.body.en_name, "$"].join(""), "i"),
@@ -45,9 +35,11 @@ router.post(
           ar_name: req.body.ar_name,
           en_desc: req.body.en_desc,
           ar_desc: req.body.ar_desc,
+          icon: req.body.icon,
+          icon2: req.body.icon2,
+          media_type: req.body.media_type,
           updatedBy: req.user.id,
           createdBy: req.user.id,
-          icon,
         });
 
         newService
@@ -63,8 +55,6 @@ router.options("/", cors());
 router.put(
   "/",
   passport.authenticate("jwt", { session: false }),
-  Uploader.fields([{ name: "icon", maxCount: 1 }]),
-  // Uploader.fields([{ name: "banner", maxCount: 1 }]),
   (req, res) => {
     const { errors, isValid } = validateCreateInput(req.body);
 
@@ -82,14 +72,11 @@ router.put(
           ar_name: req.body.ar_name,
           en_desc: req.body.en_desc,
           ar_desc: req.body.ar_desc,
+          media_type: req.body.media_type,
           updatedBy: req.user.id,
         };
-        if (req.files.icon) {
-          data.icon = req.files.icon[0].path;
-        }
-        // if (req.files.banner) {
-        //   data.banner = req.files.banner[0].path;
-        // }
+        if (req.body.icon) data.icon = req.body.icon;
+        if (req.body.icon2) data.icon2 = req.body.icon2;
 
         Service.findOneAndUpdate(
           { _id: service_id },

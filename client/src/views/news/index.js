@@ -157,7 +157,7 @@ class News extends Component {
 
   createdAtFormater = (row) => {
     let item = row;
-    return <div>{moment(item.createdAt).format("DD/MM/YYYY")}</div>;
+    return <div>{moment(item.date).format("DD/MM/YYYY")}</div>;
   };
 
   iconFormator = (row) => {

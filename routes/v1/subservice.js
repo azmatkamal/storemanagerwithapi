@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-// const Uploader = require("../../config/uploader");
+const Uploader = require("../../config/uploader");
 
 // Load Input Validation
 const validateCreateInput = require("../../validation/subservice");
@@ -14,6 +14,7 @@ router.options("/", cors());
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  Uploader.fields([{ name: "icon", maxCount: 1 }]),
   (req, res) => {
     // console.log(req.body);
     const { errors, isValid } = validateCreateInput(req.body);
@@ -21,6 +22,11 @@ router.post(
     // Check Validation
     if (!isValid) {
       return res.status(400).json(errors);
+    }
+    let icon = "";
+
+    if (req.files.icon) {
+      icon = req.files.icon[0].path;
     }
 
     Subservice.findOne({
@@ -40,6 +46,7 @@ router.post(
           service: req.body.service,
           updatedBy: req.user.id,
           createdBy: req.user.id,
+          icon,
         });
 
         newSubservice
@@ -55,6 +62,7 @@ router.options("/", cors());
 router.put(
   "/",
   passport.authenticate("jwt", { session: false }),
+  Uploader.fields([{ name: "icon", maxCount: 1 }]),
   (req, res) => {
     const { errors, isValid } = validateCreateInput(req.body);
 
@@ -76,6 +84,9 @@ router.put(
           price: req.body.price,
           updatedBy: req.user.id,
         };
+        if (req.files.icon) {
+          data.icon = req.files.icon[0].path;
+        }
 
         Subservice.findOneAndUpdate(
           { _id: Subservice_id },

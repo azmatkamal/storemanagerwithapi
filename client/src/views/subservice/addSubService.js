@@ -93,20 +93,18 @@ class Addsubservice extends Component {
   };
 
   onSubmit = () => {
-    // const formData = new FormData();
-    const data = {
-      id: this.state.id,
-      ar_name: this.state.ar_name,
-      en_name: this.state.en_name,
-      ar_desc: this.state.ar_desc,
-      en_desc: this.state.en_desc,
-      price: this.state.price,
-      service: this.state.service,
-    };
-    // formData.append("icon", this.state.icon);
+    const formData = new FormData();
+    formData.append("id", this.state.id);
+    formData.append("ar_name", this.state.ar_name);
+    formData.append("en_name", this.state.en_name);
+    formData.append("ar_desc", this.state.ar_desc);
+    formData.append("en_desc", this.state.en_desc);
+    formData.append("price", this.state.price);
+    formData.append("service", this.state.service);
+    formData.append("icon", this.state.icon);
 
     this.props.addorUpdateSubService(
-      data,
+      formData,
       this.state.id ? false : true,
       this.props.toggleModalLoading,
       this.props.toggleModal,
@@ -138,7 +136,7 @@ class Addsubservice extends Component {
               <Row form>
                 <Col md={4}>
                   <FormGroup>
-                    <Label for="ar_name">اسم – عربي</Label>
+                    <Label for="ar_name">Arabic Name</Label>
                     <Input
                       type="text"
                       name="ar_name"
@@ -152,7 +150,7 @@ class Addsubservice extends Component {
                 </Col>
                 <Col md={4}>
                   <FormGroup>
-                    <Label for="en_name">اسم – انجليزي</Label>
+                    <Label for="en_name">English Name</Label>
                     <Input
                       type="text"
                       name="en_name"
@@ -210,8 +208,8 @@ class Addsubservice extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-              {/* <FormGroup>
-                <Label for="icon">صورة</Label>
+              <FormGroup>
+                <Label for="icon">Icon</Label>
                 <Input
                   type="file"
                   name="icon"
@@ -221,7 +219,7 @@ class Addsubservice extends Component {
                   required
                 />
                 <p className="error">{errors && errors.icon}</p>
-              </FormGroup> */}
+              </FormGroup>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.onSubmit}>
