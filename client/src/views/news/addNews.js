@@ -255,7 +255,7 @@ class AddNews extends Component {
               <Row form>
                 <Col md={8}>
                   <Row form>
-                    <Col md={4}>
+                    <Col md={12}>
                       <FormGroup>
                         <Label for="header">Header</Label>
                         <Input
@@ -269,7 +269,7 @@ class AddNews extends Component {
                         <p className="error">{errors && errors.header}</p>
                       </FormGroup>
                     </Col>
-                    <Col md={4}>
+                    <Col md={12}>
                       <FormGroup>
                         <Label for="ar_header">Header - AR</Label>
                         <Input
@@ -281,21 +281,6 @@ class AddNews extends Component {
                           placeholder="Header - AR"
                         />
                         <p className="error">{errors && errors.ar_header}</p>
-                      </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                      <FormGroup>
-                        <Label for="date">Date</Label>
-                        <Input
-                          type="date"
-                          name="date"
-                          onChange={this.onChange}
-                          id="date"
-                          value={moment(date).format("YYYY-MM-DD")}
-                          format="YYYY-MM-DD"
-                          placeholder="Date"
-                        />
-                        <p className="error">{errors && errors.date}</p>
                       </FormGroup>
                     </Col>
                     <Col md={12}>
@@ -390,6 +375,21 @@ class AddNews extends Component {
                 </Col>
                 <Col md={4}>
                   <Row form>
+                    <Col md={12}>
+                      <FormGroup>
+                        <Label for="date">Date</Label>
+                        <Input
+                          type="date"
+                          name="date"
+                          onChange={this.onChange}
+                          id="date"
+                          value={moment(date).format("YYYY-MM-DD")}
+                          format="YYYY-MM-DD"
+                          placeholder="Date"
+                        />
+                        <p className="error">{errors && errors.date}</p>
+                      </FormGroup>
+                    </Col>
                     <Col md="12">
                       <FormGroup>
                         <Label for="brand">Brands</Label>
