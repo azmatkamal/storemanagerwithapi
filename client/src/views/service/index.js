@@ -250,6 +250,11 @@ class Services extends Component {
         format: this.iconFormator2,
       },
       {
+        name: "Media Type",
+        selector: "media_type",
+        maxWidth: "100px",
+      },
+      {
         name: "EN Name",
         selector: "en_name",
       },
