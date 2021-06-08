@@ -31,9 +31,13 @@ router.post(
       } else {
         let colors = [];
         if (req.body.colors) {
-          colors = req.body.colors.split(",").map((i) => ({
-            id: i,
-          }));
+          req.body.colors && req.body.colors.indexOf(",") >= 0
+            ? req.body.colors.split(",").map((i) => ({
+                id: i,
+              }))
+            : req.body.colors
+            ? [req.body.colors]
+            : [];
         }
         const newProduct = new Product({
           en_name: req.body.en_name,
@@ -87,9 +91,14 @@ router.put(
       if (product) {
         let colors = [];
         if (req.body.colors) {
-          colors = req.body.colors.split(",").map((i) => ({
-            id: i,
-          }));
+          colors =
+            req.body.colors && req.body.colors.indexOf(",") >= 0
+              ? req.body.colors.split(",").map((i) => ({
+                  id: i,
+                }))
+              : req.body.colors
+              ? [req.body.colors]
+              : [];
         }
         const data = {
           updatedBy: req.user.id,

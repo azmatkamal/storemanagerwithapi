@@ -234,6 +234,7 @@ class SubCategory extends Component {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        maxWidth: "75px",
       },
       {
         name: "Actions",
@@ -262,7 +263,7 @@ class SubCategory extends Component {
             >
               <Card>
                 <CardHeader>
-                  Sub Categories
+                  Shop Sub Categories
                   {catDetails &&
                     catDetails.ar_name &&
                     ` - ${catDetails.ar_name}`}{" "}

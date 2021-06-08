@@ -36,7 +36,7 @@ const routes = [
   {
     path: "/categories",
     exact: true,
-    name: "Categories",
+    name: "Shop Categories",
     component: Categorylist,
   },
   {
@@ -66,7 +66,7 @@ const routes = [
   {
     path: "/product",
     exact: true,
-    name: "Manage Products",
+    name: "Manage Shop Items",
     component: ProductList,
   },
   {

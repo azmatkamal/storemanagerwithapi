@@ -22,11 +22,9 @@ const CitySchema = new Schema({
   },
   en_desc: {
     type: String,
-    required: true,
   },
   ar_desc: {
     type: String,
-    required: true,
   },
   en_treatment: {
     type: String,

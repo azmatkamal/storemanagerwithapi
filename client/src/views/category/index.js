@@ -222,13 +222,13 @@ class Category extends Component {
         name: "Created At",
         selector: "created_at",
         format: this.createdAtFormater,
-        minWidth: "100px",
+        minWidth: "75px",
       },
       {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
-        maxWidth: "100px",
+        maxWidth: "75px",
       },
       {
         name: "Actions",
@@ -256,7 +256,7 @@ class Category extends Component {
             >
               <Card>
                 <CardHeader>
-                  Categories
+                  Shop Categories
                   <Button
                     size="xs"
                     color="success"

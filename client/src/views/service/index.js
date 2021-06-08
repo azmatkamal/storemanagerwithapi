@@ -200,11 +200,11 @@ class Services extends Component {
     } = this.state;
 
     const columns = [
-      {
-        name: "Id",
-        selector: "index",
-        maxWidth: "50px",
-      },
+      // {
+      //   name: "Id",
+      //   selector: "index",
+      //   maxWidth: "50px",
+      // },
       {
         name: "Icon",
         selector: "icon",
@@ -222,12 +222,13 @@ class Services extends Component {
         name: "Created At",
         selector: "created_at",
         format: this.createdAtFormater,
-        minWidth: "100px",
+        minWidth: "76px",
       },
       {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
+        minWidth: "76px",
       },
       {
         name: "Actions",

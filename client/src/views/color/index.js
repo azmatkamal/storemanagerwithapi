@@ -209,13 +209,13 @@ class Colors extends Component {
         name: "Created At",
         selector: "created_at",
         format: this.createdAtFormater,
-        minWidth: "100px",
+        minWidth: "75px",
       },
       {
         name: "Status",
         selector: "status",
         format: this.statusFormat,
-        maxWidth: "100px",
+        maxWidth: "75px",
       },
       {
         name: "Actions",

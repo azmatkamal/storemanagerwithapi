@@ -231,7 +231,7 @@ class Products extends Component {
         name: "Created At",
         selector: "created_at",
         format: this.createdAtFormater,
-        minWidth: "100px",
+        minWidth: "75px",
       },
       {
         name: "Status",
@@ -264,7 +264,7 @@ class Products extends Component {
             >
               <Card>
                 <CardHeader>
-                  Products
+                  Shop Items
                   <Button
                     size="xs"
                     color="success"

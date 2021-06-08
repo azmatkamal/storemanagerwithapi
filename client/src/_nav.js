@@ -30,7 +30,7 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
-          name: "Categories",
+          name: "Shop Categories",
           url: "/categories",
           icon: "icon-options-vertical",
         },
@@ -40,7 +40,7 @@ const nav = {
           icon: "icon-options-vertical",
         },
         {
-          name: "Manage Products",
+          name: "Manage Shop Items",
           url: "/product",
           icon: "icon-options-vertical",
         },

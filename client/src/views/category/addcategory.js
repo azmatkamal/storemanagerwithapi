@@ -105,7 +105,7 @@ class AddCategory extends Component {
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
           <Modal isOpen={show_modal}>
             <ModalHeader toggle={this.props.toggleModal}>
-              {id ? "Update" : "Create"} Category
+              {id ? "Update" : "Create"} Shop Category
             </ModalHeader>
             <ModalBody>
               <Row form>

@@ -119,7 +119,7 @@ class AddService extends Component {
         <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
           <Modal isOpen={show_modal}>
             <ModalHeader toggle={this.props.toggleModal}>
-              {id ? "Update" : "Create"} service
+              {id ? "Update" : "Create"} Service
             </ModalHeader>
             <ModalBody>
               <Row form>

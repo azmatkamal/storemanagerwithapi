@@ -95,10 +95,13 @@ class AddProduct extends Component {
       img3: null,
     });
   }
+  toggleModalLoading = () => {
+    this.setState({ is_modal_loading: !this.state.is_modal_loading });
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ show_modal: nextProps.show_modal });
-    this.setState({ is_modal_loading: nextProps.is_modal_loading });
+    // this.setState({ is_modal_loading: nextProps.is_modal_loading });
     this.setState({
       colors: nextProps.colors,
       custom_colors:
@@ -275,7 +278,7 @@ class AddProduct extends Component {
     this.props.addorUpdateProduct(
       data,
       this.state.id ? false : true,
-      this.props.toggleModalLoading,
+      this.toggleModalLoading,
       this.props.toggleModal,
       this.props.toggleTableLoading
     );
@@ -318,11 +321,15 @@ class AddProduct extends Component {
 
     return (
       <div>
-        <LoadingOverlay active={is_modal_loading} spinner text="Please Wait...">
-          <Modal isOpen={show_modal}>
-            <ModalHeader toggle={this.props.toggleModal}>
-              {id ? "Update" : "Create"} Shop Items
-            </ModalHeader>
+        <Modal isOpen={show_modal}>
+          <ModalHeader toggle={this.props.toggleModal}>
+            {id ? "Update" : "Create"} Shop Items
+          </ModalHeader>
+          <LoadingOverlay
+            active={is_modal_loading}
+            spinner
+            text="Please Wait..."
+          >
             <ModalBody>
               <Row form>
                 <Col md={6}>
@@ -357,7 +364,7 @@ class AddProduct extends Component {
               <Row form>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="category">Category</Label>
+                    <Label for="category">Shop Category</Label>
                     <Input
                       type="select"
                       name="category"
@@ -366,7 +373,7 @@ class AddProduct extends Component {
                       value={category}
                       placeholder="Featured"
                     >
-                      <option value="">Select Sub Category</option>
+                      <option value="">Select Shop Category</option>
                       {categorys &&
                         categorys.map((item, idx) => {
                           return (
@@ -381,7 +388,7 @@ class AddProduct extends Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="sub_category">Sub Category</Label>
+                    <Label for="sub_category">Shop Sub Category</Label>
                     <Input
                       type="select"
                       name="sub_category"
@@ -390,7 +397,7 @@ class AddProduct extends Component {
                       value={sub_category}
                       placeholder="Featured"
                     >
-                      <option value="">Select Sub Category</option>
+                      <option value="">Select Shop Sub Category</option>
                       {Filteredsubcategorys &&
                         Filteredsubcategorys.map((item, idx) => {
                           return (
@@ -649,8 +656,8 @@ class AddProduct extends Component {
                 Cancel
               </Button>
             </ModalFooter>
-          </Modal>
-        </LoadingOverlay>
+          </LoadingOverlay>
+        </Modal>
       </div>
     );
   }
