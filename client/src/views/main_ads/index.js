@@ -215,7 +215,7 @@ class Ads extends Component {
         format: (row) => {
           return (
             <div
-              onClick={() => this.openExternalLink(this, row.internal_link)}
+              onClick={() => window.open(row.internal_link, "_blank")}
               style={{ cursor: "pointer", color: "blue" }}
             >
               {row.internal_link}
@@ -229,7 +229,7 @@ class Ads extends Component {
         format: (row) => {
           return (
             <div
-              onClick={() => this.openExternalLink(this, row.external_link)}
+              onClick={() => window.open(row.external_link, "_blank")}
               style={{ cursor: "pointer", color: "blue" }}
             >
               {row.external_link}

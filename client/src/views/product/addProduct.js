@@ -49,7 +49,7 @@ class AddProduct extends Component {
       is_featured: false,
       stock_count: "",
       stock_alert: "",
-      colors: [],
+      colors: "",
       selected_colors: [],
       custom_colors: [],
       img1: "",
@@ -84,7 +84,7 @@ class AddProduct extends Component {
       height: "",
       size: "",
       price: "",
-      colors: [],
+      colors: "",
       currency_code: "",
       is_featured: false,
       stock_count: "",
@@ -121,7 +121,7 @@ class AddProduct extends Component {
         ar_name: "",
         ar_desc: "",
         en_desc: "",
-        colors: [],
+        colors: "",
         ar_treatment: "",
         en_treatment: "",
         width: "",
@@ -141,6 +141,7 @@ class AddProduct extends Component {
     }
 
     if (nextProps && nextProps.product && nextProps.product.en_name) {
+      console.log(nextProps.product.colors, "asdasdasdadasdadasdas");
       this.setState({
         sub_category: nextProps.product.sub_category._id,
         en_name: nextProps.product.en_name,
@@ -157,7 +158,8 @@ class AddProduct extends Component {
         selected_colors:
           nextProps.product.colors && nextProps.product.colors.length
             ? nextProps.product.colors.map((i) => {
-                return { value: i.id._id, label: i.id.en_name };
+                if (i.id && i.id._id)
+                  return { value: i.id._id, label: i.id.en_name };
               })
             : "",
         currency_code: nextProps.product.currency_code,
@@ -231,7 +233,7 @@ class AddProduct extends Component {
         colors:
           this.state.selected_colors && this.state.selected_colors.length
             ? this.state.selected_colors.map((i) => i.value).join(",")
-            : [],
+            : "",
         currency_code: this.state.currency_code,
         is_featured: this.state.is_featured,
         stock_count: this.state.stock_count,
@@ -264,7 +266,7 @@ class AddProduct extends Component {
         colors:
           this.state.selected_colors && this.state.selected_colors.length
             ? this.state.selected_colors.map((i) => i.value).join(",")
-            : [],
+            : "",
         currency_code: this.state.currency_code,
         is_featured: this.state.is_featured,
         stock_count: this.state.stock_count,

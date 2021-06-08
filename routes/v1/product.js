@@ -35,8 +35,12 @@ router.post(
             ? req.body.colors.split(",").map((i) => ({
                 id: i,
               }))
-            : req.body.colors
-            ? [req.body.colors]
+            : req.body.colors.trim() != ""
+            ? [
+                {
+                  id: req.body.colors,
+                },
+              ]
             : [];
         }
         const newProduct = new Product({
@@ -96,8 +100,12 @@ router.put(
               ? req.body.colors.split(",").map((i) => ({
                   id: i,
                 }))
-              : req.body.colors
-              ? [req.body.colors]
+              : req.body.colors.trim() != ""
+              ? [
+                  {
+                    id: req.body.colors,
+                  },
+                ]
               : [];
         }
         const data = {
