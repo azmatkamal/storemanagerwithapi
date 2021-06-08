@@ -151,7 +151,7 @@ class Category extends Component {
           color="success"
           className="mr-2"
           onClick={this.toggleSubcategory.bind(this, item)}
-          title="Sub Categories"
+          title="Shop Sub Categories"
         >
           <i className="fa fa-list-alt"></i>
         </Button>
