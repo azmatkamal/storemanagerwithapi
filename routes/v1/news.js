@@ -159,7 +159,7 @@ router.get(
     News.find({ is_deleted: false })
       .populate("createdBy")
       .populate("updatedBy")
-      .sort({ createdAt: -1 })
+      .sort({ date: -1 })
       .then((news) => {
         if (news) return res.json(news);
         return res.json([]);
