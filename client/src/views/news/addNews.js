@@ -15,7 +15,9 @@ import {
   Input,
 } from "reactstrap";
 import moment from "moment";
+import Select from "react-select";
 import { Editor } from "@tinymce/tinymce-react";
+import makeAnimated from "react-select/animated";
 
 import { getNews, addorUpdateNews } from "../../redux/news/action";
 import { getModels } from "../../redux/model/action";
@@ -24,6 +26,7 @@ import { getServices } from "../../redux/service/action";
 import { getSubServices } from "../../redux/subservice/action";
 
 const API_KEY = "gp6mxy72dyy66lvp5vm6ztavcvitbobj294zp2c1ub5g96xs";
+const animatedComponents = makeAnimated();
 
 class AddNews extends Component {
   constructor(props) {
@@ -83,9 +86,16 @@ class AddNews extends Component {
     });
   }
 
+  onChangeService = (e) => {
+    this.setState({ service: e.map((i) => i.value) });
+  };
+
+  onChangeSubService = (e) => {
+    this.setState({ subservice: e.map((i) => i.value) });
+  };
+
   componentWillReceiveProps(nextProps) {
     this.setState({ show_modal: nextProps.show_modal });
-    // this.setState({ is_modal_loading: nextProps.is_modal_loading });
 
     if (nextProps && nextProps.subservices) {
       this.setState({
@@ -153,8 +163,12 @@ class AddNews extends Component {
         ar_client_name: nextProps.news.ar_client_name,
         brand: nextProps.news.brand,
         model: nextProps.news.model,
-        subservice: nextProps.news.subservice,
-        service: nextProps.news.service,
+        service: nextProps.news.service
+          ? nextProps.news.service.split(",")
+          : "",
+        subservice: nextProps.news.subservice
+          ? nextProps.news.subservice.split(",")
+          : "",
         year: nextProps.news.year,
         allow_comment: nextProps.news.allow_comment,
         date: nextProps.news.date,
@@ -187,8 +201,18 @@ class AddNews extends Component {
     formData.append("ar_client_name", this.state.ar_client_name);
     formData.append("brand", this.state.brand);
     formData.append("model", this.state.model);
-    formData.append("subservice", this.state.subservice);
-    formData.append("service", this.state.service);
+    formData.append(
+      "subservice",
+      this.state.subservice && this.state.subservice.length
+        ? this.state.subservice.join(",")
+        : ""
+    );
+    formData.append(
+      "service",
+      this.state.service && this.state.service.length
+        ? this.state.service.join(",")
+        : ""
+    );
     formData.append("year", this.state.year);
     formData.append("allow_comment", this.state.allow_comment);
     formData.append("date", this.state.date);
@@ -239,6 +263,54 @@ class AddNews extends Component {
 
     let years = [];
     for (let i = 1990; i <= 2050; i++) years.push(i);
+
+    let selected_services =
+      services &&
+      services
+        .filter(
+          (i) =>
+            i.is_active === true &&
+            i.is_deleted === false &&
+            service.includes(i._id)
+        )
+        .map((item) => {
+          return { value: item._id, label: item.en_name };
+        });
+
+    let temp_service = selected_services.map((i) => {
+      if (i && i.value) {
+        return i.value;
+      }
+    });
+
+    let selected_sub_services =
+      subservices &&
+      subservices
+        .filter(
+          (i) =>
+            i.is_active === true &&
+            i.is_deleted === false &&
+            subservice.includes(i._id)
+        )
+        .map((item) => {
+          return { value: item._id, label: item.en_name };
+        });
+
+    let temp_subservices =
+      subservices &&
+      subservices
+        .filter(
+          (i) =>
+            i.is_active === true &&
+            i.is_deleted === false &&
+            temp_service.includes(i.service._id)
+        )
+        .map((item) => {
+          return {
+            value: item._id,
+            label: item.en_name,
+          };
+        });
 
     return (
       <div>
@@ -474,58 +546,38 @@ class AddNews extends Component {
                     <Col md="12">
                       <FormGroup>
                         <Label for="service">Services</Label>
-                        <Input
-                          type="select"
-                          name="service"
-                          onChange={this.onChange}
-                          id="service"
-                          value={service}
-                        >
-                          <option value="">Select Service</option>
-                          {services &&
+                        <Select
+                          closeMenuOnSelect={false}
+                          components={animatedComponents}
+                          onChange={this.onChangeService}
+                          defaultValue={selected_services}
+                          isMulti
+                          options={
+                            services &&
                             services
                               .filter(
                                 (i) =>
                                   i.is_active === true && i.is_deleted === false
                               )
-                              .map((item, idx) => {
-                                return (
-                                  <option value={item._id} key={idx}>
-                                    {item.en_name} - {item.ar_name}
-                                  </option>
-                                );
-                              })}
-                        </Input>
+                              .map((item) => {
+                                return { value: item._id, label: item.en_name };
+                              })
+                          }
+                        />
                         <p className="error">{errors && errors.service}</p>
                       </FormGroup>
                     </Col>
                     <Col md="12">
                       <FormGroup>
                         <Label for="subservice">Sub Services</Label>
-                        <Input
-                          type="select"
-                          name="subservice"
-                          onChange={this.onChange}
-                          id="subservice"
-                          value={subservice}
-                        >
-                          <option value="">Select Sub Service</option>
-                          {subservices &&
-                            subservices
-                              .filter(
-                                (i) =>
-                                  i.is_active === true &&
-                                  i.is_deleted === false &&
-                                  i.service._id === service
-                              )
-                              .map((item, idx) => {
-                                return (
-                                  <option value={item._id} key={idx}>
-                                    {item.en_name} - {item.ar_name}
-                                  </option>
-                                );
-                              })}
-                        </Input>
+                        <Select
+                          closeMenuOnSelect={false}
+                          components={animatedComponents}
+                          onChange={this.onChangeSubService}
+                          defaultValue={selected_sub_services}
+                          isMulti
+                          options={temp_subservices}
+                        />
                         <p className="error">{errors && errors.subservice}</p>
                       </FormGroup>
                     </Col>
